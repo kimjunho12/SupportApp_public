@@ -8,7 +8,7 @@
     <item
         android:id="@+id/action_search"
         android:enabled="true"
-        android:icon="@drawable/bottom_search"
+        android:icon="@drawable/bottom_event"
         android:title="search"/>
     <item
         android:id="@+id/action_favorite"

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="180dp"
+    android:layout_height="match_parent"
+    android:layout_gravity="right"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <Button
+        android:id="@+id/category_close"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="메뉴닫기">
+    </Button>
+
+    <Button
+        android:id="@+id/category_sport"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="스포츠">
+    </Button>
+
+    <Button
+        android:id="@+id/category_music"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="음악">
+    </Button>
+
+    <Button
+        android:id="@+id/category_art"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="미술">
+    </Button>
+
+</LinearLayout>
