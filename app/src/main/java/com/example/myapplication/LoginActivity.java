@@ -11,9 +11,9 @@ import android.widget.ImageButton;
 public class LoginActivity extends AppCompatActivity {
 
     private Button btn_signup;
-    private ImageButton btn_google;
-    private ImageButton btn_fb;
-    private ImageButton btn_twt;
+    private Button btn_google;
+    private Button btn_fb;
+    private Button btn_twt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    protected void clickSNS(ImageButton btn) {
+    protected void clickSNS(Button btn) {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
