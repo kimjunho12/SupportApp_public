@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -36,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // 나중에 소셜 로그인은 따로 만들어 주어야함 (각각 API를 통해서)
-                Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+                Intent intent = new Intent(LoginActivity.this, UserDetailsActivity.class);
                 startActivity(intent);  //  activity 이동
 
                 // 회원가입 후 다시 로그인 창으로 돌아오기 위해 finish 보류

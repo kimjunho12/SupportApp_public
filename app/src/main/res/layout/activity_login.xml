@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="64dp"
             android:ems="10"
-            android:hint="아이디"
+            android:hint="아이디 또는 이메일"
             android:inputType="textEmailAddress"
             app:layout_constraintEnd_toEndOf="@+id/img_logo"
             app:layout_constraintStart_toStartOf="@+id/img_logo"
