@@ -25,6 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:clickable="true"
             android:text="프로필 사진 바꾸기"
             android:textColor="@color/teal_200"
             android:textSize="12sp"
