@@ -1,11 +1,8 @@
 package com.example.myapplication;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.widget.Toolbar;
@@ -24,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentManager fm;
     private FragmentTransaction ft;
     private bottom_home_fragment frag1;
-    private bottom_search_fragment frag2;
+    private bottom_event_fragment frag2;
     private bottom_favorite_fragment frag3;
     private bottom_account_fragment frag4;
     private bottom_setting_fragment frag5;
@@ -83,13 +80,12 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.action_setting:
                         setFrag(4);
                         break;
-
                 }
                 return true;
             }
         });
         frag1 = new bottom_home_fragment();
-        frag2 = new bottom_search_fragment();
+        frag2 = new bottom_event_fragment();
         frag3 = new bottom_favorite_fragment();
         frag4 = new bottom_account_fragment();
         frag5 = new bottom_setting_fragment();

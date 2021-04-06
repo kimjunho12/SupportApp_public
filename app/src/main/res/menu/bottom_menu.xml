@@ -9,7 +9,7 @@
         android:id="@+id/action_search"
         android:enabled="true"
         android:icon="@drawable/bottom_event"
-        android:title="search"/>
+        android:title="event"/>
     <item
         android:id="@+id/action_favorite"
         android:enabled="true"
