@@ -20,7 +20,7 @@ public class bottom_event_news_model {
     public static ArrayList<bottom_event_news_model> createContactList(int numContacts) {
         ArrayList<bottom_event_news_model> contacts = new ArrayList<bottom_event_news_model>();
         for(int i=0; i<=numContacts; i++) {
-            contacts.add(new bottom_event_news_model(R.drawable.ic_launcher_foreground));
+            contacts.add(new bottom_event_news_model(R.mipmap.ic_banner));
         }
         return contacts;
     }
