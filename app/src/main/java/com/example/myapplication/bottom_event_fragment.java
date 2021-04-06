@@ -23,7 +23,7 @@ public class bottom_event_fragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.bottom_event_fragment, container, false);
-        recyclerView = (RecyclerView) view.findViewById(R.id.bottom_event_recycler_view);
+        recyclerView = (RecyclerView) view.findViewById(R.id.bottom_event_recyclerview);
         list = bottom_event_news_model.createContactList(5);
         recyclerView.setHasFixedSize(true);
         bottomEventNewsAdapter = new bottom_event_news_adapter(getActivity(), list);
