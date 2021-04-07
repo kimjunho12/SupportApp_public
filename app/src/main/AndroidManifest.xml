@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
-        <activity android:name=".register.sns.TempSnsActivity"></activity>
+        <activity android:name=".register.sns.TempSnsActivity" />
         <activity android:name=".register.SurveyActivity" />
         <activity android:name=".register.RegisterActivity" />
         <activity android:name=".register.LoginActivity">

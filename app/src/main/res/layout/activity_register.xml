@@ -108,7 +108,6 @@
             android:hint="비밀번호를 다시 입력해주세요"
             android:inputType="textPassword"
             app:layout_constraintEnd_toEndOf="@+id/btn_check_id"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/et_register_id"
             app:layout_constraintTop_toBottomOf="@+id/et_register_pw" />
 
@@ -121,7 +120,6 @@
             android:hint="이름 (실명 입력)"
             android:inputType="text"
             app:layout_constraintEnd_toEndOf="@+id/btn_check_id"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/et_register_id"
             app:layout_constraintTop_toBottomOf="@+id/et_register_pw_check" />
 
@@ -134,7 +132,6 @@
             android:hint="인증번호 입력"
             android:inputType="number"
             app:layout_constraintEnd_toEndOf="@+id/btn_check_id"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/et_register_id"
             app:layout_constraintTop_toBottomOf="@+id/et_register_phone" />
 
@@ -191,47 +188,46 @@
             android:id="@+id/cb_agreement_use"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="128dp"
             android:text="이용약관 동의"
-            app:layout_constraintBottom_toTopOf="@+id/cb_agreement_my"
             app:layout_constraintEnd_toEndOf="@+id/btn_check_id"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/et_register_id" />
+            app:layout_constraintStart_toStartOf="@+id/et_register_id"
+            app:layout_constraintTop_toBottomOf="@+id/cb_target_check" />
 
         <CheckBox
             android:id="@+id/cb_agreement_my"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="개인정보 취급방침 동의"
-            app:layout_constraintBottom_toTopOf="@+id/cb_agreement_marketing"
             app:layout_constraintEnd_toEndOf="@+id/btn_check_id"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/et_register_id" />
+            app:layout_constraintStart_toStartOf="@+id/et_register_id"
+            app:layout_constraintTop_toBottomOf="@+id/cb_agreement_use" />
 
         <CheckBox
             android:id="@+id/cb_agreement_marketing"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
             android:text="마케팅 정보 수신 동의"
-            app:layout_constraintBottom_toTopOf="@+id/btn_register_save"
             app:layout_constraintEnd_toEndOf="@+id/btn_check_id"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/et_register_id" />
+            app:layout_constraintStart_toStartOf="@+id/et_register_id"
+            app:layout_constraintTop_toBottomOf="@+id/cb_agreement_my" />
 
         <Button
             android:id="@+id/btn_register_save"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="48dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="32dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:text="회원가입"
             android:textSize="30sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/btn_check_id"
-            app:layout_constraintStart_toStartOf="@+id/et_register_id" />
+            app:layout_constraintStart_toStartOf="@+id/et_register_id"
+            app:layout_constraintTop_toBottomOf="@+id/cb_agreement_marketing" />
 
-<!--        인증 코드 입력 승인 방식 or 우리가 후원 대상 회원가입 보고 승인 방식-->
+        <!--        인증 코드 입력 승인 방식 or 우리가 후원 대상 회원가입 보고 승인 방식-->
         <CheckBox
             android:id="@+id/cb_target_check"
             android:layout_width="0dp"
