@@ -39,9 +39,16 @@ public class LoginActivity extends AppCompatActivity {
                 로그인 세션 처리 및 정보 전달 code 구간
                  */
                 // if (로그인 성공 시) {
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+
+                // if (첫 로그인 시) {
+                Intent intent = new Intent(LoginActivity.this, SurveyActivity.class);
                 startActivity(intent);  //  activity 이동
 
+                // } else
+                /*
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);  //  activity 이동
+                 */
                 finish();
                 // }
             }
