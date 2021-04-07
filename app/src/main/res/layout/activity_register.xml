@@ -163,6 +163,7 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <RadioGroup
+            android:id="@+id/radioGroup"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:gravity="center"
@@ -190,53 +191,57 @@
             android:id="@+id/cb_agreement_use"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:drawableEnd="@drawable/ic_arrow_right"
-            android:drawableRight="@drawable/ic_arrow_right"
             android:text="이용약관 동의"
+            app:layout_constraintBottom_toTopOf="@+id/cb_agreement_my"
             app:layout_constraintEnd_toEndOf="@+id/btn_check_id"
-            app:layout_constraintStart_toStartOf="@+id/et_register_id"
-            app:layout_constraintTop_toBottomOf="@+id/et_register_birth" />
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/et_register_id" />
 
         <CheckBox
             android:id="@+id/cb_agreement_my"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:drawableEnd="@drawable/ic_arrow_right"
-            android:drawableRight="@drawable/ic_arrow_right"
             android:text="개인정보 취급방침 동의"
+            app:layout_constraintBottom_toTopOf="@+id/cb_agreement_marketing"
             app:layout_constraintEnd_toEndOf="@+id/btn_check_id"
             app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/et_register_id"
-            app:layout_constraintTop_toBottomOf="@+id/cb_agreement_use" />
+            app:layout_constraintStart_toStartOf="@+id/et_register_id" />
 
         <CheckBox
             android:id="@+id/cb_agreement_marketing"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:drawableEnd="@drawable/ic_arrow_right"
-            android:drawableRight="@drawable/ic_arrow_right"
+            android:layout_marginBottom="32dp"
             android:text="마케팅 정보 수신 동의"
+            app:layout_constraintBottom_toTopOf="@+id/btn_register_save"
             app:layout_constraintEnd_toEndOf="@+id/btn_check_id"
             app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/et_register_id"
-            app:layout_constraintTop_toBottomOf="@+id/cb_agreement_my" />
+            app:layout_constraintStart_toStartOf="@+id/et_register_id" />
 
         <Button
             android:id="@+id/btn_register_save"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginBottom="48dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:text="회원가입"
-            android:textSize="36dp"
+            android:textSize="30sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/btn_check_id"
-            app:layout_constraintStart_toStartOf="@+id/et_register_id"
-            app:layout_constraintTop_toBottomOf="@+id/cb_agreement_marketing" />
+            app:layout_constraintStart_toStartOf="@+id/et_register_id" />
+
+<!--        인증 코드 입력 승인 방식 or 우리가 후원 대상 회원가입 보고 승인 방식-->
+        <CheckBox
+            android:id="@+id/cb_target_check"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="후원 대상입니까 ?"
+            android:textStyle="italic"
+            app:layout_constraintEnd_toEndOf="@+id/btn_check_id"
+            app:layout_constraintStart_toEndOf="@+id/et_register_birth"
+            app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

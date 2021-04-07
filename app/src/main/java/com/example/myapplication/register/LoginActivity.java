@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
+import com.example.myapplication.register.sns.TempSnsActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -57,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                // Callback 공부해서 써야해
                 startActivityForResult(intent, 0);  //  activity 이동
 
 //                finish();
@@ -70,8 +72,9 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // 나중에 소셜 로그인은 따로 만들어 주어야함 (각각 API를 통해서)
                 // 로그인 후 바로 MainActivity로 이동
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);  //  activity 이동
+                Intent intent = new Intent(LoginActivity.this, TempSnsActivity.class);
+                // Callback 공부해서 써야해
+                startActivityForResult(intent, 1);  //  activity 이동
 
                 // 회원가입 후 다시 로그인 창으로 돌아오기 위해 finish 보류
                 //finish();

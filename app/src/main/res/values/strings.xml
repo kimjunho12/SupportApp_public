@@ -55,6 +55,7 @@
 
     <!-- Toolbar -->
     <string name="back">Back</string>
+    <string name="find_id_pw"><u>아이디/비밀번호 찾기</u></string>
 
     <!-- etc -->
     <item name="visible" type="id" />
