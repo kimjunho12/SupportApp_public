@@ -1,34 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".bottom_home_fragment">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="홈화면"
-        android:textSize="40sp"
-        tools:ignore="MissingConstraints" />
+    <FrameLayout
+        android:layout_marginTop="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/frameSize">
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewpager"
+            android:clipToPadding="false"
+            android:clipChildren="false"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/frameSize" />
 
+    </FrameLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/bottom_home_recyclerview"
-        >
-
-
-
-    </androidx.recyclerview.widget.RecyclerView>
-
-
+        android:layout_height="match_parent" />
+    </LinearLayout>
 
 </LinearLayout>
+
 
 
 
