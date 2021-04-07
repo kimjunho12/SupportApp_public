@@ -9,11 +9,11 @@
         app:actionViewClass="androidx.appcompat.widget.SearchView">
     </item>
 
-    <item
-        android:id="@+id/top_category_search"
+    <!--<item
+        android:id="@+id/top_action_category"
         android:title="category"
         android:icon="@drawable/top_category"
         app:showAsAction="ifRoom">
-    </item>
+    </item>-->
 
 </menu>

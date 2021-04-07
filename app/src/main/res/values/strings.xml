@@ -30,6 +30,11 @@
     <string name="favorite">Favorite</string>
     <string name="account">Account</string>
 
+    <!-- top Navigation View -->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+
     <!-- Account -->
     <string name="post">Post</string>
     <string name="following">Following</string>
