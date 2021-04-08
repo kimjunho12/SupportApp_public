@@ -1,5 +1,4 @@
 package com.example.myapplication;
-import android.util.Log;
 
 
 import java.util.ArrayList;
@@ -27,8 +26,8 @@ public class bottom_home_data {
         return banner1;
     }
 
-    public static ArrayList<com.example.myapplication.bottom_home_data> createContactList(int numContacts) {
-        ArrayList<com.example.myapplication.bottom_home_data> contacts = new ArrayList<bottom_home_data>();
+    public static ArrayList<bottom_home_data> createContactList(int numContacts) {
+        ArrayList<bottom_home_data> contacts = new ArrayList<bottom_home_data>();
 
         for (int i = 0; i <= numContacts; i++) {
             contacts.add(new bottom_home_data(R.mipmap.ic_launcher,  R.mipmap.ic_launcher));

@@ -7,10 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.view.menu.MenuView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -36,9 +34,8 @@ public class bottom_home_adapter extends RecyclerView.Adapter<bottom_home_adapte
 
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
-        holder.banner.setImageResource(list.get(position).getBanner());
-        holder.banner1.setImageResource(list.get(position).getBanner1());
-
+        holder.news_image1.setImageResource(list.get(position).getBanner());
+        holder.news_image2.setImageResource(list.get(position).getBanner1());
         holder.itemView.setTag(position);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,15 +54,15 @@ public int getItemCount() {
 
 
 class CustomViewHolder extends RecyclerView.ViewHolder {
-        protected ImageView banner;
-        protected ImageView banner1;
+        protected ImageView news_image1;
+        protected ImageView news_image2;
         protected TextView id;
         protected TextView content;
 
         public CustomViewHolder(@NonNull View itemView) {
             super(itemView);
-            this.banner = (ImageView) itemView.findViewById(R.id.banner);
-            this.banner1 = (ImageView) itemView.findViewById(R.id.banner1);
+            this.news_image1 = (ImageView) itemView.findViewById(R.id.news_image1);
+            this.news_image2 = (ImageView) itemView.findViewById(R.id.news_image2);
         }
     }
 }

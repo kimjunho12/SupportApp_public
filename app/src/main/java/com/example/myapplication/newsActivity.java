@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 public class newsActivity extends Activity {
 
     private Intent intent;
@@ -16,14 +14,9 @@ public class newsActivity extends Activity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.news); //전환된 xml
+        setContentView(R.layout.bottom_home_fragment_news);
         intent = getIntent();
-        imageView = findViewById(R.id.bam);
-
-        imageView = findViewById(R.id.banner);
-        imageView = findViewById(R.id.banner1);
-
-
+        imageView = findViewById(R.id.news_detail);
     }
 }
 
