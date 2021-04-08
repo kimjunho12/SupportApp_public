@@ -50,29 +50,42 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="?attr/actionModeCloseDrawable" />
 
-        <androidx.appcompat.widget.SearchView
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/search_target"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:iconifiedByDefault="false"
-            app:queryHint="검색어를 입력하시오"
             android:layout_marginStart="32dp"
             android:layout_marginLeft="32dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="32dp"
             android:layout_marginRight="32dp"
+            android:gravity="center"
+            android:hint="검색어를 입력하시오"
+            android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/divider" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/re_survey_subject"
+        <ListView
+            android:id="@+id/searched_target_list"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="64dp"
+            android:layout_height="128dp"
+            app:layout_constraintBottom_toTopOf="@+id/re_survey_subject"
             app:layout_constraintEnd_toEndOf="@+id/search_target"
             app:layout_constraintStart_toStartOf="@+id/search_target"
             app:layout_constraintTop_toBottomOf="@+id/search_target" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/re_survey_subject"
+            android:layout_width="0dp"
+            android:layout_height="256dp"
+            android:layout_marginTop="36dp"
+            android:background="@drawable/border_layout"
+            android:padding="12dp"
+            app:layout_constraintEnd_toEndOf="@+id/search_target"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/search_target"
+            app:layout_constraintTop_toBottomOf="@+id/searched_target_list" />
 
         <TextView
             android:id="@+id/btn_survey_skip"
@@ -90,7 +103,7 @@
             app:layout_constraintTop_toBottomOf="@+id/re_survey_subject" />
 
         <Button
-            android:id="@+id/btn_sns_register"
+            android:id="@+id/btn_survey_save"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
@@ -100,7 +113,6 @@
             app:layout_constraintEnd_toEndOf="@+id/search_target"
             app:layout_constraintStart_toStartOf="@+id/search_target"
             app:layout_constraintTop_toBottomOf="@+id/btn_survey_skip" />
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

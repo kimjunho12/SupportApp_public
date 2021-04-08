@@ -17,7 +17,7 @@ public class TempSnsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_temp_sns);
 
-        btn_sns_register = findViewById(R.id.btn_sns_register);
+        btn_sns_register = findViewById(R.id.btn_survey_save);
 
         btn_sns_register.setOnClickListener(new View.OnClickListener() {
             @Override

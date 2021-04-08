@@ -6,16 +6,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.example.myapplication.ExpandableListAdapter;
 import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
+import com.example.myapplication.TargetListAdapter;
+import com.example.myapplication.models.Target;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class SurveyActivity extends AppCompatActivity {
 
@@ -23,12 +31,62 @@ public class SurveyActivity extends AppCompatActivity {
     private TextView btn_survey_skip;
     private RecyclerView recyclerview;
 
+    // 임시
+    private TargetListAdapter targetListAdapter;
+    private ListView searched_target_list;
+    private EditText searchView;
+
+    // end 임시
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_survey);
 
-        btn_survey_save = findViewById(R.id.btn_sns_register);
+        // 임시
+
+        ArrayList<Target> targetList = new ArrayList<Target>();
+        targetList.add(new Target("김준호"));
+        targetList.add(new Target("안부지"));
+        targetList.add(new Target("성기준"));
+        targetList.add(new Target("문범준"));
+        targetList.add(new Target("제갈명원"));
+        targetList.add(new Target("황보명선"));
+        targetList.add(new Target("안인호"));
+        targetList.add(new Target("안상미"));
+        targetList.add(new Target("표현수"));
+        targetList.add(new Target("손흥민"));
+        targetList.add(new Target("정신차려"));
+        targetList.add(new Target("고구마"));
+        targetList.add(new Target("감자"));
+        targetList.add(new Target("치킨"));
+        targetList.add(new Target("피자"));
+
+        targetListAdapter = new TargetListAdapter(this, targetList);
+        searched_target_list = findViewById(R.id.searched_target_list);
+        searched_target_list.setAdapter(targetListAdapter);
+        searchView = findViewById(R.id.search_target);
+
+        searchView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String text = searchView.getText().toString().toLowerCase(Locale.getDefault());
+                targetListAdapter.filter(text);
+            }
+        });
+        // end 임시
+
+        btn_survey_save = findViewById(R.id.btn_survey_save);
         btn_survey_skip = findViewById(R.id.btn_survey_skip);
         
         recyclerview = findViewById(R.id.re_survey_subject);
@@ -36,7 +94,7 @@ public class SurveyActivity extends AppCompatActivity {
         List<ExpandableListAdapter.Item> data = new ArrayList<>();
 
         // 나중에는 DB랑 연동해서 불러오자
-        // 첫번째 방법 (데이터 리스트에 모아서 data.add(place) 하는 방법 (처음부터 보이는 상태_
+        // 첫번째 방법 (데이터 리스트에 모아서 data.add(place) 하는 방법 (처음부터 보이는 상태) : 정적
         data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, "스포츠"));
         data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "축구"));
         data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "농구"));
@@ -52,6 +110,24 @@ public class SurveyActivity extends AppCompatActivity {
         places.invisibleChildren = new ArrayList<>();
         places.invisibleChildren.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "현대미술"));
         places.invisibleChildren.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "고전미술"));
+
+        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, "Test1"));
+        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "Test1"));
+        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "Test1"));
+        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "Test1"));
+
+        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, "Test2"));
+        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "Test2"));
+        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "Test2"));
+        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "Test2"));
+        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "Test2"));
+        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "Test2"));
+        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "Test2"));
+
+        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, "Test3"));
+        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, "Test4"));
+        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, "Test5"));
+
 
         data.add(places);
 

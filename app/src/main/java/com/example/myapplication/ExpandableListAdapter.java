@@ -6,6 +6,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CheckedTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -36,7 +38,7 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 ListHeaderViewHolder header = new ListHeaderViewHolder(view);
                 return header;
             case CHILD:
-                TextView itemTextView = new TextView(context);
+                CheckedTextView itemTextView = new CheckedTextView(parent.getContext());
                 itemTextView.setPadding(subItemPaddingLeft, subItemPaddingTopAndBottom, 0, subItemPaddingTopAndBottom);
                 itemTextView.setTextColor(0x88000000);
                 itemTextView.setLayoutParams(
@@ -89,7 +91,7 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 });
                 break;
             case CHILD:
-                TextView itemTextView = (TextView) holder.itemView;
+                CheckedTextView itemTextView = (CheckedTextView) holder.itemView;
                 itemTextView.setText(data.get(position).text);
                 break;
         }
