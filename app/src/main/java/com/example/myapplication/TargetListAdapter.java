@@ -60,7 +60,7 @@ public class TargetListAdapter extends BaseAdapter {
 
         if (view == null) {
             holder = new ViewHolder();
-            view = inflater.inflate(R.layout.item_listview, null); // 새로 만들어 바꿔주자.
+            view = inflater.inflate(R.layout.item_listview, null);
             // Locate the TextViews in listview_item.xml
             holder.tv_name = (TextView) view.findViewById(R.id.tv_name);
             holder.iv_icon = (ImageView) view.findViewById(R.id.iv_icon);

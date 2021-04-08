@@ -70,7 +70,6 @@
             android:id="@+id/searched_target_list"
             android:layout_width="0dp"
             android:layout_height="128dp"
-            app:layout_constraintBottom_toTopOf="@+id/re_survey_subject"
             app:layout_constraintEnd_toEndOf="@+id/search_target"
             app:layout_constraintStart_toStartOf="@+id/search_target"
             app:layout_constraintTop_toBottomOf="@+id/search_target" />
@@ -79,7 +78,7 @@
             android:id="@+id/re_survey_subject"
             android:layout_width="0dp"
             android:layout_height="256dp"
-            android:layout_marginTop="36dp"
+            android:layout_marginTop="40dp"
             android:background="@drawable/border_layout"
             android:padding="12dp"
             app:layout_constraintEnd_toEndOf="@+id/search_target"
