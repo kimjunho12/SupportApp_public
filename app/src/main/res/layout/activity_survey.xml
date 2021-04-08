@@ -68,23 +68,25 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/re_survey_subject"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="64dp"
-            app:layout_constraintBottom_toTopOf="@+id/btn_survey_skip"
             app:layout_constraintEnd_toEndOf="@+id/search_target"
             app:layout_constraintStart_toStartOf="@+id/search_target"
             app:layout_constraintTop_toBottomOf="@+id/search_target" />
 
         <TextView
             android:id="@+id/btn_survey_skip"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:gravity="center"
             android:text="건너뛰기 (or 다음에 하기)"
-            app:layout_constraintEnd_toEndOf="@+id/re_survey_subject"
-            app:layout_constraintStart_toStartOf="@+id/re_survey_subject"
+            app:layout_constraintEnd_toEndOf="@+id/search_target"
+            app:layout_constraintStart_toStartOf="@+id/search_target"
             app:layout_constraintTop_toBottomOf="@+id/re_survey_subject" />
 
         <Button
@@ -95,7 +97,7 @@
             android:layout_marginBottom="48dp"
             android:text="시작하기"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/re_survey_subject"
+            app:layout_constraintEnd_toEndOf="@+id/search_target"
             app:layout_constraintStart_toStartOf="@+id/search_target"
             app:layout_constraintTop_toBottomOf="@+id/btn_survey_skip" />
 
