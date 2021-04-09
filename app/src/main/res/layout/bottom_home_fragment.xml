@@ -7,28 +7,15 @@
     android:orientation="vertical"
     tools:context=".bottom_home_fragment">
 
-    <FrameLayout
-        android:layout_marginTop="0dp"
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewpager"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/frameSize">
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/viewpager"
-            android:clipToPadding="false"
-            android:clipChildren="false"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/frameSize" />
+        android:layout_height="200dp" />
 
-    </FrameLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-    </LinearLayout>
 
 </LinearLayout>
 
