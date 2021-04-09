@@ -7,10 +7,16 @@
     android:orientation="vertical"
     tools:context=".bottom_home_fragment">
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewpager"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp" />
+        android:layout_height="@dimen/frameSize">
+        <androidx.viewpager.widget.ViewPager
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/frameSize"
+            android:id="@+id/viewpager"
+            android:clipChildren="false"
+            android:clipToPadding="false"/>
+    </FrameLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler"

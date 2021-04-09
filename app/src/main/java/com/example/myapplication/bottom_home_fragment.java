@@ -3,8 +3,6 @@ package com.example.myapplication;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,6 +14,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 public class bottom_home_fragment extends Fragment {
     private View view;
@@ -49,7 +48,7 @@ public class bottom_home_fragment extends Fragment {
         recyclerView.setAdapter(bottom_home_adapter);
 
         //viewpager
-        viewPager = view.findViewById(R.id.viewpager);
+        viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         bottom_home_viewpager_adapter adapter = new bottom_home_viewpager_adapter(getChildFragmentManager());
         fragment1 = new viewpager_FirstFragment();
         adapter.addItem(fragment1);
@@ -58,6 +57,7 @@ public class bottom_home_fragment extends Fragment {
         fragment3 = new viewpager_ThirdFragment();
         adapter.addItem(fragment3);
         viewPager.setAdapter(adapter);
+        viewPager.setCurrentItem(0);
 
         return view;
     }

@@ -9,9 +9,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.myapplication.R;
 
-class viewpager_SecondFragment extends Fragment {
-    public viewpager_SecondFragment() {
-    }
+public class viewpager_SecondFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
