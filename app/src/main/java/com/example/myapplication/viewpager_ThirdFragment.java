@@ -7,13 +7,16 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
-class FragSecond extends Fragment {
+import com.example.myapplication.R;
+
+class viewpager_ThirdFragment extends Fragment {
+    public viewpager_ThirdFragment() {
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(
-                R.layout.home_viewpager2, container, false);
-
+                R.layout.bottom_home_viewpager_layout3, container, false);
         return rootView;
     }
 }
