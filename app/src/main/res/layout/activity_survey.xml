@@ -59,10 +59,13 @@
             android:layout_marginTop="32dp"
             android:layout_marginEnd="32dp"
             android:layout_marginRight="32dp"
+            android:drawableLeft="@drawable/top_search"
+            android:drawableRight="@android:drawable/btn_dialog"
             android:gravity="center"
             android:hint="검색어를 입력하시오"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/divider" />
 
@@ -70,6 +73,9 @@
             android:id="@+id/searched_target_list"
             android:layout_width="0dp"
             android:layout_height="128dp"
+            android:background="@drawable/border_layout"
+            android:padding="12dp"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="@+id/search_target"
             app:layout_constraintStart_toStartOf="@+id/search_target"
             app:layout_constraintTop_toBottomOf="@+id/search_target" />

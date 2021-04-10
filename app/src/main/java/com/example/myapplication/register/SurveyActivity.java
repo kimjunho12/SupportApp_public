@@ -8,12 +8,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.myapplication.ExpandableListAdapter;
 import com.example.myapplication.MainActivity;
@@ -82,8 +85,31 @@ public class SurveyActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 String text = searchView.getText().toString().toLowerCase(Locale.getDefault());
                 targetListAdapter.filter(text);
+                searched_target_list.setVisibility(View.VISIBLE);
             }
         });
+
+
+
+
+        searchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                searchView.setText(null);
+            }
+        });
+
+        
+        // 왜 클릭이 안돼 ㅅㅂ
+        searched_target_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(SurveyActivity.this, "isClicked", Toast.LENGTH_SHORT ).show();
+                Log.d("selected_item", "onItemSelected: " + view.getTag() + " + " + i);
+
+            }
+        });
+
         // end 임시
 
         btn_survey_save = findViewById(R.id.btn_survey_save);
