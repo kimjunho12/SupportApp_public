@@ -19,7 +19,7 @@ public class bottom_home_adapter extends RecyclerView.Adapter<bottom_home_adapte
     private List<bottom_home_data> list = new ArrayList<>();
 
 
-    public bottom_home_adapter(Context context, List<bottom_home_data> list) {
+    public bottom_home_adapter(Context context, ArrayList<bottom_home_data> list) {
         this.context = context;
         this.list = list;
     }
@@ -56,13 +56,23 @@ public int getItemCount() {
 class CustomViewHolder extends RecyclerView.ViewHolder {
         protected ImageView news_image1;
         protected ImageView news_image2;
-        protected TextView id;
-        protected TextView content;
+        protected ImageView news_image3;
+        protected ImageView news_image4;
+        protected ImageView news_image5;
+        protected ImageView news_image6;
+        protected TextView blank_text1;
+        protected TextView blank_text2;
+        protected TextView blank_text3;
 
         public CustomViewHolder(@NonNull View itemView) {
             super(itemView);
+
             this.news_image1 = (ImageView) itemView.findViewById(R.id.news_image1);
             this.news_image2 = (ImageView) itemView.findViewById(R.id.news_image2);
+            this.news_image3 = (ImageView) itemView.findViewById(R.id.news_image3);
+            this.news_image4 = (ImageView) itemView.findViewById(R.id.news_image4);
+            this.news_image5 = (ImageView) itemView.findViewById(R.id.news_image5);
+            this.news_image6 = (ImageView) itemView.findViewById(R.id.news_image6);
         }
     }
 }
