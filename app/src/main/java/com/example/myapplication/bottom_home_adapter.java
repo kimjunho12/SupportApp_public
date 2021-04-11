@@ -69,10 +69,6 @@ class CustomViewHolder extends RecyclerView.ViewHolder {
 
             this.news_image1 = (ImageView) itemView.findViewById(R.id.news_image1);
             this.news_image2 = (ImageView) itemView.findViewById(R.id.news_image2);
-            this.news_image3 = (ImageView) itemView.findViewById(R.id.news_image3);
-            this.news_image4 = (ImageView) itemView.findViewById(R.id.news_image4);
-            this.news_image5 = (ImageView) itemView.findViewById(R.id.news_image5);
-            this.news_image6 = (ImageView) itemView.findViewById(R.id.news_image6);
         }
     }
 }
