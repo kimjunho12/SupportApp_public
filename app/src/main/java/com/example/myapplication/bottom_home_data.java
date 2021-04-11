@@ -49,8 +49,6 @@ public class bottom_home_data {
 
     public void setContent(String content) {
         this.content =content;
-
-
     }
 
 }

@@ -6,6 +6,7 @@ public class bottom_favorite_profile_model {
     private int bottom_favorite_profile_image1;
     private String blank_text;
     private int bottom_favorite_profile_image2;
+    private String id;
 
 
 
@@ -45,5 +46,8 @@ public class bottom_favorite_profile_model {
             contacts.add(new bottom_favorite_profile_model(R.mipmap.ic_launcher, "", R.mipmap.ic_launcher));
         }
         return contacts;
+    }
+    public String getId() {
+        return id;
     }
 }

@@ -44,7 +44,6 @@ public class bottom_home_adapter extends RecyclerView.Adapter<bottom_home_adapte
                 view.getContext().startActivity(intent);
             }
         });
-
     }
 
 @Override
