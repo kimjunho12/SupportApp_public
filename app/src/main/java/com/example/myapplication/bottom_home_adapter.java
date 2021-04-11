@@ -55,23 +55,13 @@ public int getItemCount() {
 class CustomViewHolder extends RecyclerView.ViewHolder {
         protected ImageView news_image1;
         protected ImageView news_image2;
-        protected ImageView news_image3;
-        protected ImageView news_image4;
-        protected ImageView news_image5;
-        protected ImageView news_image6;
         protected TextView blank_text1;
-        protected TextView blank_text2;
-        protected TextView blank_text3;
 
         public CustomViewHolder(@NonNull View itemView) {
             super(itemView);
 
             this.news_image1 = (ImageView) itemView.findViewById(R.id.news_image1);
             this.news_image2 = (ImageView) itemView.findViewById(R.id.news_image2);
-            this.news_image3 = (ImageView) itemView.findViewById(R.id.news_image3);
-            this.news_image4 = (ImageView) itemView.findViewById(R.id.news_image4);
-            this.news_image5 = (ImageView) itemView.findViewById(R.id.news_image5);
-            this.news_image6 = (ImageView) itemView.findViewById(R.id.news_image6);
         }
     }
 }
