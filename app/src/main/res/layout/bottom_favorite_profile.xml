@@ -12,7 +12,6 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:onClick="bottom_favorite_profile1"
             android:id="@+id/bottom_favorite_profile1"
             android:layout_width="160dp"
             android:layout_height="160dp"
@@ -27,7 +26,6 @@
         </TextView>
 
         <ImageView
-            android:onClick="bottom_favorite_profile2"
             android:id="@+id/bottom_favorite_profile2"
             android:layout_width="160dp"
             android:layout_height="160dp"
