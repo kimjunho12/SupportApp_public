@@ -23,6 +23,7 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".newsActivity"/>
         <activity android:name=".profileActivity"/>
+        <activity android:name=".support_popupActivity" android:theme="@style/Theme.AppCompat.Dialog"/>
     </application>
 
 </manifest>
