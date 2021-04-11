@@ -16,7 +16,7 @@
         <ImageView
             android:id="@+id/news_image1"
             android:layout_width="160dp"
-            android:layout_height="140dp"
+            android:layout_height="150dp"
             android:layout_gravity="left"
             android:src="@mipmap/ic_launcher"></ImageView>
 
@@ -30,7 +30,7 @@
         <ImageView
             android:id="@+id/news_image2"
             android:layout_width="160dp"
-            android:layout_height="140dp"
+            android:layout_height="150dp"
             android:layout_gravity="right"
             android:src="@mipmap/ic_launcher"></ImageView>
     </LinearLayout>

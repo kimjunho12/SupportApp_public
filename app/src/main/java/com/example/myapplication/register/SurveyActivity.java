@@ -65,6 +65,7 @@ public class SurveyActivity extends AppCompatActivity {
         targetList.add(new Target("치킨"));
         targetList.add(new Target("피자"));
 
+
         targetListAdapter = new TargetListAdapter(this, targetList);
         searched_target_list = findViewById(R.id.searched_target_list);
         searched_target_list.setAdapter(targetListAdapter);

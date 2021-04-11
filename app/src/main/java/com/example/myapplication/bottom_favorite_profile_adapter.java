@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,12 +37,14 @@ public class bottom_favorite_profile_adapter extends RecyclerView.Adapter<bottom
         holder.bottom_favorite_profile_image1.setImageResource(list.get(position).getBottom_favorite_profile_image1());
         holder.blank_text.setText(list.get(position).getBlank_text());
         holder.bottom_favorite_profile_image2.setImageResource(list.get(position).getBottom_favorite_profile_image2());
-        /*holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setTag(position);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                //클릭되었을 때 여기다가 구현하기
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), profileActivity.class);
+                view.getContext().startActivity(intent);
             }
-        });*/
+        });
     }
 
     @Override

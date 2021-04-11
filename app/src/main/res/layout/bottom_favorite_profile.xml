@@ -12,11 +12,12 @@
         android:orientation="horizontal">
 
         <ImageView
+            android:onClick="bottom_favorite_profile1"
             android:id="@+id/bottom_favorite_profile1"
             android:layout_width="160dp"
             android:layout_height="160dp"
             android:layout_gravity="left"
-            android:src="@mipmap/ic_launcher"></ImageView>
+            android:src="@mipmap/ic_launcher"/>
         <TextView
             android:id="@+id/blank_text"
             android:layout_width="40dp"
@@ -26,13 +27,13 @@
         </TextView>
 
         <ImageView
+            android:onClick="bottom_favorite_profile2"
             android:id="@+id/bottom_favorite_profile2"
             android:layout_width="160dp"
             android:layout_height="160dp"
             android:layout_gravity="right"
-            android:src="@mipmap/ic_launcher">
+            android:src="@mipmap/ic_launcher"/>
 
-        </ImageView>
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

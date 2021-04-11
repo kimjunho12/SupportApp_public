@@ -36,10 +36,11 @@
     </TextView>
 
     <Button
-        android:id="@+id/support_button"
+        android:onClick="support_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
+        android:textAllCaps="false"
         android:text="후원하기"
         android:textSize="40dp"
         app:layout_constraintBottom_toBottomOf="parent" />

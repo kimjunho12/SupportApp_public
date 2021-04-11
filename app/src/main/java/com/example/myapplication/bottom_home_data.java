@@ -33,7 +33,7 @@ public class bottom_home_data {
             contacts.add(new bottom_home_data(R.mipmap.ic_launcher,  R.mipmap.ic_launcher));
         }
         return contacts;
-    }
+    }// 데이터 넣을때 바꿔야함
 
     public void setBanner(int banner) {
         this.banner = banner;
@@ -49,8 +49,6 @@ public class bottom_home_data {
 
     public void setContent(String content) {
         this.content =content;
-
-
     }
 
 }
