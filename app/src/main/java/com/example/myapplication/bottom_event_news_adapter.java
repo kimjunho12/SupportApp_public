@@ -1,5 +1,6 @@
 package com.example.myapplication;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,8 +37,9 @@ public class bottom_event_news_adapter extends RecyclerView.Adapter<bottom_event
         holder.itemView.setTag(position);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                //클릭되었을 때 여기다가 구현하기
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), newsActivity.class);
+                view.getContext().startActivity(intent);
             }
         });
     }

@@ -47,8 +47,7 @@ public class bottom_favorite_profile_adapter extends RecyclerView.Adapter<bottom
         });
     }
 
-    @Override
-    public int getItemCount() {
+    @Override public int getItemCount() {
         return list.size();
     }
 
