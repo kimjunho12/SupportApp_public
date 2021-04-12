@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <View
         android:id="@+id/profile_top"
@@ -24,7 +24,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:text="뉴스"
+        android:text="게시판"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/profile_top"
@@ -45,43 +45,36 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="?attr/actionModeCloseDrawable" />
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="match_parent"
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="뉴스 Header"
-        android:textSize="55sp"
-        app:layout_constraintTop_toTopOf="@+id/profile_top"
-        tools:layout_editor_absoluteX="0dp"></TextView>
+        android:layout_marginTop="25dp"
+        android:hint="제목을 입력해주세요."
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_top" />
 
-    <ImageView
-        android:id="@+id/news_detail"
-        android:layout_width="match_parent"
-        android:layout_height="240dp"
-        android:src="@mipmap/ic_launcher"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
-        tools:layout_editor_absoluteX="16dp"></ImageView>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="start"
-        android:text="뉴스내용이 들어올 장소입니다."
-        android:textSize="20sp"
-        app:layout_constraintTop_toBottomOf="@+id/news_detail"
-        tools:layout_editor_absoluteX="-16dp">
-
-    </TextView>
+    <EditText
+        android:id="@+id/editText2"
+        android:layout_width="350dp"
+        android:layout_height="450dp"
+        android:layout_marginTop="64dp"
+        android:gravity="top"
+        android:hint="내용을 입력해주세요."
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText" />
 
     <Button
-        android:onClick="support_button"
-        android:layout_width="match_parent"
+        android:id="@+id/button4"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:textAllCaps="false"
-        android:text="후원하기"
-        android:textSize="40dp"
-        app:layout_constraintBottom_toBottomOf="parent" />
-
+        android:layout_marginStart="36dp"
+        android:layout_marginLeft="36dp"
+        android:text="사진첨부"
+        app:layout_constraintBottom_toTopOf="@+id/editText2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText" />
 </androidx.constraintlayout.widget.ConstraintLayout>
