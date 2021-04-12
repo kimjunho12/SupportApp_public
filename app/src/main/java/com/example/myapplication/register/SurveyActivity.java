@@ -221,8 +221,8 @@ public class SurveyActivity extends AppCompatActivity {
             listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
             totalHeight += listItem.getMeasuredHeight();
         }
-        if (listAdapter.getCount()>0){
-            totalHeight = totalHeight + listView.getPaddingTop() + listView.getPaddingBottom()*2;
+        if (listAdapter.getCount()>0) {
+            totalHeight = totalHeight + listView.getPaddingTop() + listView.getPaddingBottom() * 2;
         }
         ViewGroup.LayoutParams params = listView.getLayoutParams();
         params.height = totalHeight;
