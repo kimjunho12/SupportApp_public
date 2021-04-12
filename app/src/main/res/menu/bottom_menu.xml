@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <subject
+    <item
         android:id="@+id/action_home"
         android:enabled="true"
         android:icon="@drawable/bottom_home"
         android:title="home"/>
-    <subject
+    <item
         android:id="@+id/action_search"
         android:enabled="true"
         android:icon="@drawable/bottom_event"
         android:title="event"/>
-    <subject
+    <item
         android:id="@+id/action_favorite"
         android:enabled="true"
         android:icon="@drawable/bottom_favorite"
         android:title="favorite"/>
-    <subject
+    <item
         android:id="@+id/action_account"
         android:enabled="true"
         android:icon="@drawable/bottom_account"
         android:title="account"/>
-    <subject
+    <item
         android:id="@+id/action_setting"
         android:enabled="true"
         android:icon="@drawable/bottom_setting"

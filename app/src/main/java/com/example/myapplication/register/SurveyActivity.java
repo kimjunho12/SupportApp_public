@@ -163,6 +163,11 @@ public class SurveyActivity extends AppCompatActivity implements adapter2activit
                     View listItem = targetListAdapter.getView(i, null, searched_target_list);
                     Log.d("Activity_Searched_List", "onClick: " + ((TextView) listItem.findViewById(R.id.tv_name)).getText() + " is_Checked ? : " + ((CheckBox) listItem.findViewById(R.id.picked_target)).isChecked());
                 }
+                String result = "";
+                for (Subject subject : selectSubject){
+                    result += subject.text + ",";
+                }
+                Log.d("Selected_Subject", "onClick: " + result);
 //                for (int i = 0; i < expandableListAdapter.getItemCount(); i++){
 //                }
 
