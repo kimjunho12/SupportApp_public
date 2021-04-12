@@ -131,7 +131,7 @@ public class TargetListAdapter extends BaseAdapter {
     }
 
     // Filter Class
-    public List<Target> filter(String charText) {
+    public void filter(String charText) {
         charText = charText.toLowerCase(Locale.getDefault());
         targetList.clear();
         if (charText.length() == 0) {
@@ -140,7 +140,6 @@ public class TargetListAdapter extends BaseAdapter {
                     targetList.add(target);
                 }
             }
-            return targetList;
         } else {
             for (Target target : arrayList) {
                 String name = target.name;
@@ -150,6 +149,5 @@ public class TargetListAdapter extends BaseAdapter {
             }
         }
         notifyDataSetChanged();
-        return targetList;
     }
 }

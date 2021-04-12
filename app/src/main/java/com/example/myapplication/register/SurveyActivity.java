@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -43,7 +44,6 @@ public class SurveyActivity extends AppCompatActivity {
     private ExpandableListAdapter expandableListAdapter;
 
     // 임시
-    private List<Target> selected;
     private TargetListAdapter targetListAdapter;
     private ListView searched_target_list;
     private EditText searchView;
@@ -95,12 +95,11 @@ public class SurveyActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 String text = searchView.getText().toString().toLowerCase(Locale.getDefault());
-                selected = targetListAdapter.filter(text);
+                targetListAdapter.filter(text);
                 searched_target_list.setVisibility(View.VISIBLE);
                 setListViewHeightBasedOnChildren(searched_target_list);
             }
         });
-
 
         searchView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,14 +153,19 @@ public class SurveyActivity extends AppCompatActivity {
         data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, "Test5"));
 
 
-
         expandableListAdapter = new ExpandableListAdapter(data);
         recyclerview.setAdapter(expandableListAdapter);
-
 
         btn_survey_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                searchView.setText(null);
+                for (int i = 0; i < targetListAdapter.getCount(); i++) {
+                    View listItem = targetListAdapter.getView(i, null, searched_target_list);
+                    Log.d("Activity_Searched_List", "onClick: " + ((TextView) listItem.findViewById(R.id.tv_name)).getText() + " is_Checked ? : " + ((CheckBox) listItem.findViewById(R.id.picked_target)).isChecked());
+                }
+//                for (int i = 0; i < expandableListAdapter.getItemCount(); i++){
+//                }
 
                 Intent intent = new Intent(SurveyActivity.this, MainActivity.class);
                 startActivity(intent);
@@ -209,7 +213,7 @@ public class SurveyActivity extends AppCompatActivity {
 
         int totalHeight = 0;
         int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.AT_MOST);
-        if (listAdapter.getCount() > 0){
+        if (listAdapter.getCount() > 0) {
             View listItem = listAdapter.getView(0, null, listView);
             listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
             totalHeight = listItem.getMeasuredHeight() * listAdapter.getCount();
@@ -227,15 +231,5 @@ public class SurveyActivity extends AppCompatActivity {
         params.height = totalHeight;
         listView.setLayoutParams(params);
         listView.requestLayout();
-    }
-
-    @Override
-    public void finish() {
-        for (Target a : selected) {
-            Log.d("Finally Selected", "finish: " + a.name);
-        }
-
-
-        super.finish();
     }
 }
