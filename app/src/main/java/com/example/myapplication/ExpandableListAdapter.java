@@ -1,6 +1,5 @@
 package com.example.myapplication;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
@@ -11,7 +10,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.myapplication.models.Target;
+import com.example.myapplication.models.Subject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,13 +20,15 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public static final int HEADER = 0;
     public static final int CHILD = 1;
 
-    private List<Item> data;
+    private List<Subject> data;
+    private adapter2activity a2a;
     HashMap<String, Boolean> hm = new HashMap<String, Boolean>();
 
-    public ExpandableListAdapter(List<Item> data) {
+    public ExpandableListAdapter(List<Subject> data, adapter2activity a2a) {
         this.data = data;
+        this.a2a = a2a;
 
-        for (Item check_subject : data) {
+        for (Subject check_subject : data) {
             hm.put(check_subject.text, false);
         }
     }
@@ -55,13 +56,13 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        final Item item = data.get(position);
-        switch (item.type) {
+        final Subject subject = data.get(position);
+        switch (subject.type) {
             case HEADER:
                 final ListHeaderViewHolder itemController = (ListHeaderViewHolder) holder;
-                itemController.refferalItem = item;
-                itemController.header_title.setText(item.text);
-                if (item.invisibleChildren == null) {
+                itemController.refferalSubject = subject;
+                itemController.header_title.setText(subject.text);
+                if (subject.invisibleChildren == null) {
                     itemController.btn_expand_toggle.setImageResource(R.drawable.circle_minus);
                 } else {
                     itemController.btn_expand_toggle.setImageResource(R.drawable.circle_plus);
@@ -69,52 +70,52 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 itemController.btn_expand_toggle.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (item.invisibleChildren == null) {
-                            item.invisibleChildren = new ArrayList<Item>();
+                        if (subject.invisibleChildren == null) {
+                            subject.invisibleChildren = new ArrayList<Subject>();
                             int count = 0;
-                            int pos = data.indexOf(itemController.refferalItem);
+                            int pos = data.indexOf(itemController.refferalSubject);
                             while (data.size() > pos + 1 && data.get(pos + 1).type == CHILD) {
-                                item.invisibleChildren.add(data.remove(pos + 1));
+                                subject.invisibleChildren.add(data.remove(pos + 1));
                                 count++;
                             }
                             notifyItemRangeRemoved(pos + 1, count);
                             itemController.btn_expand_toggle.setImageResource(R.drawable.circle_plus);
                         } else {
-                            int pos = data.indexOf(itemController.refferalItem);
+                            int pos = data.indexOf(itemController.refferalSubject);
                             int index = pos + 1;
-                            for (Item i : item.invisibleChildren) {
+                            for (Subject i : subject.invisibleChildren) {
                                 data.add(index, i);
                                 index++;
                             }
                             notifyItemRangeInserted(pos + 1, index - pos - 1);
                             itemController.btn_expand_toggle.setImageResource(R.drawable.circle_minus);
-                            item.invisibleChildren = null;
+                            subject.invisibleChildren = null;
                         }
                     }
                 });
                 itemController.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (item.invisibleChildren == null) {
-                            item.invisibleChildren = new ArrayList<Item>();
+                        if (subject.invisibleChildren == null) {
+                            subject.invisibleChildren = new ArrayList<Subject>();
                             int count = 0;
-                            int pos = data.indexOf(itemController.refferalItem);
+                            int pos = data.indexOf(itemController.refferalSubject);
                             while (data.size() > pos + 1 && data.get(pos + 1).type == CHILD) {
-                                item.invisibleChildren.add(data.remove(pos + 1));
+                                subject.invisibleChildren.add(data.remove(pos + 1));
                                 count++;
                             }
                             notifyItemRangeRemoved(pos + 1, count);
                             itemController.btn_expand_toggle.setImageResource(R.drawable.circle_plus);
                         } else {
-                            int pos = data.indexOf(itemController.refferalItem);
+                            int pos = data.indexOf(itemController.refferalSubject);
                             int index = pos + 1;
-                            for (Item i : item.invisibleChildren) {
+                            for (Subject i : subject.invisibleChildren) {
                                 data.add(index, i);
                                 index++;
                             }
                             notifyItemRangeInserted(pos + 1, index - pos - 1);
                             itemController.btn_expand_toggle.setImageResource(R.drawable.circle_minus);
-                            item.invisibleChildren = null;
+                            subject.invisibleChildren = null;
                         }
                     }
                 });
@@ -123,10 +124,10 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 final ListChildViewHolder childController = (ListChildViewHolder) holder;
                 childController.child_title.setText(data.get(position).text);
 
-                if (hm.get(item.text) == null) {
-                    hm.put(item.text, false);
+                if (hm.get(subject.text) == null) {
+                    hm.put(subject.text, false);
                 }
-                if (hm.get(item.text)) {
+                if (hm.get(subject.text)) {
                     childController.child_cb.setChecked(true);
                 } else {
                     childController.child_cb.setChecked(false);
@@ -138,10 +139,12 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                         CheckBox checkBox = (CheckBox) view.findViewById(R.id.picked_target);
                         if (checkBox.isChecked()) {
                             checkBox.setChecked(true);
+                            a2a.addItem(position);
                         } else {
                             checkBox.setChecked(false);
+                            a2a.deleteItem(position);
                         }
-                        hm.put(item.text, checkBox.isChecked());
+                        hm.put(subject.text, checkBox.isChecked());
                     }
                 });
                 childController.itemView.setOnClickListener(new View.OnClickListener() {
@@ -150,10 +153,12 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                         CheckBox checkBox = (CheckBox) arg0.findViewById(R.id.picked_target);
                         if (checkBox.isChecked()) {
                             checkBox.setChecked(false);
+                            a2a.deleteItem(position);
                         } else {
                             checkBox.setChecked(true);
+                            a2a.addItem(position);
                         }
-                        hm.put(item.text, checkBox.isChecked());
+                        hm.put(subject.text, checkBox.isChecked());
                     }
                 });
                 break;
@@ -170,10 +175,10 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         return data.size();
     }
 
-    private static class ListHeaderViewHolder extends RecyclerView.ViewHolder {
+    public static class ListHeaderViewHolder extends RecyclerView.ViewHolder {
         public TextView header_title;
         public ImageView btn_expand_toggle;
-        public Item refferalItem;
+        public Subject refferalSubject;
 
         public ListHeaderViewHolder(View itemView) {
             super(itemView);
@@ -182,7 +187,7 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
     }
 
-    private static class ListChildViewHolder extends RecyclerView.ViewHolder {
+    public static class ListChildViewHolder extends RecyclerView.ViewHolder {
         public TextView child_title;
         public ImageView child_img;
         public CheckBox child_cb;
@@ -194,18 +199,14 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             child_cb = childView.findViewById(R.id.picked_target);
         }
     }
-
-    public static class Item {
-        public int type;
-        public String text;
-        public List<Item> invisibleChildren;
-
-        public Item() {
-        }
-
-        public Item(int type, String text) {
-            this.type = type;
-            this.text = text;
-        }
-    }
+//
+//
+//    public interface OnTest {
+//
+//        //item 추가 함수
+//        void addItem(int position);
+//
+//        //item 삭제 함수
+//        void deleteItem(int position);
+//    }
 }

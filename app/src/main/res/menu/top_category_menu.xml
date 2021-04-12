@@ -2,55 +2,55 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
+    <subject
         android:title="스포츠">
         <menu>
             <group android:checkableBehavior="single">
-                <item
+                <subject
                     android:id="@+id/top_category_soccer"
                     android:title="축구"
                     android:icon="@drawable/ic_launcher_foreground"/>
-                <item
+                <subject
                     android:id="@+id/top_category_basketball"
                     android:title="농구"
                     android:icon="@drawable/ic_launcher_foreground"/>
-                <item
+                <subject
                     android:id="@+id/top_category_baseball"
                     android:title="야구"
                     android:icon="@drawable/ic_launcher_foreground"/>
             </group>
         </menu>
-    </item>
+    </subject>
 
-    <item
+    <subject
         android:title="음악">
         <menu>
             <group android:checkableBehavior="single">
-                <item
+                <subject
                     android:id="@+id/top_category_kpop"
                     android:title="Kpop"
                     android:icon="@drawable/ic_launcher_foreground"/>
-                <item
+                <subject
                     android:id="@+id/top_category_band"
                     android:title="인디밴드"
                     android:icon="@drawable/ic_launcher_foreground"/>
             </group>
         </menu>
-    </item>
+    </subject>
 
-    <item
+    <subject
         android:title="미술">
         <menu>
             <group android:checkableBehavior="single">
-                <item
+                <subject
                     android:id="@+id/top_category_classic"
                     android:title="고전미술"
                     android:icon="@drawable/ic_launcher_foreground"/>
-                <item
+                <subject
                     android:id="@+id/top_category_modern"
                     android:title="현대미술"
                     android:icon="@drawable/ic_launcher_foreground"/>
             </group>
         </menu>
-    </item>
+    </subject>
 </menu>

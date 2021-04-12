@@ -14,34 +14,33 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.myapplication.ExpandableListAdapter;
 import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.TargetListAdapter;
+import com.example.myapplication.adapter2activity;
+import com.example.myapplication.models.Subject;
 import com.example.myapplication.models.Target;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
 
-public class SurveyActivity extends AppCompatActivity {
+public class SurveyActivity extends AppCompatActivity implements adapter2activity {
 
     private Button btn_survey_save;
     private TextView btn_survey_skip;
     private RecyclerView recyclerview;
     private ExpandableListAdapter expandableListAdapter;
+
+    private List<Subject> data = new ArrayList<>();
 
     // 임시
     private TargetListAdapter targetListAdapter;
@@ -114,46 +113,46 @@ public class SurveyActivity extends AppCompatActivity {
 
         recyclerview = findViewById(R.id.re_survey_subject);
         recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        List<ExpandableListAdapter.Item> data = new ArrayList<>();
+
 
         // 나중에는 DB랑 연동해서 불러오자
         // 첫번째 방법 (데이터 리스트에 모아서 data.add(place) 하는 방법 (처음부터 보이는 상태) : 정적
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, "스포츠"));
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "축구"));
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "농구"));
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "야구"));
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, "음악"));
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "K-Pop"));
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "인디밴드"));
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "힙합"));
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "등등"));
+        data.add(new Subject(Subject.HEADER, "스포츠"));
+        data.add(new Subject(Subject.CHILD, "축구"));
+        data.add(new Subject(Subject.CHILD, "농구"));
+        data.add(new Subject(Subject.CHILD, "야구"));
+        data.add(new Subject(Subject.HEADER, "음악"));
+        data.add(new Subject(Subject.CHILD, "K-Pop"));
+        data.add(new Subject(Subject.CHILD, "인디밴드"));
+        data.add(new Subject(Subject.CHILD, "힙합"));
+        data.add(new Subject(Subject.CHILD, "등등"));
 
         // 두번째 방법 바로 place에 header와 invisiblechild로 입력 (처음부터 가려진 상태)
-        ExpandableListAdapter.Item places = new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, "미술");
+        Subject places = new Subject(ExpandableListAdapter.HEADER, "미술");
         places.invisibleChildren = new ArrayList<>();
-        places.invisibleChildren.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "현대미술"));
-        places.invisibleChildren.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "고전미술"));
+        places.invisibleChildren.add(new Subject(Subject.CHILD, "현대미술"));
+        places.invisibleChildren.add(new Subject(Subject.CHILD, "고전미술"));
         data.add(places);
 
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, "Test1"));
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "Test1"));
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "Test1"));
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "Test1"));
+        data.add(new Subject(Subject.HEADER, "Test1"));
+        data.add(new Subject(Subject.CHILD, "Test1"));
+        data.add(new Subject(Subject.CHILD, "Test1"));
+        data.add(new Subject(Subject.CHILD, "Test1"));
 
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, "Test2"));
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "Test2"));
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "Test2"));
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "Test2"));
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "Test2"));
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "Test2"));
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "Test2"));
+        data.add(new Subject(Subject.HEADER, "Test2"));
+        data.add(new Subject(Subject.CHILD, "Test2"));
+        data.add(new Subject(Subject.CHILD, "Test2"));
+        data.add(new Subject(Subject.CHILD, "Test2"));
+        data.add(new Subject(Subject.CHILD, "Test2"));
+        data.add(new Subject(Subject.CHILD, "Test2"));
+        data.add(new Subject(Subject.CHILD, "Test2"));
 
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, "Test3"));
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, "Test4"));
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, "Test5"));
+        data.add(new Subject(Subject.HEADER, "Test3"));
+        data.add(new Subject(Subject.HEADER, "Test4"));
+        data.add(new Subject(Subject.HEADER, "Test5"));
 
 
-        expandableListAdapter = new ExpandableListAdapter(data);
+        expandableListAdapter = new ExpandableListAdapter(data, this);
         recyclerview.setAdapter(expandableListAdapter);
 
         btn_survey_save.setOnClickListener(new View.OnClickListener() {
@@ -218,12 +217,7 @@ public class SurveyActivity extends AppCompatActivity {
             listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
             totalHeight = listItem.getMeasuredHeight() * listAdapter.getCount();
         }
-//        for (int i = 0; i < listAdapter.getCount(); i++) {
-//            View listItem = listAdapter.getView(i, null, listView);
-//            //listItem.measure(0, 0);
-//            listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-//            totalHeight += listItem.getMeasuredHeight();
-//        }
+
         if (listAdapter.getCount() > 0) {
             totalHeight = totalHeight + listView.getPaddingTop() + listView.getPaddingBottom() * 2;
         }
@@ -232,4 +226,27 @@ public class SurveyActivity extends AppCompatActivity {
         listView.setLayoutParams(params);
         listView.requestLayout();
     }
+
+    private ArrayList<Subject> selectSubject = new ArrayList<>();
+
+    @Override
+    public void addItem(int position) {
+        selectSubject.add(data.get(position));
+        Log.d("ADDED", "addItem: " + data.get(position).text);
+        for (Subject subject : selectSubject) {
+            Log.d("Selected_List", "addItem: " + subject.text);
+        }
+    }
+
+    @Override
+    public void deleteItem(int position) {
+
+        selectSubject.remove(data.get(position));
+        Log.d("DELETED", "deleteItem: " + data.get(position).text);
+        for (Subject subject : selectSubject) {
+            Log.d("Selected_List", "deleteItem: " + subject.text);
+        }
+    }
+
+
 }
