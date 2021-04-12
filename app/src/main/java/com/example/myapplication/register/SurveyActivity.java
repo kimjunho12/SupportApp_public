@@ -134,6 +134,7 @@ public class SurveyActivity extends AppCompatActivity {
         places.invisibleChildren = new ArrayList<>();
         places.invisibleChildren.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "현대미술"));
         places.invisibleChildren.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "고전미술"));
+        data.add(places);
 
         data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, "Test1"));
         data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "Test1"));
@@ -153,7 +154,6 @@ public class SurveyActivity extends AppCompatActivity {
         data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, "Test5"));
 
 
-        data.add(places);
 
         expandableListAdapter = new ExpandableListAdapter(data);
         recyclerview.setAdapter(expandableListAdapter);
@@ -209,12 +209,17 @@ public class SurveyActivity extends AppCompatActivity {
 
         int totalHeight = 0;
         int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.AT_MOST);
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            View listItem = listAdapter.getView(i, null, listView);
-            //listItem.measure(0, 0);
+        if (listAdapter.getCount() > 0){
+            View listItem = listAdapter.getView(0, null, listView);
             listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-            totalHeight += listItem.getMeasuredHeight();
+            totalHeight = listItem.getMeasuredHeight() * listAdapter.getCount();
         }
+//        for (int i = 0; i < listAdapter.getCount(); i++) {
+//            View listItem = listAdapter.getView(i, null, listView);
+//            //listItem.measure(0, 0);
+//            listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+//            totalHeight += listItem.getMeasuredHeight();
+//        }
         if (listAdapter.getCount() > 0) {
             totalHeight = totalHeight + listView.getPaddingTop() + listView.getPaddingBottom() * 2;
         }
