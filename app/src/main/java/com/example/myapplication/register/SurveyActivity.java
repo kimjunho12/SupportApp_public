@@ -5,15 +5,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -64,6 +68,7 @@ public class SurveyActivity extends AppCompatActivity {
         targetList.add(new Target("감자"));
         targetList.add(new Target("치킨"));
         targetList.add(new Target("피자"));
+        targetList.add(new Target("가나다라마바사아자차카타파하"));
 
 
         targetListAdapter = new TargetListAdapter(this, targetList);
@@ -87,10 +92,9 @@ public class SurveyActivity extends AppCompatActivity {
                 String text = searchView.getText().toString().toLowerCase(Locale.getDefault());
                 targetListAdapter.filter(text);
                 searched_target_list.setVisibility(View.VISIBLE);
+                setListViewHeightBasedOnChildren(searched_target_list);
             }
         });
-
-
 
 
         searchView.setOnClickListener(new View.OnClickListener() {
@@ -100,12 +104,12 @@ public class SurveyActivity extends AppCompatActivity {
             }
         });
 
-        
+
         // 왜 클릭이 안돼 ㅅㅂ
         searched_target_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(SurveyActivity.this, "isClicked", Toast.LENGTH_SHORT ).show();
+                Toast.makeText(SurveyActivity.this, "isClicked", Toast.LENGTH_SHORT).show();
                 Log.d("selected_item", "onItemSelected: " + view.getTag() + " + " + i);
 
             }
@@ -115,7 +119,7 @@ public class SurveyActivity extends AppCompatActivity {
 
         btn_survey_save = findViewById(R.id.btn_survey_save);
         btn_survey_skip = findViewById(R.id.btn_survey_skip);
-        
+
         recyclerview = findViewById(R.id.re_survey_subject);
         recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         List<ExpandableListAdapter.Item> data = new ArrayList<>();
@@ -183,5 +187,46 @@ public class SurveyActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        View focusView = getCurrentFocus();
+        if (focusView != null) {
+            Rect rect = new Rect();
+            focusView.getGlobalVisibleRect(rect);
+            int x = (int) ev.getX(), y = (int) ev.getY();
+            if (!rect.contains(x, y)) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                if (imm != null)
+                    imm.hideSoftInputFromWindow(focusView.getWindowToken(), 0);
+                focusView.clearFocus();
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            // pre-condition
+            return;
+        }
+
+        int totalHeight = 0;
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.AT_MOST);
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            //listItem.measure(0, 0);
+            listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+        if (listAdapter.getCount()>0){
+            totalHeight = totalHeight + listView.getPaddingTop() + listView.getPaddingBottom()*2;
+        }
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight;
+        listView.setLayoutParams(params);
+        listView.requestLayout();
     }
 }
