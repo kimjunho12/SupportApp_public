@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
@@ -7,11 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CheckedTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.myapplication.models.Target;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -19,9 +22,14 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public static final int CHILD = 1;
 
     private List<Item> data;
+    HashMap<String, Boolean> hm = new HashMap<String, Boolean>();
 
     public ExpandableListAdapter(List<Item> data) {
         this.data = data;
+
+        for (Item check_subject : data) {
+            hm.put(check_subject.text, false);
+        }
     }
 
     @Override
@@ -38,15 +46,10 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 ListHeaderViewHolder header = new ListHeaderViewHolder(view);
                 return header;
             case CHILD:
-                CheckedTextView itemTextView = new CheckedTextView(parent.getContext());
-                itemTextView.setPadding(subItemPaddingLeft, subItemPaddingTopAndBottom, 0, subItemPaddingTopAndBottom);
-                itemTextView.setTextColor(0x88000000);
-                itemTextView.setLayoutParams(
-                        new ViewGroup.LayoutParams(
-                                ViewGroup.LayoutParams.MATCH_PARENT,
-                                ViewGroup.LayoutParams.WRAP_CONTENT));
-                return new RecyclerView.ViewHolder(itemTextView) {
-                };
+                LayoutInflater child_inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                view = child_inflater.inflate(R.layout.search_target_listview, parent, false);
+                ListChildViewHolder child = new ListChildViewHolder(view);
+                return child;
         }
         return null;
     }
@@ -89,10 +92,70 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                         }
                     }
                 });
+                itemController.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (item.invisibleChildren == null) {
+                            item.invisibleChildren = new ArrayList<Item>();
+                            int count = 0;
+                            int pos = data.indexOf(itemController.refferalItem);
+                            while (data.size() > pos + 1 && data.get(pos + 1).type == CHILD) {
+                                item.invisibleChildren.add(data.remove(pos + 1));
+                                count++;
+                            }
+                            notifyItemRangeRemoved(pos + 1, count);
+                            itemController.btn_expand_toggle.setImageResource(R.drawable.circle_plus);
+                        } else {
+                            int pos = data.indexOf(itemController.refferalItem);
+                            int index = pos + 1;
+                            for (Item i : item.invisibleChildren) {
+                                data.add(index, i);
+                                index++;
+                            }
+                            notifyItemRangeInserted(pos + 1, index - pos - 1);
+                            itemController.btn_expand_toggle.setImageResource(R.drawable.circle_minus);
+                            item.invisibleChildren = null;
+                        }
+                    }
+                });
                 break;
             case CHILD:
-                CheckedTextView itemTextView = (CheckedTextView) holder.itemView;
-                itemTextView.setText(data.get(position).text);
+                final ListChildViewHolder childController = (ListChildViewHolder) holder;
+                childController.child_title.setText(data.get(position).text);
+
+                if (hm.get(item.text) == null) {
+                    hm.put(item.text, false);
+                }
+                if (hm.get(item.text)) {
+                    childController.child_cb.setChecked(true);
+                } else {
+                    childController.child_cb.setChecked(false);
+                }
+
+                childController.child_cb.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        CheckBox checkBox = (CheckBox) view.findViewById(R.id.picked_target);
+                        if (checkBox.isChecked()) {
+                            checkBox.setChecked(true);
+                        } else {
+                            checkBox.setChecked(false);
+                        }
+                        hm.put(item.text, checkBox.isChecked());
+                    }
+                });
+                childController.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View arg0) {
+                        CheckBox checkBox = (CheckBox) arg0.findViewById(R.id.picked_target);
+                        if (checkBox.isChecked()) {
+                            checkBox.setChecked(false);
+                        } else {
+                            checkBox.setChecked(true);
+                        }
+                        hm.put(item.text, checkBox.isChecked());
+                    }
+                });
                 break;
         }
     }
@@ -101,7 +164,6 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public int getItemViewType(int position) {
         return data.get(position).type;
     }
-
 
     @Override
     public int getItemCount() {
@@ -117,6 +179,19 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             super(itemView);
             header_title = (TextView) itemView.findViewById(R.id.header_title);
             btn_expand_toggle = (ImageView) itemView.findViewById(R.id.btn_expand_toggle);
+        }
+    }
+
+    private static class ListChildViewHolder extends RecyclerView.ViewHolder {
+        public TextView child_title;
+        public ImageView child_img;
+        public CheckBox child_cb;
+
+        public ListChildViewHolder(View childView) {
+            super(childView);
+            child_title = childView.findViewById(R.id.tv_name);
+            child_img = childView.findViewById(R.id.iv_icon);
+            child_cb = childView.findViewById(R.id.picked_target);
         }
     }
 

@@ -29,16 +29,21 @@ import com.example.myapplication.TargetListAdapter;
 import com.example.myapplication.models.Target;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 public class SurveyActivity extends AppCompatActivity {
 
     private Button btn_survey_save;
     private TextView btn_survey_skip;
     private RecyclerView recyclerview;
+    private ExpandableListAdapter expandableListAdapter;
 
     // 임시
+    private List<Target> selected;
     private TargetListAdapter targetListAdapter;
     private ListView searched_target_list;
     private EditText searchView;
@@ -90,7 +95,7 @@ public class SurveyActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 String text = searchView.getText().toString().toLowerCase(Locale.getDefault());
-                targetListAdapter.filter(text);
+                selected = targetListAdapter.filter(text);
                 searched_target_list.setVisibility(View.VISIBLE);
                 setListViewHeightBasedOnChildren(searched_target_list);
             }
@@ -103,18 +108,6 @@ public class SurveyActivity extends AppCompatActivity {
                 searchView.setText(null);
             }
         });
-
-
-        // 왜 클릭이 안돼 ㅅㅂ
-        searched_target_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(SurveyActivity.this, "isClicked", Toast.LENGTH_SHORT).show();
-                Log.d("selected_item", "onItemSelected: " + view.getTag() + " + " + i);
-
-            }
-        });
-
         // end 임시
 
         btn_survey_save = findViewById(R.id.btn_survey_save);
@@ -162,7 +155,8 @@ public class SurveyActivity extends AppCompatActivity {
 
         data.add(places);
 
-        recyclerview.setAdapter(new ExpandableListAdapter(data));
+        expandableListAdapter = new ExpandableListAdapter(data);
+        recyclerview.setAdapter(expandableListAdapter);
 
 
         btn_survey_save.setOnClickListener(new View.OnClickListener() {
@@ -221,12 +215,22 @@ public class SurveyActivity extends AppCompatActivity {
             listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
             totalHeight += listItem.getMeasuredHeight();
         }
-        if (listAdapter.getCount()>0) {
+        if (listAdapter.getCount() > 0) {
             totalHeight = totalHeight + listView.getPaddingTop() + listView.getPaddingBottom() * 2;
         }
         ViewGroup.LayoutParams params = listView.getLayoutParams();
         params.height = totalHeight;
         listView.setLayoutParams(params);
         listView.requestLayout();
+    }
+
+    @Override
+    public void finish() {
+        for (Target a : selected) {
+            Log.d("Finally Selected", "finish: " + a.name);
+        }
+
+
+        super.finish();
     }
 }

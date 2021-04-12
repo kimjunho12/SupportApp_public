@@ -34,7 +34,7 @@ public class TargetListAdapter extends BaseAdapter {
         this.arrayList = new ArrayList<Target>();
         this.arrayList.addAll(targetList);
 
-        for (Target check_target : arrayList){
+        for (Target check_target : arrayList) {
             // 나중에는 Key값으로 넣어줘
             hm.put(check_target.name, false);
             Log.d("hashMap", String.valueOf(hm.get(check_target.name)));
@@ -82,10 +82,9 @@ public class TargetListAdapter extends BaseAdapter {
         holder.tv_name.setText(target.name);
 
         // name으로 hashmap 검색 나중에는 Key값으로 찾아라
-        if (hm.get(target.name)){
+        if (hm.get(target.name)) {
             holder.cb_target.setChecked(true);
-        }
-        else{
+        } else {
             holder.cb_target.setChecked(false);
         }
         Log.d("hashMap_is_changed", String.valueOf(target.name + hm.get(target.name)));
@@ -100,7 +99,7 @@ public class TargetListAdapter extends BaseAdapter {
                 CheckBox checkBox = (CheckBox) view.findViewById(R.id.picked_target);
                 if (checkBox.isChecked()) {
                     checkBox.setChecked(true);
-                }else{
+                } else {
                     checkBox.setChecked(false);
                 }
                 hm.put(target.name, checkBox.isChecked());
@@ -115,7 +114,7 @@ public class TargetListAdapter extends BaseAdapter {
                 CheckBox checkBox = (CheckBox) arg0.findViewById(R.id.picked_target);
                 if (checkBox.isChecked()) {
                     checkBox.setChecked(false);
-                }else{
+                } else {
                     checkBox.setChecked(true);
                 }
                 hm.put(target.name, checkBox.isChecked());
@@ -132,15 +131,16 @@ public class TargetListAdapter extends BaseAdapter {
     }
 
     // Filter Class
-    public void filter(String charText) {
+    public List<Target> filter(String charText) {
         charText = charText.toLowerCase(Locale.getDefault());
         targetList.clear();
         if (charText.length() == 0) {
-            for (Target target : arrayList){
-                if (hm.get(target.name)){
+            for (Target target : arrayList) {
+                if (hm.get(target.name)) {
                     targetList.add(target);
                 }
             }
+            return targetList;
         } else {
             for (Target target : arrayList) {
                 String name = target.name;
@@ -150,5 +150,6 @@ public class TargetListAdapter extends BaseAdapter {
             }
         }
         notifyDataSetChanged();
+        return targetList;
     }
 }
