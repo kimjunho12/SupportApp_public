@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.ActionBar;
@@ -33,6 +34,14 @@ public class profileActivity extends AppCompatActivity {
         profileActivityAdapter = new profileActivity_adapter(list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(profileActivityAdapter);
+        Button btn = findViewById(R.id.button2);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(profileActivity.this, BoardListActivity.class);
+                startActivity(intent);
+            }
+        });
     }
     public void profile_support_button(View view) {
         intent = new Intent(this, support_popupActivity.class);

@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
+        <activity android:name=".BoardListActivity"></activity>
         <activity android:name=".register.sns.TempSnsActivity" />
         <activity android:name=".register.SurveyActivity" />
         <activity android:name=".register.RegisterActivity" />
@@ -21,9 +22,11 @@
         </activity>
         <activity android:name=".register.UserDetailsActivity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".newsActivity"/>
-        <activity android:name=".profileActivity"/>
-        <activity android:name=".support_popupActivity" android:theme="@style/Theme.AppCompat.Dialog"/>
+        <activity android:name=".newsActivity" />
+        <activity android:name=".profileActivity" />
+        <activity
+            android:name=".support_popupActivity"
+            android:theme="@style/Theme.AppCompat.Dialog" />
     </application>
 
 </manifest>

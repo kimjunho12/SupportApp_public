@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -71,7 +70,7 @@ public class TargetListAdapter extends BaseAdapter {
 
 
         if (view == null) {
-            view = inflater.inflate(R.layout.search_target_listview, null);
+            view = inflater.inflate(R.layout.target_list_item, null);
             holder = new ViewHolder();
             holder.tv_name = (TextView) view.findViewById(R.id.tv_name);
             holder.iv_icon = (ImageView) view.findViewById(R.id.iv_icon);
