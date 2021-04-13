@@ -41,6 +41,7 @@ public class SurveyActivity extends AppCompatActivity implements adapter2activit
     private ExpandableListAdapter expandableListAdapter;
 
     private List<Subject> data = new ArrayList<>();
+    private ArrayList<Target> targetList = new ArrayList<Target>();
 
     // 임시
     private TargetListAdapter targetListAdapter;
@@ -56,7 +57,6 @@ public class SurveyActivity extends AppCompatActivity implements adapter2activit
 
         // 임시
 
-        ArrayList<Target> targetList = new ArrayList<Target>();
         targetList.add(new Target("김준호"));
         targetList.add(new Target("안부지"));
         targetList.add(new Target("성기준"));
@@ -75,7 +75,7 @@ public class SurveyActivity extends AppCompatActivity implements adapter2activit
         targetList.add(new Target("가나다라마바사아자차카타파하"));
 
 
-        targetListAdapter = new TargetListAdapter(this, targetList);
+        targetListAdapter = new TargetListAdapter(this, targetList, this);
         searched_target_list = findViewById(R.id.searched_target_list);
         searched_target_list.setAdapter(targetListAdapter);
         searchView = findViewById(R.id.search_target);
@@ -159,17 +159,16 @@ public class SurveyActivity extends AppCompatActivity implements adapter2activit
             @Override
             public void onClick(View v) {
                 searchView.setText(null);
-                for (int i = 0; i < targetListAdapter.getCount(); i++) {
-                    View listItem = targetListAdapter.getView(i, null, searched_target_list);
-                    Log.d("Activity_Searched_List", "onClick: " + ((TextView) listItem.findViewById(R.id.tv_name)).getText() + " is_Checked ? : " + ((CheckBox) listItem.findViewById(R.id.picked_target)).isChecked());
-                }
+
                 String result = "";
-                for (Subject subject : selectSubject){
-                    result += subject.text + ",";
+                for (Target target : selectTarget) {
+                    result += target.name + ", ";
+                }
+
+                for (Subject subject : selectSubject) {
+                    result += subject.text + ", ";
                 }
                 Log.d("Selected_Subject", "onClick: " + result);
-//                for (int i = 0; i < expandableListAdapter.getItemCount(); i++){
-//                }
 
                 Intent intent = new Intent(SurveyActivity.this, MainActivity.class);
                 startActivity(intent);
@@ -233,25 +232,23 @@ public class SurveyActivity extends AppCompatActivity implements adapter2activit
     }
 
     private ArrayList<Subject> selectSubject = new ArrayList<>();
+    private ArrayList<Target> selectTarget = new ArrayList<>();
 
     @Override
-    public void addItem(int position) {
-        selectSubject.add(data.get(position));
-        Log.d("ADDED", "addItem: " + data.get(position).text);
-        for (Subject subject : selectSubject) {
-            Log.d("Selected_List", "addItem: " + subject.text);
+    public void addItem(int type, int position) {
+        if (type == 1) {
+            selectSubject.add(data.get(position));
+        } else {
+            selectTarget.add(targetList.get(position));
         }
     }
 
     @Override
-    public void deleteItem(int position) {
-
-        selectSubject.remove(data.get(position));
-        Log.d("DELETED", "deleteItem: " + data.get(position).text);
-        for (Subject subject : selectSubject) {
-            Log.d("Selected_List", "deleteItem: " + subject.text);
+    public void deleteItem(int type, int position) {
+        if (type == 1) {
+            selectSubject.remove(data.get(position));
+        } else {
+            selectTarget.remove(targetList.get(position));
         }
     }
-
-
 }

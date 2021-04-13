@@ -139,10 +139,10 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                         CheckBox checkBox = (CheckBox) view.findViewById(R.id.picked_target);
                         if (checkBox.isChecked()) {
                             checkBox.setChecked(true);
-                            a2a.addItem(position);
+                            a2a.addItem(1,position);
                         } else {
                             checkBox.setChecked(false);
-                            a2a.deleteItem(position);
+                            a2a.deleteItem(1,position);
                         }
                         hm.put(subject.text, checkBox.isChecked());
                     }
@@ -153,10 +153,10 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                         CheckBox checkBox = (CheckBox) arg0.findViewById(R.id.picked_target);
                         if (checkBox.isChecked()) {
                             checkBox.setChecked(false);
-                            a2a.deleteItem(position);
+                            a2a.deleteItem(1,position);
                         } else {
                             checkBox.setChecked(true);
-                            a2a.addItem(position);
+                            a2a.addItem(1,position);
                         }
                         hm.put(subject.text, checkBox.isChecked());
                     }
@@ -199,14 +199,4 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             child_cb = childView.findViewById(R.id.picked_target);
         }
     }
-//
-//
-//    public interface OnTest {
-//
-//        //item 추가 함수
-//        void addItem(int position);
-//
-//        //item 삭제 함수
-//        void deleteItem(int position);
-//    }
 }

@@ -20,6 +20,7 @@ import java.util.Locale;
 
 public class TargetListAdapter extends BaseAdapter {
 
+    private adapter2activity a2a;
     HashMap<String, Boolean> hm = new HashMap<String, Boolean>();
     // Declare Variables
     Context context;
@@ -27,8 +28,9 @@ public class TargetListAdapter extends BaseAdapter {
     private List<Target> targetList = null;
     private ArrayList<Target> arrayList;
 
-    public TargetListAdapter(Context context, List<Target> targetList) {
+    public TargetListAdapter(Context context, List<Target> targetList, adapter2activity a2a) {
         this.context = context;
+        this.a2a = a2a;
         this.targetList = targetList;
         this.inflater = LayoutInflater.from(context);
         this.arrayList = new ArrayList<Target>();
@@ -99,8 +101,10 @@ public class TargetListAdapter extends BaseAdapter {
                 CheckBox checkBox = (CheckBox) view.findViewById(R.id.picked_target);
                 if (checkBox.isChecked()) {
                     checkBox.setChecked(true);
+                    a2a.addItem(0, position);
                 } else {
                     checkBox.setChecked(false);
+                    a2a.deleteItem(0, position);
                 }
                 hm.put(target.name, checkBox.isChecked());
                 Log.d("hashMap_after", String.valueOf(target.name + hm.get(target.name)));
@@ -114,8 +118,10 @@ public class TargetListAdapter extends BaseAdapter {
                 CheckBox checkBox = (CheckBox) arg0.findViewById(R.id.picked_target);
                 if (checkBox.isChecked()) {
                     checkBox.setChecked(false);
+                    a2a.deleteItem(0, position);
                 } else {
                     checkBox.setChecked(true);
+                    a2a.addItem(0, position);
                 }
                 hm.put(target.name, checkBox.isChecked());
                 Log.d("hashMap_after", String.valueOf(target.name + hm.get(target.name)));
