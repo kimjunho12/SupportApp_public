@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -20,6 +19,7 @@ import java.util.Locale;
 
 public class TargetListAdapter extends BaseAdapter {
 
+    private adapter2activity a2a;
     HashMap<String, Boolean> hm = new HashMap<String, Boolean>();
     // Declare Variables
     Context context;
@@ -27,14 +27,15 @@ public class TargetListAdapter extends BaseAdapter {
     private List<Target> targetList = null;
     private ArrayList<Target> arrayList;
 
-    public TargetListAdapter(Context context, List<Target> targetList) {
+    public TargetListAdapter(Context context, List<Target> targetList, adapter2activity a2a) {
         this.context = context;
+        this.a2a = a2a;
         this.targetList = targetList;
         this.inflater = LayoutInflater.from(context);
         this.arrayList = new ArrayList<Target>();
         this.arrayList.addAll(targetList);
 
-        for (Target check_target : arrayList){
+        for (Target check_target : arrayList) {
             // 나중에는 Key값으로 넣어줘
             hm.put(check_target.name, false);
             Log.d("hashMap", String.valueOf(hm.get(check_target.name)));
@@ -69,7 +70,7 @@ public class TargetListAdapter extends BaseAdapter {
 
 
         if (view == null) {
-            view = inflater.inflate(R.layout.search_target_listview, null);
+            view = inflater.inflate(R.layout.target_list_item, null);
             holder = new ViewHolder();
             holder.tv_name = (TextView) view.findViewById(R.id.tv_name);
             holder.iv_icon = (ImageView) view.findViewById(R.id.iv_icon);
@@ -82,10 +83,9 @@ public class TargetListAdapter extends BaseAdapter {
         holder.tv_name.setText(target.name);
 
         // name으로 hashmap 검색 나중에는 Key값으로 찾아라
-        if (hm.get(target.name)){
+        if (hm.get(target.name)) {
             holder.cb_target.setChecked(true);
-        }
-        else{
+        } else {
             holder.cb_target.setChecked(false);
         }
         Log.d("hashMap_is_changed", String.valueOf(target.name + hm.get(target.name)));
@@ -100,8 +100,10 @@ public class TargetListAdapter extends BaseAdapter {
                 CheckBox checkBox = (CheckBox) view.findViewById(R.id.picked_target);
                 if (checkBox.isChecked()) {
                     checkBox.setChecked(true);
-                }else{
+                    a2a.addItem(0, position);
+                } else {
                     checkBox.setChecked(false);
+                    a2a.deleteItem(0, position);
                 }
                 hm.put(target.name, checkBox.isChecked());
                 Log.d("hashMap_after", String.valueOf(target.name + hm.get(target.name)));
@@ -115,8 +117,10 @@ public class TargetListAdapter extends BaseAdapter {
                 CheckBox checkBox = (CheckBox) arg0.findViewById(R.id.picked_target);
                 if (checkBox.isChecked()) {
                     checkBox.setChecked(false);
-                }else{
+                    a2a.deleteItem(0, position);
+                } else {
                     checkBox.setChecked(true);
+                    a2a.addItem(0, position);
                 }
                 hm.put(target.name, checkBox.isChecked());
                 Log.d("hashMap_after", String.valueOf(target.name + hm.get(target.name)));
@@ -136,8 +140,8 @@ public class TargetListAdapter extends BaseAdapter {
         charText = charText.toLowerCase(Locale.getDefault());
         targetList.clear();
         if (charText.length() == 0) {
-            for (Target target : arrayList){
-                if (hm.get(target.name)){
+            for (Target target : arrayList) {
+                if (hm.get(target.name)) {
                     targetList.add(target);
                 }
             }

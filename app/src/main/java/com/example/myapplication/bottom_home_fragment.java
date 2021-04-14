@@ -42,7 +42,7 @@ public class bottom_home_fragment extends Fragment {
         //recyclerview
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler);// 리사이클러뷰 id
         list = bottom_home_data.createContactList(5);
-       // recyclerView.setHasFixedSize(true);
+        // recyclerView.setHasFixedSize(true);
         bottom_home_adapter = new bottom_home_adapter(getActivity(), list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(bottom_home_adapter);

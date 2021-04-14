@@ -5,34 +5,43 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.myapplication.ExpandableListAdapter;
 import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.TargetListAdapter;
+import com.example.myapplication.adapter2activity;
+import com.example.myapplication.models.Subject;
 import com.example.myapplication.models.Target;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class SurveyActivity extends AppCompatActivity {
+public class SurveyActivity extends AppCompatActivity implements adapter2activity {
 
     private Button btn_survey_save;
     private TextView btn_survey_skip;
     private RecyclerView recyclerview;
+    private ExpandableListAdapter expandableListAdapter;
+
+    private List<Subject> data = new ArrayList<>();
+    private ArrayList<Target> targetList = new ArrayList<Target>();
 
     // 임시
     private TargetListAdapter targetListAdapter;
@@ -48,7 +57,6 @@ public class SurveyActivity extends AppCompatActivity {
 
         // 임시
 
-        ArrayList<Target> targetList = new ArrayList<Target>();
         targetList.add(new Target("김준호"));
         targetList.add(new Target("안부지"));
         targetList.add(new Target("성기준"));
@@ -64,9 +72,10 @@ public class SurveyActivity extends AppCompatActivity {
         targetList.add(new Target("감자"));
         targetList.add(new Target("치킨"));
         targetList.add(new Target("피자"));
+        targetList.add(new Target("가나다라마바사아자차카타파하"));
 
 
-        targetListAdapter = new TargetListAdapter(this, targetList);
+        targetListAdapter = new TargetListAdapter(this, targetList, this);
         searched_target_list = findViewById(R.id.searched_target_list);
         searched_target_list.setAdapter(targetListAdapter);
         searchView = findViewById(R.id.search_target);
@@ -87,11 +96,9 @@ public class SurveyActivity extends AppCompatActivity {
                 String text = searchView.getText().toString().toLowerCase(Locale.getDefault());
                 targetListAdapter.filter(text);
                 searched_target_list.setVisibility(View.VISIBLE);
+                setListViewHeightBasedOnChildren(searched_target_list);
             }
         });
-
-
-
 
         searchView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,71 +106,69 @@ public class SurveyActivity extends AppCompatActivity {
                 searchView.setText(null);
             }
         });
-
-        
-        // 왜 클릭이 안돼 ㅅㅂ
-        searched_target_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(SurveyActivity.this, "isClicked", Toast.LENGTH_SHORT ).show();
-                Log.d("selected_item", "onItemSelected: " + view.getTag() + " + " + i);
-
-            }
-        });
-
         // end 임시
 
         btn_survey_save = findViewById(R.id.btn_survey_save);
         btn_survey_skip = findViewById(R.id.btn_survey_skip);
-        
+
         recyclerview = findViewById(R.id.re_survey_subject);
         recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        List<ExpandableListAdapter.Item> data = new ArrayList<>();
+
 
         // 나중에는 DB랑 연동해서 불러오자
         // 첫번째 방법 (데이터 리스트에 모아서 data.add(place) 하는 방법 (처음부터 보이는 상태) : 정적
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, "스포츠"));
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "축구"));
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "농구"));
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "야구"));
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, "음악"));
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "K-Pop"));
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "인디밴드"));
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "힙합"));
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "등등"));
+        data.add(new Subject(Subject.HEADER, "스포츠"));
+        data.add(new Subject(Subject.CHILD, "축구"));
+        data.add(new Subject(Subject.CHILD, "농구"));
+        data.add(new Subject(Subject.CHILD, "야구"));
+        data.add(new Subject(Subject.HEADER, "음악"));
+        data.add(new Subject(Subject.CHILD, "K-Pop"));
+        data.add(new Subject(Subject.CHILD, "인디밴드"));
+        data.add(new Subject(Subject.CHILD, "힙합"));
+        data.add(new Subject(Subject.CHILD, "등등"));
 
         // 두번째 방법 바로 place에 header와 invisiblechild로 입력 (처음부터 가려진 상태)
-        ExpandableListAdapter.Item places = new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, "미술");
+        Subject places = new Subject(ExpandableListAdapter.HEADER, "미술");
         places.invisibleChildren = new ArrayList<>();
-        places.invisibleChildren.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "현대미술"));
-        places.invisibleChildren.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "고전미술"));
-
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, "Test1"));
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "Test1"));
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "Test1"));
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "Test1"));
-
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, "Test2"));
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "Test2"));
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "Test2"));
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "Test2"));
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "Test2"));
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "Test2"));
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "Test2"));
-
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, "Test3"));
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, "Test4"));
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, "Test5"));
-
-
+        places.invisibleChildren.add(new Subject(Subject.CHILD, "현대미술"));
+        places.invisibleChildren.add(new Subject(Subject.CHILD, "고전미술"));
         data.add(places);
 
-        recyclerview.setAdapter(new ExpandableListAdapter(data));
+        data.add(new Subject(Subject.HEADER, "Test1"));
+        data.add(new Subject(Subject.CHILD, "Test1"));
+        data.add(new Subject(Subject.CHILD, "Test1"));
+        data.add(new Subject(Subject.CHILD, "Test1"));
 
+        data.add(new Subject(Subject.HEADER, "Test2"));
+        data.add(new Subject(Subject.CHILD, "Test2"));
+        data.add(new Subject(Subject.CHILD, "Test2"));
+        data.add(new Subject(Subject.CHILD, "Test2"));
+        data.add(new Subject(Subject.CHILD, "Test2"));
+        data.add(new Subject(Subject.CHILD, "Test2"));
+        data.add(new Subject(Subject.CHILD, "Test2"));
+
+        data.add(new Subject(Subject.HEADER, "Test3"));
+        data.add(new Subject(Subject.HEADER, "Test4"));
+        data.add(new Subject(Subject.HEADER, "Test5"));
+
+
+        expandableListAdapter = new ExpandableListAdapter(data, this);
+        recyclerview.setAdapter(expandableListAdapter);
 
         btn_survey_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                searchView.setText(null);
+
+                String result = "";
+                for (Target target : selectTarget) {
+                    result += target.name + ", ";
+                }
+
+                for (Subject subject : selectSubject) {
+                    result += subject.text + ", ";
+                }
+                Log.d("Selected_Subject", "onClick: " + result);
 
                 Intent intent = new Intent(SurveyActivity.this, MainActivity.class);
                 startActivity(intent);
@@ -183,5 +188,67 @@ public class SurveyActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        View focusView = getCurrentFocus();
+        if (focusView != null) {
+            Rect rect = new Rect();
+            focusView.getGlobalVisibleRect(rect);
+            int x = (int) ev.getX(), y = (int) ev.getY();
+            if (!rect.contains(x, y)) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                if (imm != null)
+                    imm.hideSoftInputFromWindow(focusView.getWindowToken(), 0);
+                focusView.clearFocus();
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            // pre-condition
+            return;
+        }
+
+        int totalHeight = 0;
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.AT_MOST);
+        if (listAdapter.getCount() > 0) {
+            View listItem = listAdapter.getView(0, null, listView);
+            listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+            totalHeight = listItem.getMeasuredHeight() * listAdapter.getCount();
+        }
+
+        if (listAdapter.getCount() > 0) {
+            totalHeight = totalHeight + listView.getPaddingTop() + listView.getPaddingBottom() * 2;
+        }
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight;
+        listView.setLayoutParams(params);
+        listView.requestLayout();
+    }
+
+    private ArrayList<Subject> selectSubject = new ArrayList<>();
+    private ArrayList<Target> selectTarget = new ArrayList<>();
+
+    @Override
+    public void addItem(int type, int position) {
+        if (type == 1) {
+            selectSubject.add(data.get(position));
+        } else {
+            selectTarget.add(targetList.get(position));
+        }
+    }
+
+    @Override
+    public void deleteItem(int type, int position) {
+        if (type == 1) {
+            selectSubject.remove(data.get(position));
+        } else {
+            selectTarget.remove(targetList.get(position));
+        }
     }
 }
