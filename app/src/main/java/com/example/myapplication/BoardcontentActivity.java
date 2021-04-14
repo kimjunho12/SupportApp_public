@@ -25,15 +25,17 @@ public class BoardcontentActivity extends AppCompatActivity {
 
         //recyclerView
         recyclerView = (RecyclerView)findViewById(R.id.board_recycle);
-        boardcontent_adapter = new Boardcontent_adapter(arrayList);
         arrayList = new ArrayList<>();
 
-        Boardcontent_data boardcontent_data = new Boardcontent_data("댓글이 없습니다", "댓글이 없습니다");
-        arrayList.add(boardcontent_data);
+//        Boardcontent_data boardcontent_data = new Boardcontent_data("댓글이 없습니다", "댓글이 없습니다");
+//        arrayList.add(boardcontent_data);
 
 
+        boardcontent_adapter = new Boardcontent_adapter(arrayList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(boardcontent_adapter);
+
+
         Button btn_board = findViewById(R.id.btn_board);
         btn_board.setOnClickListener(new View.OnClickListener() {
             @Override
