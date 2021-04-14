@@ -69,19 +69,11 @@ public class BoardListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         
         boardholder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                // Board 이동
-//                Intent intent = new Intent(v.getContext(), );
-                
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), BoardcontentActivity.class);
+                view.getContext().startActivity(intent);
             }
         });
-
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//            }
-//        });
     }
 
     @Override

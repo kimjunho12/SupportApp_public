@@ -48,10 +48,10 @@ public class BoardListActivity extends AppCompatActivity {
         btn_create_post = findViewById(R.id.btn_create_post);
         btn_create_post.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 // 새글쓰기로 이동
-//                Intent intent = new Intent(BoardListActivity.this, );
-//                startActivity(intent);
+                Intent intent = new Intent(BoardListActivity.this, BoardwriteActivity.class);
+                startActivity(intent);
             }
         });
 

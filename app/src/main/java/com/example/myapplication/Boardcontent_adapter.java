@@ -15,14 +15,14 @@ public class Boardcontent_adapter extends RecyclerView.Adapter<Boardcontent_adap
 
     private ArrayList<Boardcontent_recyclerview> arrayList;
 
-    public Boardcontent_adapter(ArrayList<bottom_home_data> list) {
+    public Boardcontent_adapter(ArrayList<Boardcontent_recyclerview> list) {
         this.arrayList = arrayList;
     }
 
     @NonNull
     @Override
     public Boardcontent_adapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.acitivity_board_recycle, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.acitivity_board_content_recycle, parent, false);
         ViewHolder holder = new ViewHolder(view);
 
         return holder;

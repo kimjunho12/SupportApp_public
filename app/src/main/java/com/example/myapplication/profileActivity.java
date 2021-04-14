@@ -43,6 +43,7 @@ public class profileActivity extends AppCompatActivity {
             }
         });
     }
+
     public void profile_support_button(View view) {
         intent = new Intent(this, support_popupActivity.class);
         startActivity(intent);

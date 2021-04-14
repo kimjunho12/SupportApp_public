@@ -13,6 +13,7 @@ public class bottom_home_viewpager_adapter extends FragmentPagerAdapter {
     public bottom_home_viewpager_adapter(@NonNull FragmentManager fm) {
         super(fm);
     }
+
     public void addItem(Fragment item) {
         items.add(item);
     }
