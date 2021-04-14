@@ -1,6 +1,5 @@
-package com.example.myapplication.register;
+package com.example.myapplication;
 
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,23 +9,19 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myapplication.R;
-import com.example.myapplication.bottom_home_data;
-import com.example.myapplication.newsActivity;
-
 import java.util.ArrayList;
 
-public class boardrecycle_adapter extends RecyclerView.Adapter<boardrecycle_adapter.ViewHolder> {
+public class Boardcontent_adapter extends RecyclerView.Adapter<Boardcontent_adapter.ViewHolder> {
 
-    private ArrayList<board_recyclerview> arrayList;
+    private ArrayList<Boardcontent_recyclerview> arrayList;
 
-    public boardrecycle_adapter(ArrayList<bottom_home_data> list) {
+    public Boardcontent_adapter(ArrayList<bottom_home_data> list) {
         this.arrayList = arrayList;
     }
 
     @NonNull
     @Override
-    public boardrecycle_adapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public Boardcontent_adapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.acitivity_board_recycle, parent, false);
         ViewHolder holder = new ViewHolder(view);
 
@@ -34,7 +29,7 @@ public class boardrecycle_adapter extends RecyclerView.Adapter<boardrecycle_adap
     }
 
     @Override
-    public void onBindViewHolder(@NonNull boardrecycle_adapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull Boardcontent_adapter.ViewHolder holder, int position) {
         holder.retext.setText(arrayList.get(position).getRetext());
         holder.retext1.setText(arrayList.get(position).getRetext1());
 

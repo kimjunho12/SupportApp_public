@@ -1,10 +1,10 @@
-package com.example.myapplication.register;
+package com.example.myapplication;
 
-public class board_recyclerview {
+public class Boardcontent_recyclerview {
     private String retext;
     private String retext1;
 
-    public board_recyclerview(String retext, String retext1) {
+    public Boardcontent_recyclerview(String retext, String retext1) {
         this.retext = retext;
         this.retext1 = retext1;
     }
