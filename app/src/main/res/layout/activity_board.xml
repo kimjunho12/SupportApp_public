@@ -31,52 +31,49 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageButton
-        android:id="@+id/profile_top_back"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:background="#00FFFFFF"
-        android:scaleType="centerCrop"
-        app:layout_constraintBottom_toTopOf="@+id/profile_top"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="?attr/actionModeCloseDrawable" />
-
     <EditText
         android:id="@+id/editText"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
-        android:hint="제목을 입력하세요."
+        android:hint="제목"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_top" />
-
     <EditText
         android:id="@+id/editText2"
         android:layout_width="350dp"
-        android:layout_height="450dp"
+        android:layout_height="300dp"
         android:layout_marginTop="64dp"
         android:gravity="top"
-        android:hint="내용을 입력하세요."
+        android:hint="내용"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/bottom"
+        app:layout_constraintTop_toBottomOf="@+id/editText2"
+        tools:ignore="MissingConstraints,UnknownId">
 
-        <Button
-        android:id="@+id/button4"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/board_recycle"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            tools:ignore="MissingConstraints"></androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_board"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginLeft="36dp"
+        tools:ignore="MissingConstraints"
         android:text="등록"
-        app:layout_constraintBottom_toTopOf="@+id/editText2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText" />
-
+        tools:layout_editor_absoluteX="300dp"
+        tools:layout_editor_absoluteY="650dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
+
