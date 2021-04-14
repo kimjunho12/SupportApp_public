@@ -7,14 +7,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.myapplication.models.Boardcontent_data;
+
 import java.util.ArrayList;
 
 public class BoardcontentActivity extends AppCompatActivity {
 
     private View view;
     private RecyclerView recyclerView;
-    private ArrayList<Boardcontent_recyclerview> arrayList;
-    private Boardcontent_recyclerview boardcontentRecyclerview;
+    private ArrayList<Boardcontent_data> arrayList;
+    private Boardcontent_data boardcontentRecyclerview;
     private Boardcontent_adapter boardcontent_adapter;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,17 +27,23 @@ public class BoardcontentActivity extends AppCompatActivity {
         recyclerView = (RecyclerView)findViewById(R.id.board_recycle);
         boardcontent_adapter = new Boardcontent_adapter(arrayList);
         arrayList = new ArrayList<>();
+
+        Boardcontent_data boardcontent_data = new Boardcontent_data("댓글이 없습니다", "댓글이 없습니다");
+        arrayList.add(boardcontent_data);
+
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(boardcontent_adapter);
-        //버튼
         Button btn_board = findViewById(R.id.btn_board);
         btn_board.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Boardcontent_recyclerview board_recyclerview = new Boardcontent_recyclerview("댓글", "댓글1");
-                arrayList.add(board_recyclerview);
+            public void onClick(View view) {
+                Boardcontent_data boardcontent_data = new Boardcontent_data("댓글", "댓글1");
+                arrayList.add(boardcontent_data);
                 boardcontent_adapter.notifyDataSetChanged();
             }
         });
+
+
     }
 }

@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplication.models.bottom_event_news_model;
+
 import java.util.ArrayList;
 import java.util.List;
 

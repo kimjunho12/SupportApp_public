@@ -1,5 +1,7 @@
-package com.example.myapplication;
+package com.example.myapplication.models;
 
+
+import com.example.myapplication.R;
 
 import java.util.ArrayList;
 

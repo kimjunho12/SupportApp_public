@@ -11,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplication.models.bottom_home_data;
+
 import java.util.ArrayList;
 import java.util.List;
 

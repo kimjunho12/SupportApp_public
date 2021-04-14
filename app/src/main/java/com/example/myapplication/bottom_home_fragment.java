@@ -14,7 +14,8 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import androidx.viewpager.widget.ViewPager;
-import androidx.viewpager2.widget.ViewPager2;
+
+import com.example.myapplication.models.bottom_home_data;
 
 public class bottom_home_fragment extends Fragment {
     private View view;
