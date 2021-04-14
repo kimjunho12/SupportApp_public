@@ -59,12 +59,13 @@
             app:layout_constraintTop_toBottomOf="@+id/divider">
 
             <TextView
-                android:id="@+id/tv_bordlist_type"
+                android:id="@+id/tv_boardlist_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="구분" />
+                android:text="구분"
+                android:textSize="24sp" />
 
             <View
                 android:id="@+id/divider2"
@@ -79,7 +80,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="10"
                 android:gravity="center"
-                android:text="제목" />
+                android:text="제목"
+                android:textSize="24sp" />
 
             <View
                 android:id="@+id/divider3"
@@ -94,7 +96,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="작성자" />
+                android:text="작성자"
+                android:textSize="24sp" />
 
             <View
                 android:id="@+id/divider4"
@@ -109,7 +112,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:gravity="center"
-                android:text="작성일" />
+                android:text="작성일"
+                android:textSize="24sp" />
 
             <View
                 android:id="@+id/divider5"
@@ -124,7 +128,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
                 android:gravity="center"
-                android:text="조회수" />
+                android:text="조회수"
+                android:textSize="24sp" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView

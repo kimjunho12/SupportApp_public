@@ -33,13 +33,11 @@ public class BoardListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            type = itemView.findViewById(R.id.tv_bordlist_type);
+            type = itemView.findViewById(R.id.tv_boardlist_type);
             title = itemView.findViewById(R.id.tv_boardlist_title);
             username = itemView.findViewById(R.id.tv_boardlist_user);
             date = itemView.findViewById(R.id.tv_boardlist_date);
             cnt = itemView.findViewById(R.id.tv_boardlist_cnt);
-
-            Log.d("Adapterssss", "makeViewHolder: " + "123123123");
 
         }
     }
@@ -52,8 +50,6 @@ public class BoardListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = inflater.inflate(R.layout.board_list_item, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
-
-        Log.d("Adapterssss", "onCreateViewHolder: " + "123123123");
 
         return viewHolder;
     }
@@ -68,9 +64,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         boardholder.username.setText(post.username);
         // 밑에 두개는 제대로 받아서 보내주는 식으로
         boardholder.date.setText("21.04.13");
-        boardholder.cnt.setText("0");
-
-        Log.d("Adapterssss", "onBindViewHolder: " + "123123123");
+        boardholder.cnt.setText("조회 " + "0");
 
 //        holder.itemView.setOnClickListener(new View.OnClickListener() {
 //            @Override
