@@ -4,8 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import com.example.myapplication.models.Post;
 
@@ -16,6 +19,7 @@ public class BoardListActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private BoardListAdapter boardListAdapter;
+    private Button btn_create_post;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +44,16 @@ public class BoardListActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.re_board_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(boardListAdapter);
+
+        btn_create_post = findViewById(R.id.btn_create_post);
+        btn_create_post.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 새글쓰기로 이동
+//                Intent intent = new Intent(BoardListActivity.this, );
+//                startActivity(intent);
+            }
+        });
 
         Log.d("Adapters", "onCreate: " + recyclerView + " ::::: " + boardListAdapter.getItemCount());
     }

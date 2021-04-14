@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,6 +66,15 @@ public class BoardListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         // 밑에 두개는 제대로 받아서 보내주는 식으로
         boardholder.date.setText("21.04.13");
         boardholder.cnt.setText("조회 " + "0");
+        
+        boardholder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Board 이동
+//                Intent intent = new Intent(v.getContext(), );
+                
+            }
+        });
 
 //        holder.itemView.setOnClickListener(new View.OnClickListener() {
 //            @Override
