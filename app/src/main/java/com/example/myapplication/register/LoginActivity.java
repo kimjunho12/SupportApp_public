@@ -74,14 +74,15 @@ public class LoginActivity extends AppCompatActivity {
                         new AuthUI.IdpConfig.EmailBuilder().build(),
                         new AuthUI.IdpConfig.PhoneBuilder().build(),
                         new AuthUI.IdpConfig.GoogleBuilder().build(),
-                        new AuthUI.IdpConfig.FacebookBuilder().build(),
-                        new AuthUI.IdpConfig.TwitterBuilder().build());
+                        new AuthUI.IdpConfig.FacebookBuilder().build());
 
                 // Create and launch sign-in intent
                 startActivityForResult(
                         AuthUI.getInstance()
                                 .createSignInIntentBuilder()
                                 .setAvailableProviders(providers)
+                                .setLogo(R.mipmap.ic_launcher_round)      // Set logo drawable
+                                .setTheme(R.style.Theme_MyApplication)      // Set theme
                                 .build(),
                         RC_SIGN_IN);
             }
