@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.application'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -14,6 +15,8 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -47,4 +50,23 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
 
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+
+    implementation "androidx.multidex:multidex:2.0.1"
+
+    // Google-services
+    // Import the Firebase BoM
+    implementation platform('com.google.firebase:firebase-bom:27.0.0')
+
+    // Add the dependency for the Firebase SDK for Google Analytics
+    // When using the BoM, don't specify versions in Firebase dependencies
+    implementation 'com.google.firebase:firebase-analytics'
+
+    // Google-services -> SignIn
+    implementation 'com.firebaseui:firebase-ui-auth:6.4.0'
+
+    // Required only if Facebook login support is required
+    // Find the latest Facebook SDK releases here: https://goo.gl/Ce5L94
+    implementation 'com.facebook.android:facebook-android-sdk:4.41.0'
+
 }
