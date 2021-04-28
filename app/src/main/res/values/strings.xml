@@ -67,7 +67,7 @@
     <item name="masked" type="id" />
 
     <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
-    <string name="facebook_application_id" translatable="false">https://supportapp-f34a1.firebaseapp.com/__/auth/handler</string>
-    <string name="facebook_login_protocol_scheme" translatable="false">fbhttps://supportapp-f34a1.firebaseapp.com/__/auth/handler</string>
+    <string name="facebook_app_id">231196855466099</string>
+    <string name="fb_login_protocol_scheme">fb231196855466099</string>
 
 </resources>
