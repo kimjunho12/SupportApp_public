@@ -1,11 +1,14 @@
 package com.example.myapplication.register;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.database.Cursor;
+import android.content.res.ColorStateList;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -22,12 +25,12 @@ import com.google.firebase.FirebaseTooManyRequestsException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseAuthSettings;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -52,30 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        btn_register_save = findViewById(R.id.btn_register_save);
-        btn_back = findViewById(R.id.btn_back);
-        cb_target = findViewById(R.id.cb_target_check);
-
-        et_register_id = findViewById(R.id.et_register_id);
-        et_register_pw = findViewById(R.id.et_register_pw);
-        et_register_pw_check = findViewById(R.id.et_register_pw_check);
-        et_register_name = findViewById(R.id.et_register_name);
-        et_register_phone = findViewById(R.id.et_register_phone);
-        et_register_no_check = findViewById(R.id.et_register_no_check);
-        et_register_birth = findViewById(R.id.et_register_birth);
-
-        btn_check_id = findViewById(R.id.btn_check_id);
-        btn_check_phone = findViewById(R.id.btn_check_phone);
-        btn_check_submit = findViewById(R.id.btn_check_submit);
-
-        mAuth = FirebaseAuth.getInstance();
-
-        btn_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        init();
 
         btn_check_id.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,8 +102,10 @@ public class RegisterActivity extends AppCompatActivity {
                 btn_check_phone.setText("문자 재전송");
                 et_register_no_check.setVisibility(View.VISIBLE);
                 btn_check_submit.setVisibility(View.VISIBLE);
+                et_register_no_check.requestFocus();
             }
 
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onVerificationFailed(FirebaseException e) {
                 // This callback is invoked in an invalid request for verification is made,
@@ -132,14 +114,17 @@ public class RegisterActivity extends AppCompatActivity {
 
                 if (e instanceof FirebaseAuthInvalidCredentialsException) {
                     Toast.makeText(RegisterActivity.this, "휴대폰 번호를 확인해 주세요", Toast.LENGTH_SHORT).show();
+                    et_register_phone.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.design_default_color_error)));
+                    et_register_phone.findFocus();
                 } else if (e instanceof FirebaseTooManyRequestsException) {
-                    Toast.makeText(RegisterActivity.this, "인증 가능 횟수를 초과하였습니다", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, "인증 가능 횟수를 초과하였습니다\n잠시 후에 다시 시도해 주세요", Toast.LENGTH_SHORT).show();
                 }
                 // Show a message and update the UI
             }
         };
         // [END phone_auth_callbacks]
 
+        // 인증번호 요청
         btn_check_phone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -147,7 +132,9 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+        // 인증번호 검증
         btn_check_submit.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View v) {
                 if (String.valueOf(et_register_no_check.getText()).equals(smsCode)) {
@@ -158,22 +145,57 @@ public class RegisterActivity extends AppCompatActivity {
                     btn_check_submit.setText("인증 완료");
                 } else {
                     Toast.makeText(RegisterActivity.this, "인증번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show();
+                    et_register_no_check.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.design_default_color_error)));
+                    et_register_no_check.findFocus();
                 }
                 Log.d(TAG, "submit.onClick: " + smsCode);
             }
         });
 
-
+        // 회원가입 양식 제출
         btn_register_save.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View v) {
-
                 String email = String.valueOf(et_register_id.getText());
                 String password = String.valueOf(et_register_pw.getText());
-                if (email.length() != 0 && password.length() != 0) {
+                String pw_check = String.valueOf(et_register_pw_check.getText());
+                String name = String.valueOf(et_register_name.getText());
+                String phone = String.valueOf(et_register_phone.getText());
+                String birthday = String.valueOf(et_register_birth.getText());
+                Boolean OK = true;
+
+                // Phone & ID 중복확인 수행 결과 로직 추가 필요
+                
+                
+                if (!password.equals(pw_check)) {
+                    Toast.makeText(RegisterActivity.this, "비밀번호를 확인해 주세요", Toast.LENGTH_SHORT).show();
+                    et_register_pw_check.setText(null);
+                    et_register_pw.setText(null);
+                    et_register_pw_check.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.design_default_color_error)));
+                    et_register_pw.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.design_default_color_error)));
+                    et_register_pw.requestFocus();
+                    OK = false;
+                }
+
+                if (TextUtils.isEmpty(name)) {
+                    et_register_name.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.design_default_color_error)));
+                    et_register_name.requestFocus();
+                    OK = false;
+                }
+
+                if (TextUtils.isEmpty(birthday)) {
+                    et_register_birth.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.design_default_color_error)));
+                    et_register_birth.requestFocus();
+                    OK = false;
+                }
+
+                if (email.length() != 0 && password.length() != 0 && OK) {
                     createAccount(email, password);
                 } else {
                     Toast.makeText(RegisterActivity.this, "정보를 마저 입력해 주세요", Toast.LENGTH_SHORT).show();
+                    et_register_id.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.design_default_color_error)));
+                    et_register_pw.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.design_default_color_error)));
                 }
             }
         });
@@ -189,7 +211,6 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void startPhoneNumberVerification(String phoneNumber) {
-
         // [START start_phone_auth]
         PhoneAuthOptions options =
                 PhoneAuthOptions.newBuilder(mAuth)
@@ -217,12 +238,14 @@ public class RegisterActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "createUserWithEmail:success");
+                    Toast.makeText(RegisterActivity.this, "회원가입 성공!", Toast.LENGTH_SHORT).show();
                     FirebaseUser user = mAuth.getCurrentUser();
                     updateUI(user);
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                    Toast.makeText(RegisterActivity.this, "Authentication failed.",
+                    Locale.setDefault(Locale.KOREA);
+                    Toast.makeText(RegisterActivity.this, task.getException().getLocalizedMessage(),
                             Toast.LENGTH_SHORT).show();
                     updateUI(null);
                 }
@@ -250,6 +273,35 @@ public class RegisterActivity extends AppCompatActivity {
                 finish();
             }
         }
+    }
+
+
+    private void init() {
+        Locale.setDefault(Locale.KOREA);
+        mAuth = FirebaseAuth.getInstance();
+
+        btn_back = findViewById(R.id.btn_back);
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        cb_target = findViewById(R.id.cb_target_check);
+
+        et_register_id = findViewById(R.id.et_register_id);
+        et_register_pw = findViewById(R.id.et_register_pw);
+        et_register_pw_check = findViewById(R.id.et_register_pw_check);
+        et_register_name = findViewById(R.id.et_register_name);
+        et_register_phone = findViewById(R.id.et_register_phone);
+        et_register_no_check = findViewById(R.id.et_register_no_check);
+        et_register_birth = findViewById(R.id.et_register_birth);
+
+        btn_check_id = findViewById(R.id.btn_check_id);
+        btn_check_phone = findViewById(R.id.btn_check_phone);
+        btn_check_submit = findViewById(R.id.btn_check_submit);
+
+        btn_register_save = findViewById(R.id.btn_register_save);
     }
 
     private void reload() {
