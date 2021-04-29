@@ -73,6 +73,7 @@
             android:ems="10"
             android:hint="휴대전화번호 ( - 제외)"
             android:inputType="phone"
+            android:maxLength="11"
             app:layout_constraintStart_toStartOf="@+id/et_register_id"
             app:layout_constraintTop_toBottomOf="@+id/et_register_name" />
 
@@ -84,6 +85,7 @@
             android:ems="10"
             android:hint="생년월일 (8자리 입력)"
             android:inputType="date"
+            android:maxLength="8"
             app:layout_constraintStart_toStartOf="@+id/et_register_id"
             app:layout_constraintTop_toBottomOf="@+id/et_register_no_check" />
 
@@ -131,7 +133,8 @@
             android:ems="10"
             android:hint="인증번호 입력"
             android:inputType="number"
-            app:layout_constraintEnd_toEndOf="@+id/btn_check_id"
+            android:maxLength="6"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="@+id/et_register_id"
             app:layout_constraintTop_toBottomOf="@+id/et_register_phone" />
 
@@ -157,6 +160,19 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/et_register_phone"
             app:layout_constraintTop_toTopOf="@+id/et_register_phone"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <Button
+            android:id="@+id/btn_check_submit"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="인증번호확인"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/et_register_no_check"
+            app:layout_constraintEnd_toEndOf="@+id/btn_check_id"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/et_register_phone"
+            app:layout_constraintTop_toTopOf="@+id/et_register_no_check"
             app:layout_constraintVertical_bias="0.0" />
 
         <RadioGroup
