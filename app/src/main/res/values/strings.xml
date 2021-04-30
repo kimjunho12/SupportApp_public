@@ -65,4 +65,9 @@
     <!-- etc -->
     <item name="visible" type="id" />
     <item name="masked" type="id" />
+
+    <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
+    <string name="facebook_app_id">231196855466099</string>
+    <string name="fb_login_protocol_scheme">fb231196855466099</string>
+
 </resources>
