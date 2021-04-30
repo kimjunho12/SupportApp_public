@@ -16,6 +16,9 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.Profile;
+import com.facebook.ProfileManager;
+import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -36,7 +39,12 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginPage";
-    private static final int RC_SIGN_IN = 9001;
+    private static final int GOOGLE_SIGN_IN = 9001;
+    private static final int FB_SIGN_IN = 64206;
+    private static final int SIGN_UP = 0;
+    private static final int LOGIN = 1;
+    private static final int LOGIN_SNS = 2;
+    private static final int FAIL = -1;
 
     private Toast toast;
 
@@ -71,7 +79,6 @@ public class LoginActivity extends AppCompatActivity {
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (et_email.getText().toString().length() == 0 || et_pw.getText().toString().length() == 0) {
                     Toast.makeText(LoginActivity.this, "아이디/패스워드를 입력해주세요", Toast.LENGTH_SHORT).show();
                 } else {
@@ -91,27 +98,47 @@ public class LoginActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
+        Log.d(TAG, "onStart: " + mAuth.getUid() + " " + mAuth.getCurrentUser());
         if (currentUser != null) {
-            Log.d(TAG, "onStart: currentUser = " + currentUser.getEmail());
+            Log.d(TAG, "onStart: currentUser = " + currentUser.getEmail() + " is SignOuted");
             mAuth.signOut();
         }
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
         if (isLoggedIn) {
             LoginManager.getInstance().logOut();
-
         }
     }
 
+    // 로그인
+    private void signIn(String email, String password) {
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithEmail:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            updateUI(user, LOGIN);
+                            Toast.makeText(LoginActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            updateUI(null, FAIL);
+                            Toast.makeText(LoginActivity.this, "아이디 비밀번호를 확인해 주세요", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    // 회원가입
     private void clickBtn(Button btn) {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-                // Callback 공부해서 써야해
-                startActivityForResult(intent, 0);  //  activity 이동
-
-//                finish();
+                startActivityForResult(intent, SIGN_UP);  //  activity 이동
             }
         });
     }
@@ -133,7 +160,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
                         Log.d(TAG, "facebook:onSuccess:" + loginResult);
-                        handleFacebookAccessToken(loginResult.getAccessToken());
+                        firebaseAuthWithFacebook(loginResult.getAccessToken());
                     }
 
                     @Override
@@ -151,9 +178,8 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void handleFacebookAccessToken(AccessToken token) {
-        Log.d(TAG, "handleFacebookAccessToken:" + token);
-        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+    // SNS 회원가입
+    private void signUpWithCredential(AuthCredential credential) {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -162,21 +188,16 @@ public class LoginActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
+                            updateUI(user, LOGIN_SNS);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-                            updateUI(null);
+                            updateUI(null, LOGIN_SNS);
                         }
                     }
                 });
-    }
-
-    private void google_signIn() {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
     @Override
@@ -184,7 +205,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d(TAG, "onActivityResult: " + requestCode + " and " + resultCode);
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
+        if (requestCode == GOOGLE_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 // Google Sign In was successful, authenticate with Firebase
@@ -196,56 +217,42 @@ public class LoginActivity extends AppCompatActivity {
                 Log.w(TAG, "Google sign in failed", e);
             }
         }
-        if (requestCode == 64206) {
+        if (requestCode == FB_SIGN_IN) {
             mCallbackManager.onActivityResult(requestCode, resultCode, data);
+        }
+        if (requestCode == SIGN_UP && mAuth.getCurrentUser() != null) {
+            et_email.setText(mAuth.getCurrentUser().getEmail());
         }
     }
 
+    private void google_signIn() {
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, GOOGLE_SIGN_IN);
+    }
     private void firebaseAuthWithGoogle(String idToken) {
+        Log.d(TAG, "firebaseAuthWithGoogle:" + idToken);
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            updateUI(null);
-                        }
-                    }
-                });
+        signUpWithCredential(credential);
     }
 
-    private void signIn(String email, String password) {
-        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    // Sign in success, update UI with the signed-in user's information
-                    Log.d(TAG, "signInWithEmail:success");
-                    FirebaseUser user = mAuth.getCurrentUser();
-                    updateUI(user);
-                    Toast.makeText(LoginActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
-                } else {
-                    // If sign in fails, display a message to the user.
-                    Log.w(TAG, "signInWithEmail:failure", task.getException());
-                    updateUI(null);
-                    Toast.makeText(LoginActivity.this, "아이디 비밀번호를 확인해 주세요", Toast.LENGTH_SHORT).show();
-                }
+    private void firebaseAuthWithFacebook(AccessToken token) {
+        Log.d(TAG, "firebaseAuthWithFacebook:" + token);
+        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+        signUpWithCredential(credential);
+    }
+
+    private void updateUI(FirebaseUser user, int key) {
+        if (user != null && key != -1) {
+            if (key == LOGIN) {
+                Intent intent = new Intent(LoginActivity.this, SurveyActivity.class);
+                startActivity(intent);
+                finish();
             }
-        });
-    }
-
-    private void updateUI(FirebaseUser user) {
-        if (user != null) {
-            Intent intent = new Intent(LoginActivity.this, SurveyActivity.class);
-            startActivity(intent);  //  activity 이동
-            finish();
+            if (key == LOGIN_SNS) {
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                intent.putExtra("userInfo", user);
+                startActivityForResult(intent, SIGN_UP);  //  activity 이동
+            }
         }
     }
 

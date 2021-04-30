@@ -29,6 +29,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.auth.UserInfo;
 
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -48,6 +49,9 @@ public class RegisterActivity extends AppCompatActivity {
     private PhoneAuthProvider.ForceResendingToken mResendToken;
     private String smsCode = null;
 
+    boolean is_id_checked = false;
+    boolean is_phone_checked = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +60,30 @@ public class RegisterActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         init();
+        if (intent.getExtras() != null) {
+            FirebaseUser user = (FirebaseUser) intent.getExtras().get("userInfo");
+            // 받아온 값 바로 넘겨주고 잠궈버리기
+
+            et_register_id.setText(user.getEmail());
+            et_register_id.setEnabled(false);
+
+            et_register_name.setText(user.getDisplayName());
+
+            Log.d(TAG, "onCreate: user.getEmail             " + user.getEmail());
+            Log.d(TAG, "onCreate: user.getDisplayName       " + user.getDisplayName());
+            Log.d(TAG, "onCreate: user.getPhoneNumber       " + user.getPhoneNumber());
+            Log.d(TAG, "onCreate: user.getProviderId        " + user.getProviderId());
+            Log.d(TAG, "onCreate: user.getProviderData      " + user.getProviderData());
+            Log.d(TAG, "onCreate: user.getPhotoUrl          " + user.getPhotoUrl());
+            for (UserInfo profile : user.getProviderData()) {
+                Log.d(TAG, "onCreate: profile                      " + profile);
+                Log.d(TAG, "onCreate: profile.getEmail             " + profile.getEmail());
+                Log.d(TAG, "onCreate: profile.getDisplayName       " + profile.getDisplayName());
+                Log.d(TAG, "onCreate: profile.getPhoneNumber       " + profile.getPhoneNumber());
+                Log.d(TAG, "onCreate: profile.getProviderId        " + profile.getProviderId());
+                Log.d(TAG, "onCreate: profile.getPhotoUrl          " + profile.getPhotoUrl());
+            }
+        }
 
         btn_check_id.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +94,12 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast
                 esle 안중복
                     중복확인버튼(btn_check_id) 체크표시로 변경
+                    is_id_checked = true;
                  */
+
+
+                // 임시 (나중에는 위에 ifesle에 넣어야함)
+                is_id_checked = true;
             }
         });
 
@@ -142,6 +175,7 @@ public class RegisterActivity extends AppCompatActivity {
                     et_register_phone.setEnabled(false);
                     et_register_no_check.setEnabled(false);
                     btn_check_submit.setEnabled(false);
+                    is_phone_checked = true;
                     btn_check_submit.setText("인증 완료");
                 } else {
                     Toast.makeText(RegisterActivity.this, "인증번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show();
@@ -166,8 +200,21 @@ public class RegisterActivity extends AppCompatActivity {
                 Boolean OK = true;
 
                 // Phone & ID 중복확인 수행 결과 로직 추가 필요
-                
-                
+                // is_id_checked, is_phone_checked 홯용
+
+                if (TextUtils.isEmpty(email)) {
+                    Toast.makeText(RegisterActivity.this, "아이디를 정확하게 입력해주세요", Toast.LENGTH_SHORT).show();
+                    et_register_id.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.design_default_color_error)));
+                    et_register_id.requestFocus();
+                    OK = false;
+                }
+                if (TextUtils.isEmpty(password)) {
+                    Toast.makeText(RegisterActivity.this, "비밀번호를 정확하게 입력해주세요", Toast.LENGTH_SHORT).show();
+                    et_register_pw.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.design_default_color_error)));
+                    et_register_pw.requestFocus();
+                    OK = false;
+                }
+
                 if (!password.equals(pw_check)) {
                     Toast.makeText(RegisterActivity.this, "비밀번호를 확인해 주세요", Toast.LENGTH_SHORT).show();
                     et_register_pw_check.setText(null);
@@ -190,12 +237,9 @@ public class RegisterActivity extends AppCompatActivity {
                     OK = false;
                 }
 
-                if (email.length() != 0 && password.length() != 0 && OK) {
+                // SNS 로그인은 createAccount 안됨 -> 통합 필요
+                if (OK) {
                     createAccount(email, password);
-                } else {
-                    Toast.makeText(RegisterActivity.this, "정보를 마저 입력해 주세요", Toast.LENGTH_SHORT).show();
-                    et_register_id.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.design_default_color_error)));
-                    et_register_pw.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.design_default_color_error)));
                 }
             }
         });
