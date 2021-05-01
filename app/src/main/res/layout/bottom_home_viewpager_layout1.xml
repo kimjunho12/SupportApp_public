@@ -13,25 +13,13 @@
         android:orientation="vertical">
 
                 <ImageView
-                android:id="@+id/uinmad"
+                android:id="@+id/viewpager1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#ffcccc"
                 android:contentDescription="@string/app_name"
                 app:layout_constraintBottom_toTopOf="@+id/viewpager"
-                tools:ignore="UnknownId" />
-
-                <TextView
-                android:id="@+id/transition_current_scene"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_centerInParent="true"
-                android:textColor="@android:color/white"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:text="Hello This is Page 1"/>
+                tools:ignore="UnknownId"
+                android:src="@drawable/support_image1"/>
 
     </RelativeLayout>
 

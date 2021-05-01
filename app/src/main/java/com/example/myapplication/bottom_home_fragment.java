@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +17,21 @@ import java.util.ArrayList;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.myapplication.models.bottom_home_data;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class bottom_home_fragment extends Fragment {
     private View view;
     private RecyclerView recyclerView;
+    private RecyclerView.LayoutManager layoutManager;
     private bottom_home_adapter bottom_home_adapter;
-    private ArrayList<bottom_home_data> list = new ArrayList<>();
+    private ArrayList<bottom_home_data> arrayList;
+    private FirebaseDatabase database;
+    private DatabaseReference databaseReference;
+
 
     private ViewPager viewPager;
     private viewpager_FirstFragment fragment1;
@@ -42,12 +52,13 @@ public class bottom_home_fragment extends Fragment {
 
         //recyclerview
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler);// 리사이클러뷰 id
-        list = bottom_home_data.createContactList(5);
-        // recyclerView.setHasFixedSize(true);
-        bottom_home_adapter = new bottom_home_adapter(getActivity(), list);
+        // list = bottom_home_data.createContactList(5);
+        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(bottom_home_adapter);
-
+        layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        arrayList = new ArrayList<>();
         //viewpager
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         bottom_home_viewpager_adapter adapter = new bottom_home_viewpager_adapter(getChildFragmentManager());
@@ -60,6 +71,26 @@ public class bottom_home_fragment extends Fragment {
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(0);
 
+        database = FirebaseDatabase.getInstance();
+        databaseReference = database.getReference("news");
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                arrayList.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    bottom_home_data bottom_home_data = snapshot.getValue(bottom_home_data.class);
+                    arrayList.add(bottom_home_data);
+                }
+                adapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("Fraglike", String.valueOf(error.toException())); //에러 시 출력
+            }
+        });
+
+        bottom_home_adapter = new bottom_home_adapter(arrayList, getContext());
+        recyclerView.setAdapter(bottom_home_adapter);
         return view;
     }
 }

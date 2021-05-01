@@ -17,8 +17,10 @@ public class newsActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
-        intent = getIntent();
         imageView = findViewById(R.id.news_detail);
+        intent = getIntent();
+        
+
     }
     public void support_button(View view) {
         intent = new Intent(this, profileActivity.class);

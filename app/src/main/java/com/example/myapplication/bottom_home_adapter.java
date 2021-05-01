@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.myapplication.models.bottom_home_data;
 
 import java.util.ArrayList;
@@ -18,12 +19,12 @@ import java.util.List;
 
 public class bottom_home_adapter extends RecyclerView.Adapter<bottom_home_adapter.CustomViewHolder> {
     private Context context;
-    private List<bottom_home_data> list = new ArrayList<>();
+    private ArrayList<bottom_home_data> arrayList;
 
 
-    public bottom_home_adapter(Context context, ArrayList<bottom_home_data> list) {
+    public bottom_home_adapter(ArrayList<bottom_home_data> arrayList, Context context) {
         this.context = context;
-        this.list = list;
+        this.arrayList = arrayList;
     }
 
     @NonNull
@@ -36,22 +37,23 @@ public class bottom_home_adapter extends RecyclerView.Adapter<bottom_home_adapte
 
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
-        holder.news_image1.setImageResource(list.get(position).getBanner());
-        holder.news_image2.setImageResource(list.get(position).getBanner1());
-        holder.itemView.setTag(position);
+        Glide.with(holder.itemView).load(arrayList.get(position).getNews_image1()).into(holder.news_image1);
+        Glide.with(holder.itemView).load(arrayList.get(position).getNews_image2()).into(holder.news_image2);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
               Intent intent = new Intent(view.getContext(), newsActivity.class);
-                view.getContext().startActivity(intent);
+              /*String key = arrayList.get(position).toString();
+              intent.putExtra("key", key);*/
+              view.getContext().startActivity(intent);
             }
         });
     }
 
     @Override
     public int getItemCount() {
-            return list.size();
-            }
+        return (arrayList != null ? arrayList.size() : 0);
+    }
 
 
     class CustomViewHolder extends RecyclerView.ViewHolder {
@@ -61,8 +63,8 @@ public class bottom_home_adapter extends RecyclerView.Adapter<bottom_home_adapte
 
         public CustomViewHolder(@NonNull View itemView) {
             super(itemView);
-            this.news_image1 = (ImageView) itemView.findViewById(R.id.news_image1);
-            this.news_image2 = (ImageView) itemView.findViewById(R.id.news_image2);
+            this.news_image1 = itemView.findViewById(R.id.news_image1);
+            this.news_image2 = itemView.findViewById(R.id.news_image2);
         }
     }
 }

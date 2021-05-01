@@ -7,52 +7,24 @@ import java.util.ArrayList;
 
 public class bottom_home_data {
 
-    private int banner;
-    private int banner1;
-    private String id;
-    private String content;
+    private String news_image1;
+    private String news_image2;
 
-    public bottom_home_data(int banner1, int banner) {
-        this.id = id;
-        this.content = content;
-        this.banner = banner;
-        this.banner1 = banner1;
+    public String getNews_image1() {
+        return news_image1;
     }
 
-    public int getBanner() {
-        return banner;
+    public void setNews_image1(String news_image1) {
+        this.news_image1 = news_image1;
     }
 
-    public int getBanner1() {
-
-        return banner1;
+    public String getNews_image2() {
+        return news_image2;
     }
 
-    public static ArrayList<bottom_home_data> createContactList(int numContacts) {
-        ArrayList<bottom_home_data> contacts = new ArrayList<bottom_home_data>();
-
-        for (int i = 0; i <= numContacts; i++) {
-            contacts.add(new bottom_home_data(R.mipmap.ic_launcher,  R.mipmap.ic_launcher));
-        }
-        return contacts;
-    }// 데이터 넣을때 바꿔야함
-
-    public void setBanner(int banner) {
-        this.banner = banner;
+    public void setNews_image2(String news_image2) {
+        this.news_image2 = news_image2;
     }
-    public void setBanner1(int banner1) {
-        this.banner1 = banner1;
-    }
-
-
-    public String getId() {
-        return id;
-    }
-
-    public void setContent(String content) {
-        this.content =content;
-    }
-
 }
 
 

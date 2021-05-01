@@ -19,8 +19,6 @@ public class profileActivity extends AppCompatActivity {
     private View view;
     private Intent intent;
     private ImageView imageView;
-    private RecyclerView recyclerView;
-    private profileActivity_adapter profileActivityAdapter;
     private ArrayList<bottom_home_data> list = new ArrayList<>();
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,12 +26,6 @@ public class profileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         intent = getIntent();
         imageView = findViewById(R.id.img_profile);
-        //recyclerView
-        recyclerView = (RecyclerView) findViewById(R.id.profile_recycler);
-        list = bottom_home_data.createContactList(5);
-        profileActivityAdapter = new profileActivity_adapter(list);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(profileActivityAdapter);
         Button btn = findViewById(R.id.button2);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
