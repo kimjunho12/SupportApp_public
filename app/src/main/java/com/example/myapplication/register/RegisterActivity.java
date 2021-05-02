@@ -1,9 +1,5 @@
 package com.example.myapplication.register;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Build;
@@ -17,24 +13,31 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.myapplication.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.FirebaseTooManyRequestsException;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.auth.UserInfo;
 
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public class RegisterActivity extends AppCompatActivity {
-    private static final String TAG = "EmailPassword";
+    private static final String TAG = "RegisterPage";
     private ImageButton btn_back;
     private Button btn_register_save;
     private CheckBox cb_target;
@@ -48,6 +51,9 @@ public class RegisterActivity extends AppCompatActivity {
     private PhoneAuthProvider.ForceResendingToken mResendToken;
     private String smsCode = null;
 
+    boolean is_id_checked = false;
+    boolean is_phone_checked = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,8 +62,33 @@ public class RegisterActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         init();
+        if (intent.getExtras() != null) {
+            FirebaseUser user = (FirebaseUser) intent.getExtras().get("userInfo");
+            // 받아온 값 바로 넘겨주고 잠궈버리기
+
+            et_register_id.setText(user.getEmail());
+            et_register_id.setEnabled(false);
+
+            et_register_name.setText(user.getDisplayName());
+
+            Log.d(TAG, "onCreate: user.getEmail             " + user.getEmail());
+            Log.d(TAG, "onCreate: user.getDisplayName       " + user.getDisplayName());
+            Log.d(TAG, "onCreate: user.getPhoneNumber       " + user.getPhoneNumber());
+            Log.d(TAG, "onCreate: user.getProviderId        " + user.getProviderId());
+            Log.d(TAG, "onCreate: user.getProviderData      " + user.getProviderData());
+            Log.d(TAG, "onCreate: user.getPhotoUrl          " + user.getPhotoUrl());
+            for (UserInfo profile : user.getProviderData()) {
+                Log.d(TAG, "onCreate: profile                      " + profile);
+                Log.d(TAG, "onCreate: profile.getEmail             " + profile.getEmail());
+                Log.d(TAG, "onCreate: profile.getDisplayName       " + profile.getDisplayName());
+                Log.d(TAG, "onCreate: profile.getPhoneNumber       " + profile.getPhoneNumber());
+                Log.d(TAG, "onCreate: profile.getProviderId        " + profile.getProviderId());
+                Log.d(TAG, "onCreate: profile.getPhotoUrl          " + profile.getPhotoUrl());
+            }
+        }
 
         btn_check_id.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View v) {
                 // 중복확인 로직 필요
@@ -66,7 +97,12 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast
                 esle 안중복
                     중복확인버튼(btn_check_id) 체크표시로 변경
+                    is_id_checked = true;
                  */
+
+
+                // 임시 (나중에는 위에 ifesle에 넣어야함)
+                is_id_checked = true;
             }
         });
 
@@ -141,9 +177,13 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, "인증되었습니다", Toast.LENGTH_SHORT).show();
                     et_register_phone.setEnabled(false);
                     et_register_no_check.setEnabled(false);
+                    et_register_phone.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_checked, 0);
                     btn_check_submit.setEnabled(false);
+                    btn_check_phone.setEnabled(false);
+                    is_phone_checked = true;
                     btn_check_submit.setText("인증 완료");
                 } else {
+
                     Toast.makeText(RegisterActivity.this, "인증번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show();
                     et_register_no_check.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.design_default_color_error)));
                     et_register_no_check.findFocus();
@@ -166,8 +206,21 @@ public class RegisterActivity extends AppCompatActivity {
                 Boolean OK = true;
 
                 // Phone & ID 중복확인 수행 결과 로직 추가 필요
-                
-                
+                // is_id_checked, is_phone_checked 홯용
+
+                if (TextUtils.isEmpty(email)) {
+                    Toast.makeText(RegisterActivity.this, "아이디를 정확하게 입력해주세요", Toast.LENGTH_SHORT).show();
+                    et_register_id.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.design_default_color_error)));
+                    et_register_id.requestFocus();
+                    OK = false;
+                }
+                if (TextUtils.isEmpty(password)) {
+                    Toast.makeText(RegisterActivity.this, "비밀번호를 정확하게 입력해주세요", Toast.LENGTH_SHORT).show();
+                    et_register_pw.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.design_default_color_error)));
+                    et_register_pw.requestFocus();
+                    OK = false;
+                }
+
                 if (!password.equals(pw_check)) {
                     Toast.makeText(RegisterActivity.this, "비밀번호를 확인해 주세요", Toast.LENGTH_SHORT).show();
                     et_register_pw_check.setText(null);
@@ -190,25 +243,28 @@ public class RegisterActivity extends AppCompatActivity {
                     OK = false;
                 }
 
-                if (email.length() != 0 && password.length() != 0 && OK) {
+                // SNS 로그인은 createAccount 안됨 -> 통합 필요
+                if (OK && mAuth.getCurrentUser() == null) {
                     createAccount(email, password);
-                } else {
-                    Toast.makeText(RegisterActivity.this, "정보를 마저 입력해 주세요", Toast.LENGTH_SHORT).show();
-                    et_register_id.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.design_default_color_error)));
-                    et_register_pw.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.design_default_color_error)));
+                }
+
+                if (OK && mAuth.getCurrentUser() != null) {
+                    AuthCredential credential = EmailAuthProvider.getCredential(email, password);
+                    linkAccount(credential);
                 }
             }
         });
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
-            reload();
-        }
-    }
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        FirebaseUser currentUser = mAuth.getCurrentUser();
+//        if (currentUser != null) {
+//            Log.d(TAG, "onStart: " + currentUser + " " + currentUser.getProviderId() + " " + mAuth);
+//            reload();
+//        }
+//    }
 
     private void startPhoneNumberVerification(String phoneNumber) {
         // [START start_phone_auth]
@@ -244,7 +300,7 @@ public class RegisterActivity extends AppCompatActivity {
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                    Locale.setDefault(Locale.KOREA);
+                    Locale.setDefault(Locale.KOREAN);
                     Toast.makeText(RegisterActivity.this, task.getException().getLocalizedMessage(),
                             Toast.LENGTH_SHORT).show();
                     updateUI(null);
@@ -253,6 +309,25 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
+    private void linkAccount(AuthCredential credential) {
+        mAuth.getCurrentUser().linkWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "linkWithCredential:success");
+                            FirebaseUser user = task.getResult().getUser();
+                            updateUI(user);
+                        } else {
+                            Log.w(TAG, "linkWithCredential:failure", task.getException());
+                            Toast.makeText(RegisterActivity.this, "SNS 연동 실패",
+                                    Toast.LENGTH_SHORT).show();
+                            updateUI(null);
+                        }
+                    }
+                });
+    }
+    
     private void updateUI(FirebaseUser user) {
         if (user != null) {
             // 후원 대상 체크 시
@@ -275,9 +350,8 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-
     private void init() {
-        Locale.setDefault(Locale.KOREA);
+        Locale.setDefault(Locale.KOREAN);
         mAuth = FirebaseAuth.getInstance();
 
         btn_back = findViewById(R.id.btn_back);
@@ -303,7 +377,6 @@ public class RegisterActivity extends AppCompatActivity {
 
         btn_register_save = findViewById(R.id.btn_register_save);
     }
-
     private void reload() {
         mAuth.signOut();
     }
