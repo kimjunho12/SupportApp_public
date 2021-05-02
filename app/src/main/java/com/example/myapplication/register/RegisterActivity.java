@@ -248,7 +248,7 @@ public class RegisterActivity extends AppCompatActivity {
                     createAccount(email, password);
                 }
 
-                if (mAuth.getCurrentUser() != null) {
+                if (OK && mAuth.getCurrentUser() != null) {
                     AuthCredential credential = EmailAuthProvider.getCredential(email, password);
                     linkAccount(credential);
                 }
