@@ -35,6 +35,10 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.FirebaseDatabase;
+
+import org.jetbrains.annotations.NotNull;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -249,9 +253,27 @@ public class LoginActivity extends AppCompatActivity {
                 finish();
             }
             if (key == LOGIN_SNS) {
-                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-                intent.putExtra("userInfo", user);
-                startActivityForResult(intent, SIGN_UP);  //  activity 이동
+                // DB 검사 후 이미 저장되어 있으면 survey로 이동
+                FirebaseDatabase.getInstance().getReference("Users").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
+                        if (!task.isSuccessful()) {
+                            Log.e(TAG, "Error getting data", task.getException());
+                        }
+                        else {
+                            Log.d(TAG, String.valueOf(task.getResult().getValue()));
+                            if (String.valueOf(task.getResult().getValue()).contains(mAuth.getUid())) {
+                                Intent intent = new Intent(LoginActivity.this, SurveyActivity.class);
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                                intent.putExtra("userInfo", user);
+                                startActivityForResult(intent, SIGN_UP);  //  activity 이동
+                            }
+                        }
+                    }
+                });
             }
         }
     }
