@@ -5,12 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myapplication.models.bottom_event_news_model;
+import com.bumptech.glide.Glide;
+import com.example.myapplication.models.bottom_home_data;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,11 +20,11 @@ import java.util.List;
 public class bottom_event_news_adapter extends RecyclerView.Adapter<bottom_event_news_adapter.CustomViewHolder> {
 
     private Context context;
-    private List<bottom_event_news_model> list = new ArrayList<>();
+    private ArrayList<bottom_home_data> arrayList;
 
-    public bottom_event_news_adapter(Context context, List<bottom_event_news_model> list) {
+    public bottom_event_news_adapter(ArrayList<bottom_home_data> arrayList, Context context) {
         this.context = context;
-        this.list = list;
+        this.arrayList = arrayList;
     }
 
     @NonNull
@@ -35,12 +37,16 @@ public class bottom_event_news_adapter extends RecyclerView.Adapter<bottom_event
 
     @Override
     public void onBindViewHolder(@NonNull bottom_event_news_adapter.CustomViewHolder holder, int position) {
-        holder.bottom_event_news_model_image.setImageResource(list.get(position).getBottom_event_news_model_image());
-        holder.itemView.setTag(position);
+        Glide.with(holder.itemView).load(arrayList.get(position).getImage()).into(holder.image);
+        //holder.content.setText(arrayList.get(position).getContent());
+        holder.title.setText(arrayList.get(position).getTitle());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), newsActivity.class);
+                intent.putExtra("title", arrayList.get(position).getTitle());
+                intent.putExtra("image", arrayList.get(position).getImage());
+                intent.putExtra("content", arrayList.get(position).getContent());
                 view.getContext().startActivity(intent);
             }
         });
@@ -48,17 +54,19 @@ public class bottom_event_news_adapter extends RecyclerView.Adapter<bottom_event
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return (arrayList != null ? arrayList.size() : 0);
     }
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
-        protected ImageView bottom_event_news_model_image;
-        //protected TextView bottom_event_news_model_content;
-
+        protected ImageView image;
+        protected TextView content;
+        protected TextView title;
 
         public CustomViewHolder(@NonNull View itemView) {
             super(itemView);
-            this.bottom_event_news_model_image = (ImageView) itemView.findViewById(R.id.bottom_event_news_image);
+            this.image = itemView.findViewById(R.id.bottom_event_news_image);
+            //this.content = itemView.findViewById(R.id.content);
+            this.title = itemView.findViewById(R.id.bottom_event_news_title);
         }
     }
 }
