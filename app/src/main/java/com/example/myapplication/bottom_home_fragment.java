@@ -3,6 +3,7 @@ package com.example.myapplication;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,11 +28,11 @@ public class bottom_home_fragment extends Fragment {
     private View view;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
-    private bottom_home_adapter bottom_home_adapter;
+    private RecyclerView.Adapter bottom_home_adapter;
     private ArrayList<bottom_home_data> arrayList;
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
-
+    private GridLayoutManager gridLayoutManager;
 
     private ViewPager viewPager;
     private viewpager_FirstFragment fragment1;
@@ -49,15 +50,17 @@ public class bottom_home_fragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.bottom_home_fragment, container, false);
-
         //recyclerview
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler);// 리사이클러뷰 id
-        // list = bottom_home_data.createContactList(5);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(bottom_home_adapter);
-        layoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(layoutManager);
+        gridLayoutManager = new GridLayoutManager(getActivity(), 2);
+        recyclerView.setLayoutManager(gridLayoutManager);
+        int spanCount = 2; // columns
+        int spacing = 60; // px
+        boolean includeEdge = true;
+        recyclerView.addItemDecoration(new ItemDecoration(spanCount, spacing, includeEdge));
+        //layoutManager = new LinearLayoutManager(getContext());
+
         arrayList = new ArrayList<>();
         //viewpager
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
@@ -72,7 +75,7 @@ public class bottom_home_fragment extends Fragment {
         viewPager.setCurrentItem(0);
 
         database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference("news");
+        databaseReference = database.getReference("newstitle");
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -81,7 +84,7 @@ public class bottom_home_fragment extends Fragment {
                     bottom_home_data bottom_home_data = snapshot.getValue(bottom_home_data.class);
                     arrayList.add(bottom_home_data);
                 }
-                adapter.notifyDataSetChanged();
+                bottom_home_adapter.notifyDataSetChanged();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

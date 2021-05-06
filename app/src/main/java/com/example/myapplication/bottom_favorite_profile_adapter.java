@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.myapplication.models.bottom_favorite_profile_model;
 
 import java.util.ArrayList;
@@ -19,11 +20,11 @@ import java.util.List;
 public class bottom_favorite_profile_adapter extends RecyclerView.Adapter<bottom_favorite_profile_adapter.CustomViewHolder> {
 
     private Context context;
-    private List<bottom_favorite_profile_model> list = new ArrayList<>();
+    private List<bottom_favorite_profile_model> arrayList;
 
-    public bottom_favorite_profile_adapter(Context context, List<bottom_favorite_profile_model> list) {
+    public bottom_favorite_profile_adapter(ArrayList<bottom_favorite_profile_model> arrayList, Context context) {
         this.context = context;
-        this.list = list;
+        this.arrayList = arrayList;
     }
 
     @NonNull
@@ -36,10 +37,8 @@ public class bottom_favorite_profile_adapter extends RecyclerView.Adapter<bottom
 
     @Override
     public void onBindViewHolder(@NonNull bottom_favorite_profile_adapter.CustomViewHolder holder, int position) {
-        holder.bottom_favorite_profile_image1.setImageResource(list.get(position).getBottom_favorite_profile_image1());
-        holder.blank_text.setText(list.get(position).getBlank_text());
-        holder.bottom_favorite_profile_image2.setImageResource(list.get(position).getBottom_favorite_profile_image2());
-        holder.itemView.setTag(position);
+        Glide.with(holder.itemView).load(arrayList.get(position).getProfile_image()).into(holder.profile_image);
+        holder.profile_name.setText(arrayList.get(position).getProfile_name());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -49,21 +48,18 @@ public class bottom_favorite_profile_adapter extends RecyclerView.Adapter<bottom
         });
     }
 
-    @Override public int getItemCount() {
-        return list.size();
+    public int getItemCount() {
+        return (arrayList != null ? arrayList.size() : 0);
     }
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
-        protected ImageView bottom_favorite_profile_image1;
-        protected TextView blank_text;
-        protected ImageView bottom_favorite_profile_image2;
-
+        protected ImageView profile_image;
+        protected TextView profile_name;
 
         public CustomViewHolder(@NonNull View view) {
             super(view);
-            this.bottom_favorite_profile_image1 = (ImageView) view.findViewById(R.id.bottom_favorite_profile1);
-            this.blank_text = (TextView) view.findViewById(R.id.blank_text);
-            this.bottom_favorite_profile_image2 = (ImageView) view.findViewById(R.id.bottom_favorite_profile2);
+            this.profile_image = (ImageView) view.findViewById(R.id.profile_image);
+            this.profile_name = (TextView) view.findViewById(R.id.profile_name);
         }
     }
 }

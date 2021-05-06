@@ -7,24 +7,36 @@ import java.util.ArrayList;
 
 public class bottom_home_data {
 
-    private String news_image1;
-    private String news_image2;
+    private String image;
+    private String title;
+    private String content;
 
-    public String getNews_image1() {
-        return news_image1;
+    public bottom_home_data(){}
+
+    public String getImage() {
+        return image;
     }
 
-    public void setNews_image1(String news_image1) {
-        this.news_image1 = news_image1;
+    public void setImage(String image) {
+        this.image = image;
     }
 
-    public String getNews_image2() {
-        return news_image2;
+    public String getTitle() {
+        return title;
     }
 
-    public void setNews_image2(String news_image2) {
-        this.news_image2 = news_image2;
+    public void setTitle(String title) {
+        this.title = title;
     }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
 }
 
 

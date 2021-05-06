@@ -37,14 +37,16 @@ public class bottom_home_adapter extends RecyclerView.Adapter<bottom_home_adapte
 
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
-        Glide.with(holder.itemView).load(arrayList.get(position).getNews_image1()).into(holder.news_image1);
-        Glide.with(holder.itemView).load(arrayList.get(position).getNews_image2()).into(holder.news_image2);
+        Glide.with(holder.itemView).load(arrayList.get(position).getImage()).into(holder.image);
+        holder.title.setText(arrayList.get(position).getTitle());
+        //holder.content.setText(arrayList.get(position).getContent());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
               Intent intent = new Intent(view.getContext(), newsActivity.class);
-              /*String key = arrayList.get(position).toString();
-              intent.putExtra("key", key);*/
+              intent.putExtra("title", arrayList.get(position).getTitle());
+              intent.putExtra("image", arrayList.get(position).getImage());
+              intent.putExtra("content", arrayList.get(position).getContent());
               view.getContext().startActivity(intent);
             }
         });
@@ -57,14 +59,15 @@ public class bottom_home_adapter extends RecyclerView.Adapter<bottom_home_adapte
 
 
     class CustomViewHolder extends RecyclerView.ViewHolder {
-        protected ImageView news_image1;
-        protected ImageView news_image2;
-        protected TextView blank_text1;
+        protected ImageView image;
+        protected TextView title;
+        //protected TextView content;
 
         public CustomViewHolder(@NonNull View itemView) {
             super(itemView);
-            this.news_image1 = itemView.findViewById(R.id.news_image1);
-            this.news_image2 = itemView.findViewById(R.id.news_image2);
+            this.image = itemView.findViewById(R.id.image);
+            this.title = itemView.findViewById(R.id.title);
+            //this.content = itemView.findViewById(R.id.content);
         }
     }
 }
