@@ -18,6 +18,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.R;
+import com.example.myapplication.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
@@ -32,7 +33,13 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.auth.UserInfo;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
@@ -50,6 +57,13 @@ public class RegisterActivity extends AppCompatActivity {
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
     private PhoneAuthProvider.ForceResendingToken mResendToken;
     private String smsCode = null;
+
+    private String email;
+    private String password;
+    private String pw_check;
+    private String name;
+    private String phone;
+    private String birthday;
 
     boolean is_id_checked = false;
     boolean is_phone_checked = false;
@@ -91,18 +105,28 @@ public class RegisterActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View v) {
-                // 중복확인 로직 필요
-                /*
-                if 중복
-                    Toast
-                esle 안중복
-                    중복확인버튼(btn_check_id) 체크표시로 변경
-                    is_id_checked = true;
-                 */
-
-
-                // 임시 (나중에는 위에 ifesle에 넣어야함)
-                is_id_checked = true;
+                // DB의 Users에서 데이터 받아와서 contains로 중복확인 (임시)
+                FirebaseDatabase.getInstance().getReference("Users").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
+                        if (!task.isSuccessful()) {
+                            Log.e(TAG, "Error getting data", task.getException());
+                        }
+                        else {
+                            Log.d(TAG, String.valueOf(task.getResult().getValue()));
+                            if (String.valueOf(task.getResult().getValue()).contains(et_register_id.getText())) {
+                                Toast.makeText(RegisterActivity.this, "아이디가 중복 되었습니다.\n다시 입력해주세요.", Toast.LENGTH_SHORT).show();
+                                et_register_id.findFocus();
+                            } else {
+                                Toast.makeText(RegisterActivity.this, "사용가능한 아이디 입니다.", Toast.LENGTH_SHORT).show();
+                                et_register_id.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_checked, 0);
+                                et_register_id.setEnabled(false);
+                                btn_check_id.setEnabled(false);
+                                is_id_checked = true;
+                            }
+                        }
+                    }
+                });
             }
         });
 
@@ -197,16 +221,21 @@ public class RegisterActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View v) {
-                String email = String.valueOf(et_register_id.getText());
-                String password = String.valueOf(et_register_pw.getText());
-                String pw_check = String.valueOf(et_register_pw_check.getText());
-                String name = String.valueOf(et_register_name.getText());
-                String phone = String.valueOf(et_register_phone.getText());
-                String birthday = String.valueOf(et_register_birth.getText());
-                Boolean OK = true;
+                email = String.valueOf(et_register_id.getText());
+                password = String.valueOf(et_register_pw.getText());
+                pw_check = String.valueOf(et_register_pw_check.getText());
+                name = String.valueOf(et_register_name.getText());
+                phone = String.valueOf(et_register_phone.getText());
+                birthday = String.valueOf(et_register_birth.getText());
+                boolean OK = true;
 
                 // Phone & ID 중복확인 수행 결과 로직 추가 필요
                 // is_id_checked, is_phone_checked 홯용
+
+                if (!is_id_checked) {
+                    Toast.makeText(RegisterActivity.this, "아이디 중복 확인을 해주세요", Toast.LENGTH_SHORT).show();
+                    OK = false;
+                }
 
                 if (TextUtils.isEmpty(email)) {
                     Toast.makeText(RegisterActivity.this, "아이디를 정확하게 입력해주세요", Toast.LENGTH_SHORT).show();
@@ -265,6 +294,19 @@ public class RegisterActivity extends AppCompatActivity {
 //            reload();
 //        }
 //    }
+
+    private void updateUserInfo(String uid, String id, String pw, String name, String phone, String birth, boolean is_target) {
+        User user = null;
+        if (is_target) {
+            user = new User(uid, id, pw, name, phone, birth, 1);
+        } else {
+            user = new User(uid, id, pw, name, phone, birth, 0);
+        }
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference mRef = database.getReference();
+        mRef.child("Users").child(uid).setValue(user);
+    }
 
     private void startPhoneNumberVerification(String phoneNumber) {
         // [START start_phone_auth]
@@ -330,6 +372,8 @@ public class RegisterActivity extends AppCompatActivity {
     
     private void updateUI(FirebaseUser user) {
         if (user != null) {
+            Log.d(TAG, "updateUI: " + (user.getUid().equals(mAuth.getUid())));
+            updateUserInfo(mAuth.getUid(), email, password, name, phone, birthday, cb_target.isChecked());
             // 후원 대상 체크 시
             if (cb_target.isChecked()) {
                 // setResult 및 Intent 수정 필요
@@ -342,9 +386,6 @@ public class RegisterActivity extends AppCompatActivity {
             }
             // 일반 회원일 경우
             else {
-                //CallBack으로 처리해
-//                    Intent intent = new Intent(RegisterActivity.this, SurveyActivity.class);
-//                    startActivity(intent);
                 finish();
             }
         }
