@@ -15,7 +15,6 @@ import com.bumptech.glide.Glide;
 import com.example.myapplication.models.bottom_home_data;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class bottom_home_adapter extends RecyclerView.Adapter<bottom_home_adapter.CustomViewHolder> {
     private Context context;

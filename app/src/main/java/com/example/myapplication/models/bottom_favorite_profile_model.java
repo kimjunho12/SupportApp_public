@@ -1,9 +1,5 @@
 package com.example.myapplication.models;
 
-import com.example.myapplication.R;
-
-import java.util.ArrayList;
-
 public class bottom_favorite_profile_model {
 
     private String profile_image;

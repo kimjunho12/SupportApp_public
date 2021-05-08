@@ -39,7 +39,6 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
@@ -378,7 +377,7 @@ public class RegisterActivity extends AppCompatActivity {
             if (cb_target.isChecked()) {
                 // setResult 및 Intent 수정 필요
                 setResult(0);
-                Intent intent = new Intent(RegisterActivity.this, UserDetailsActivity.class);
+                Intent intent = new Intent(RegisterActivity.this, TargetDetailsActivity.class);
                 startActivity(intent);
 
                 //콜백 받으면 finish

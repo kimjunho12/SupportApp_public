@@ -1,4 +1,5 @@
 package com.example.myapplication;
+
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -7,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,7 +15,6 @@ import com.bumptech.glide.Glide;
 import com.example.myapplication.models.bottom_home_data;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class bottom_event_news_adapter extends RecyclerView.Adapter<bottom_event_news_adapter.CustomViewHolder> {
 

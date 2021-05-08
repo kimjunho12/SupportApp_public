@@ -7,6 +7,7 @@ public class User {
     private String name;
     private String phone;
     private String birth;
+    private String photoURL;
     private int is_target;  // 0 : 일반, 1 : 후원 대상
     private boolean is_surveyed;
 
@@ -21,11 +22,27 @@ public class User {
         this.name = name;
         this.phone = phone;
         this.birth = birth;
+        this.photoURL = null;
+        this.is_target = is_target;
+    }
+
+    public User(String uid, String id, String pw, String name, String phone, String birth, String photoURL ,int is_target){
+        this.Uid = uid;
+        this.id = id;
+        this.pw = pw;
+        this.name = name;
+        this.phone = phone;
+        this.birth = birth;
+        this.photoURL = photoURL;
         this.is_target = is_target;
     }
 
     public void setIs_surveyed(boolean is_surveyed) {
         this.is_surveyed = is_surveyed;
+    }
+
+    public void setPhotoURL(String photoURL) {
+        this.photoURL = photoURL;
     }
 
     public String getUid() {

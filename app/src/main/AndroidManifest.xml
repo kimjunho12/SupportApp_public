@@ -22,7 +22,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".register.UserDetailsActivity" />
+        <activity android:name=".register.TargetDetailsActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".newsActivity" />
         <activity android:name=".profileActivity" />

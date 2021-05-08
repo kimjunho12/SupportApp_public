@@ -1,10 +1,6 @@
 package com.example.myapplication.models;
 
 
-import com.example.myapplication.R;
-
-import java.util.ArrayList;
-
 public class bottom_home_data {
 
     private String image;

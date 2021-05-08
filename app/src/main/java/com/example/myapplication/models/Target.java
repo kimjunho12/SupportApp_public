@@ -1,7 +1,6 @@
 package com.example.myapplication.models;
 
 import android.graphics.drawable.Icon;
-import android.media.Image;
 
 public class Target {
     public String name;

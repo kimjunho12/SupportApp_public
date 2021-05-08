@@ -1,14 +1,14 @@
 package com.example.myapplication.register;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.myapplication.R;
 
-public class UserDetailsActivity extends AppCompatActivity {
+public class TargetDetailsActivity extends AppCompatActivity {
 
     private Button btn_input_save;
 
