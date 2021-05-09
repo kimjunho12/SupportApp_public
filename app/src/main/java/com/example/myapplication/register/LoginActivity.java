@@ -230,6 +230,7 @@ public class LoginActivity extends AppCompatActivity {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, GOOGLE_SIGN_IN);
     }
+
     private void firebaseAuthWithGoogle(String idToken) {
         Log.d(TAG, "firebaseAuthWithGoogle:" + idToken);
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
@@ -251,23 +252,18 @@ public class LoginActivity extends AppCompatActivity {
             }
             if (key == LOGIN_SNS) {
                 // DB 검사 후 이미 저장되어 있으면 survey로 이동
-                FirebaseDatabase.getInstance().getReference("Users").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                FirebaseDatabase.getInstance().getReference("Users").child(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                     @Override
                     public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
-                        if (!task.isSuccessful()) {
-                            Log.e(TAG, "Error getting data", task.getException());
-                        }
-                        else {
-                            Log.d(TAG, String.valueOf(task.getResult().getValue()));
-                            if (String.valueOf(task.getResult().getValue()).contains(mAuth.getUid())) {
-                                Intent intent = new Intent(LoginActivity.this, SurveyActivity.class);
-                                startActivity(intent);
-                                finish();
-                            } else {
-                                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-                                intent.putExtra("userInfo", user);
-                                startActivityForResult(intent, SIGN_UP);  //  activity 이동
-                            }
+                        Log.d(TAG, "onComplete: " + task.getResult() + " " + task.getResult().getValue());
+                        if (task.getResult().getValue() != null) {
+                            Intent intent = new Intent(LoginActivity.this, SurveyActivity.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                            intent.putExtra("userInfo", user);
+                            startActivityForResult(intent, SIGN_UP);  //  activity 이동
                         }
                     }
                 });

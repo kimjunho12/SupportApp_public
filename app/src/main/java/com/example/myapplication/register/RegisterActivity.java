@@ -66,6 +66,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     boolean is_id_checked = false;
     boolean is_phone_checked = false;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,8 +111,7 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
                         if (!task.isSuccessful()) {
                             Log.e(TAG, "Error getting data", task.getException());
-                        }
-                        else {
+                        } else {
                             Log.d(TAG, String.valueOf(task.getResult().getValue()));
                             if (String.valueOf(task.getResult().getValue()).contains(et_register_id.getText())) {
                                 Toast.makeText(RegisterActivity.this, "아이디가 중복 되었습니다.\n다시 입력해주세요.", Toast.LENGTH_SHORT).show();
@@ -301,6 +301,7 @@ public class RegisterActivity extends AppCompatActivity {
         } else {
             user = new User(uid, id, pw, name, phone, birth, 0);
         }
+        user.setIs_surveyed(false);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference mRef = database.getReference();
@@ -368,7 +369,7 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                 });
     }
-    
+
     private void updateUI(FirebaseUser user) {
         if (user != null) {
             Log.d(TAG, "updateUI: " + (user.getUid().equals(mAuth.getUid())));
@@ -417,6 +418,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         btn_register_save = findViewById(R.id.btn_register_save);
     }
+
     private void reload() {
         mAuth.signOut();
     }

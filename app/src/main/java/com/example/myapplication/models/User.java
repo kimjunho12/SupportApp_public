@@ -9,7 +9,7 @@ public class User {
     private String birth;
     private String photoURL;
     private int is_target;  // 0 : 일반, 1 : 후원 대상
-    private boolean is_surveyed;
+    private Boolean is_surveyed;
 
     public User() {
 
@@ -22,7 +22,7 @@ public class User {
         this.name = name;
         this.phone = phone;
         this.birth = birth;
-        this.photoURL = null;
+        this.photoURL = "null";
         this.is_target = is_target;
     }
 
@@ -37,7 +37,7 @@ public class User {
         this.is_target = is_target;
     }
 
-    public void setIs_surveyed(boolean is_surveyed) {
+    public void setIs_surveyed(Boolean is_surveyed) {
         this.is_surveyed = is_surveyed;
     }
 
@@ -71,5 +71,17 @@ public class User {
 
     public int getIs_target() {
         return is_target;
+    }
+
+    public String getPhotoURL() {
+        return photoURL;
+    }
+
+    public Boolean getIs_surveyed() {
+        return is_surveyed;
+    }
+
+    public void setIs_target(int is_target) {
+        this.is_target = is_target;
     }
 }
