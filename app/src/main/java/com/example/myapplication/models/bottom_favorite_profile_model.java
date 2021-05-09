@@ -2,25 +2,99 @@ package com.example.myapplication.models;
 
 public class bottom_favorite_profile_model {
 
-    private String profile_image;
-    private String profile_name;
+    private String birth;
+    private String debut;
+    private String icon;
+    private String intro;
+    private String name;
+    private String sns;
+    private String team;
 
-    public String getProfile_image() {
-        return profile_image;
+    private class post {
+        private String title;
+        private int type;
+        private String username;
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        public int getType() {
+            return type;
+        }
+
+        public void setType(int type) {
+            this.type = type;
+        }
+
+        public String getUsername() {
+            return username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
     }
 
-    public void setProfile_image(String profile_image) {
-        this.profile_image = profile_image;
+    public String getBirth() {
+        return birth;
     }
 
-    public String getProfile_name() {
-        return profile_name;
+    public void setBirth(String birth) {
+        this.birth = birth;
     }
 
-    public void setProfile_name(String profile_name) {
-        this.profile_name = profile_name;
+    public String getDebut() {
+        return debut;
     }
 
-    public bottom_favorite_profile_model(){}
+    public void setDebut(String debut) {
+        this.debut = debut;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public String getIntro() {
+        return intro;
+    }
+
+    public void setIntro(String intro) {
+        this.intro = intro;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSns() {
+        return sns;
+    }
+
+    public void setSns(String sns) {
+        this.sns = sns;
+    }
+
+    public String getTeam() {
+        return team;
+    }
+
+    public void setTeam(String team) {
+        this.team = team;
+    }
+
 
 }

@@ -40,16 +40,16 @@ public class bottom_favorite_fragment extends Fragment {
         //recyclerview
         recyclerView = (RecyclerView) view.findViewById(R.id.bottom_favorite_recyclerview);// 리사이클러뷰 id
         recyclerView.setHasFixedSize(true);
-        int spanCount = 2; // columns
-        int spacing = 40; // px
-        boolean includeEdge = true;
         gridLayoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(gridLayoutManager);
+        int spanCount = 2; // columns
+        int spacing = 60; // px
+        boolean includeEdge = true;
         recyclerView.addItemDecoration(new ItemDecoration(spanCount, spacing, includeEdge));
         //layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(gridLayoutManager);
-        arrayList = new ArrayList<>();
 
+        arrayList = new ArrayList<>();
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference("profile");
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {

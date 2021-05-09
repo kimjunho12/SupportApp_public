@@ -37,12 +37,19 @@ public class bottom_favorite_profile_adapter extends RecyclerView.Adapter<bottom
 
     @Override
     public void onBindViewHolder(@NonNull bottom_favorite_profile_adapter.CustomViewHolder holder, int position) {
-        Glide.with(holder.itemView).load(arrayList.get(position).getProfile_image()).into(holder.profile_image);
-        holder.profile_name.setText(arrayList.get(position).getProfile_name());
+        Glide.with(holder.itemView).load(arrayList.get(position).getIcon()).into(holder.icon);
+        holder.name.setText(arrayList.get(position).getName());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), profileActivity.class);
+                intent.putExtra("birth", arrayList.get(position).getBirth());
+                intent.putExtra("debut", arrayList.get(position).getDebut());
+                intent.putExtra("icon", arrayList.get(position).getIcon());
+                intent.putExtra("intro", arrayList.get(position).getIntro());
+                intent.putExtra("name", arrayList.get(position).getName());
+                intent.putExtra("sns", arrayList.get(position).getSns());
+                intent.putExtra("team", arrayList.get(position).getTeam());
                 view.getContext().startActivity(intent);
             }
         });
@@ -53,13 +60,13 @@ public class bottom_favorite_profile_adapter extends RecyclerView.Adapter<bottom
     }
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
-        protected ImageView profile_image;
-        protected TextView profile_name;
+        protected ImageView icon;
+        protected TextView name;
 
         public CustomViewHolder(@NonNull View view) {
             super(view);
-            this.profile_image = (ImageView) view.findViewById(R.id.profile_image);
-            this.profile_name = (TextView) view.findViewById(R.id.profile_name);
+            this.icon = (ImageView) view.findViewById(R.id.profile_image);
+            this.name = (TextView) view.findViewById(R.id.profile_name);
         }
     }
 }
