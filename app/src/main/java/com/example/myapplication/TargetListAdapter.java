@@ -37,8 +37,8 @@ public class TargetListAdapter extends BaseAdapter {
 
         for (Target check_target : arrayList) {
             // 나중에는 Key값으로 넣어줘
-            hm.put(check_target.name, false);
-            Log.d("hashMap", String.valueOf(hm.get(check_target.name)));
+            hm.put(check_target.getName(), false);
+            Log.d("hashMap", String.valueOf(hm.get(check_target.getName())));
         }
     }
 
@@ -80,15 +80,15 @@ public class TargetListAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
         // Set the results into TextViews
-        holder.tv_name.setText(target.name);
+        holder.tv_name.setText(target.getName());
 
         // name으로 hashmap 검색 나중에는 Key값으로 찾아라
-        if (hm.get(target.name)) {
+        if (hm.get(target.getName())) {
             holder.cb_target.setChecked(true);
         } else {
             holder.cb_target.setChecked(false);
         }
-        Log.d("hashMap_is_changed", String.valueOf(target.name + hm.get(target.name)));
+        Log.d("hashMap_is_changed", String.valueOf(target.getName() + hm.get(target.getName())));
 
 
 //        holder.iv_icon.setImageIcon (target.icon); // 좀 이상해
@@ -105,8 +105,8 @@ public class TargetListAdapter extends BaseAdapter {
                     checkBox.setChecked(false);
                     a2a.deleteItem(0, position);
                 }
-                hm.put(target.name, checkBox.isChecked());
-                Log.d("hashMap_after", String.valueOf(target.name + hm.get(target.name)));
+                hm.put(target.getName(), checkBox.isChecked());
+                Log.d("hashMap_after", String.valueOf(target.getName() + hm.get(target.getName())));
             }
         });
 
@@ -122,8 +122,8 @@ public class TargetListAdapter extends BaseAdapter {
                     checkBox.setChecked(true);
                     a2a.addItem(0, position);
                 }
-                hm.put(target.name, checkBox.isChecked());
-                Log.d("hashMap_after", String.valueOf(target.name + hm.get(target.name)));
+                hm.put(target.getName(), checkBox.isChecked());
+                Log.d("hashMap_after", String.valueOf(target.getName() + hm.get(target.getName())));
 
 
 //                Intent intent = new Intent(context, BrewingActivity.class);;
@@ -141,13 +141,13 @@ public class TargetListAdapter extends BaseAdapter {
         targetList.clear();
         if (charText.length() == 0) {
             for (Target target : arrayList) {
-                if (hm.get(target.name)) {
+                if (hm.get(target.getName())) {
                     targetList.add(target);
                 }
             }
         } else {
             for (Target target : arrayList) {
-                String name = target.name;
+                String name = target.getName();
                 if (name.toLowerCase().contains(charText)) {
                     targetList.add(target);
                 }

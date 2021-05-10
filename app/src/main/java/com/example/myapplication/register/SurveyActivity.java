@@ -161,7 +161,7 @@ public class SurveyActivity extends AppCompatActivity implements adapter2activit
 
                 String result = "";
                 for (Target target : selectTarget) {
-                    result += target.name + ", ";
+                    result += target.getName() + ", ";
                 }
 
                 for (Subject subject : selectSubject) {

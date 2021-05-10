@@ -19,6 +19,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.R;
+import com.example.myapplication.models.Target;
 import com.example.myapplication.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -34,7 +35,6 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.auth.UserInfo;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -49,6 +49,8 @@ import java.util.concurrent.TimeUnit;
 
 public class RegisterActivity extends AppCompatActivity {
     private static final String TAG = "RegisterPage";
+    private static final int TARGET = 1;
+    private boolean is_signuped = false;
     private ImageButton btn_back;
     private Button btn_register_save;
     private CheckBox cb_target;
@@ -285,10 +287,15 @@ public class RegisterActivity extends AppCompatActivity {
                     createAccount(email, password);
                 }
 
-                if (OK && mAuth.getCurrentUser() != null) {
+                if (OK && is_signuped) {
+                    moveToTargetDetailsActivity();
+                }
+
+                if (OK && mAuth.getCurrentUser() != null && !is_signuped) {
                     AuthCredential credential = EmailAuthProvider.getCredential(email, password);
                     linkAccount(credential);
                 }
+
             }
         });
     }
@@ -387,16 +394,31 @@ public class RegisterActivity extends AppCompatActivity {
             if (cb_target.isChecked()) {
                 // setResult 및 Intent 수정 필요
                 setResult(0);
-                Intent intent = new Intent(RegisterActivity.this, TargetDetailsActivity.class);
-                startActivity(intent);
-
-                //콜백 받으면 finish
-                finish();
+                is_signuped = true;
+                moveToTargetDetailsActivity();
             }
             // 일반 회원일 경우
             else {
                 finish();
             }
+        }
+    }
+
+    private void moveToTargetDetailsActivity() {
+        Intent intent = new Intent(RegisterActivity.this, TargetDetailsActivity.class);
+        intent.putExtra("name", name);
+        intent.putExtra("phone", phone);
+        intent.putExtra("birth", birthday);
+        startActivityForResult(intent, TARGET);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // 정보입력 다 했는지 확인
+        Log.d(TAG, "onActivityResult: " + requestCode + " " + resultCode);
+        if (requestCode == TARGET && resultCode == 200) {
+            finish();
         }
     }
 
