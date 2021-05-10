@@ -14,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -33,9 +34,13 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.auth.UserInfo;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -105,25 +110,29 @@ public class RegisterActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View v) {
-                // DB의 Users에서 데이터 받아와서 contains로 중복확인 (임시)
-                FirebaseDatabase.getInstance().getReference("Users").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                Query mQuery = FirebaseDatabase.getInstance().getReference().child("Users").orderByChild("id").equalTo(String.valueOf(et_register_id.getText()));
+                mQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
-                        if (!task.isSuccessful()) {
-                            Log.e(TAG, "Error getting data", task.getException());
+                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                        Log.d(TAG, "onDataChange: " + snapshot.getValue());
+                        if (snapshot.getValue() != null) {
+                            Toast.makeText(RegisterActivity.this, "아이디가 중복 되었습니다.\n다시 입력해주세요.", Toast.LENGTH_SHORT).show();
+                            et_register_id.requestFocus();
                         } else {
-                            Log.d(TAG, String.valueOf(task.getResult().getValue()));
-                            if (String.valueOf(task.getResult().getValue()).contains(et_register_id.getText())) {
-                                Toast.makeText(RegisterActivity.this, "아이디가 중복 되었습니다.\n다시 입력해주세요.", Toast.LENGTH_SHORT).show();
-                                et_register_id.findFocus();
-                            } else {
-                                Toast.makeText(RegisterActivity.this, "사용가능한 아이디 입니다.", Toast.LENGTH_SHORT).show();
-                                et_register_id.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_checked, 0);
-                                et_register_id.setEnabled(false);
-                                btn_check_id.setEnabled(false);
-                                is_id_checked = true;
+                            if (TextUtils.isEmpty(et_register_id.getText())) {
+                                return;
                             }
+                            Toast.makeText(RegisterActivity.this, "사용가능한 아이디 입니다.", Toast.LENGTH_SHORT).show();
+                            et_register_id.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_checked, 0);
+                            et_register_id.setEnabled(false);
+                            btn_check_id.setEnabled(false);
+                            is_id_checked = true;
                         }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                        Log.e(TAG, "onCancelled: ", error.toException());
                     }
                 });
             }
@@ -174,7 +183,7 @@ public class RegisterActivity extends AppCompatActivity {
                 if (e instanceof FirebaseAuthInvalidCredentialsException) {
                     Toast.makeText(RegisterActivity.this, "휴대폰 번호를 확인해 주세요", Toast.LENGTH_SHORT).show();
                     et_register_phone.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.design_default_color_error)));
-                    et_register_phone.findFocus();
+                    et_register_phone.requestFocus();
                 } else if (e instanceof FirebaseTooManyRequestsException) {
                     Toast.makeText(RegisterActivity.this, "인증 가능 횟수를 초과하였습니다\n잠시 후에 다시 시도해 주세요", Toast.LENGTH_SHORT).show();
                 }
@@ -209,7 +218,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                     Toast.makeText(RegisterActivity.this, "인증번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show();
                     et_register_no_check.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.design_default_color_error)));
-                    et_register_no_check.findFocus();
+                    et_register_no_check.requestFocus();
                 }
                 Log.d(TAG, "submit.onClick: " + smsCode);
             }
