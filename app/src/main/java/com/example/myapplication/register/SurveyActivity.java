@@ -16,6 +16,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,27 +28,31 @@ import com.example.myapplication.TargetListAdapter;
 import com.example.myapplication.adapter2activity;
 import com.example.myapplication.models.Subject;
 import com.example.myapplication.models.Target;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 public class SurveyActivity extends AppCompatActivity implements adapter2activity {
 
+    private static final String TAG = "SurveyPage";
     private Button btn_survey_save;
     private TextView btn_survey_skip;
     private RecyclerView recyclerview;
     private ExpandableListAdapter expandableListAdapter;
 
-    private List<Subject> data = new ArrayList<>();
-    private ArrayList<Target> targetList = new ArrayList<Target>();
+    private ArrayList<Subject> subjectList = new ArrayList<>();
+    private ArrayList<Target> targetList = new ArrayList<>();
 
-    // 임시
     private TargetListAdapter targetListAdapter;
     private ListView searched_target_list;
     private EditText searchView;
 
-    // end 임시
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,24 +61,111 @@ public class SurveyActivity extends AppCompatActivity implements adapter2activit
 
         // 임시
 
-        targetList.add(new Target("김준호"));
-        targetList.add(new Target("안부지"));
-        targetList.add(new Target("성기준"));
-        targetList.add(new Target("문범준"));
-        targetList.add(new Target("제갈명원"));
-        targetList.add(new Target("황보명선"));
-        targetList.add(new Target("안인호"));
-        targetList.add(new Target("안상미"));
-        targetList.add(new Target("표현수"));
-        targetList.add(new Target("손흥민"));
-        targetList.add(new Target("정신차려"));
-        targetList.add(new Target("고구마"));
-        targetList.add(new Target("감자"));
-        targetList.add(new Target("치킨"));
-        targetList.add(new Target("피자"));
-        targetList.add(new Target("가나다라마바사아자차카타파하"));
+        FirebaseDatabase.getInstance().getReference("profile").orderByChild("name")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            Log.d(TAG, "onDataChange: in profile LOOP " + dataSnapshot.child("name").getValue());
+                            targetList.add(new Target(dataSnapshot.child("name").getValue().toString()));
+                        }
+                        setTargetListAdapter();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                    }
+                });
+
+        btn_survey_save = findViewById(R.id.btn_survey_save);
+        btn_survey_skip = findViewById(R.id.btn_survey_skip);
+
+        recyclerview = findViewById(R.id.re_survey_subject);
+        recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+
+        FirebaseDatabase.getInstance().getReference("Subject").orderByKey()
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                        for (DataSnapshot parentSubject : snapshot.getChildren()) {
+                            subjectList.add(new Subject(Subject.HEADER, parentSubject.getKey()));
+
+                            for (DataSnapshot childSubject : parentSubject.getChildren()) {
+                                Log.d(TAG, "onDataChange: in getchild_LOOP " + childSubject.getValue());
+                                subjectList.add(new Subject(Subject.CHILD, childSubject.getValue().toString()));
+                            }
+                        }
+
+                        expandableListAdapter = new ExpandableListAdapter(subjectList, SurveyActivity.this);
+                        recyclerview.setAdapter(expandableListAdapter);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                    }
+                });
+
+//        // 두번째 방법 바로 place에 header와 invisiblechild로 입력 (처음부터 가려진 상태)
+//        Subject places = new Subject(ExpandableListAdapter.HEADER, "미술");
+//        places.invisibleChildren = new ArrayList<>();
+//        places.invisibleChildren.add(new Subject(Subject.CHILD, "현대미술"));
+//        places.invisibleChildren.add(new Subject(Subject.CHILD, "고전미술"));
+//        subjectList.add(places);
 
 
+        btn_survey_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchView.setText(null);
+
+                String result = "";
+                for (Target target : selectTarget) {
+                    result += target.getName() + ", ";
+                }
+
+                for (Subject subject : selectSubject) {
+                    result += subject.text + ", ";
+                }
+                Log.d(TAG, "onClick: " + result);
+
+                Intent intent = new Intent(SurveyActivity.this, MainActivity.class);
+                startActivity(intent);
+
+                finish();
+            }
+        });
+
+        btn_survey_skip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SurveyActivity.this, MainActivity.class);
+                startActivity(intent);
+
+                finish();
+            }
+        });
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        View focusView = getCurrentFocus();
+        if (focusView != null) {
+            Rect rect = new Rect();
+            focusView.getGlobalVisibleRect(rect);
+            int x = (int) ev.getX(), y = (int) ev.getY();
+            if (!rect.contains(x, y)) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                if (imm != null)
+                    imm.hideSoftInputFromWindow(focusView.getWindowToken(), 0);
+                focusView.clearFocus();
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+    public void setTargetListAdapter() {
         targetListAdapter = new TargetListAdapter(this, targetList, this);
         searched_target_list = findViewById(R.id.searched_target_list);
         searched_target_list.setAdapter(targetListAdapter);
@@ -105,105 +197,6 @@ public class SurveyActivity extends AppCompatActivity implements adapter2activit
                 searchView.setText(null);
             }
         });
-        // end 임시
-
-        btn_survey_save = findViewById(R.id.btn_survey_save);
-        btn_survey_skip = findViewById(R.id.btn_survey_skip);
-
-        recyclerview = findViewById(R.id.re_survey_subject);
-        recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-
-
-        // 나중에는 DB랑 연동해서 불러오자
-        // 첫번째 방법 (데이터 리스트에 모아서 data.add(place) 하는 방법 (처음부터 보이는 상태) : 정적
-        data.add(new Subject(Subject.HEADER, "스포츠"));
-        data.add(new Subject(Subject.CHILD, "축구"));
-        data.add(new Subject(Subject.CHILD, "농구"));
-        data.add(new Subject(Subject.CHILD, "야구"));
-        data.add(new Subject(Subject.HEADER, "음악"));
-        data.add(new Subject(Subject.CHILD, "K-Pop"));
-        data.add(new Subject(Subject.CHILD, "인디밴드"));
-        data.add(new Subject(Subject.CHILD, "힙합"));
-        data.add(new Subject(Subject.CHILD, "등등"));
-
-        // 두번째 방법 바로 place에 header와 invisiblechild로 입력 (처음부터 가려진 상태)
-        Subject places = new Subject(ExpandableListAdapter.HEADER, "미술");
-        places.invisibleChildren = new ArrayList<>();
-        places.invisibleChildren.add(new Subject(Subject.CHILD, "현대미술"));
-        places.invisibleChildren.add(new Subject(Subject.CHILD, "고전미술"));
-        data.add(places);
-
-        data.add(new Subject(Subject.HEADER, "Test1"));
-        data.add(new Subject(Subject.CHILD, "Test1"));
-        data.add(new Subject(Subject.CHILD, "Test1"));
-        data.add(new Subject(Subject.CHILD, "Test1"));
-
-        data.add(new Subject(Subject.HEADER, "Test2"));
-        data.add(new Subject(Subject.CHILD, "Test2"));
-        data.add(new Subject(Subject.CHILD, "Test2"));
-        data.add(new Subject(Subject.CHILD, "Test2"));
-        data.add(new Subject(Subject.CHILD, "Test2"));
-        data.add(new Subject(Subject.CHILD, "Test2"));
-        data.add(new Subject(Subject.CHILD, "Test2"));
-
-        data.add(new Subject(Subject.HEADER, "Test3"));
-        data.add(new Subject(Subject.HEADER, "Test4"));
-        data.add(new Subject(Subject.HEADER, "Test5"));
-
-
-        expandableListAdapter = new ExpandableListAdapter(data, this);
-        recyclerview.setAdapter(expandableListAdapter);
-
-        btn_survey_save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                searchView.setText(null);
-
-                String result = "";
-                for (Target target : selectTarget) {
-                    result += target.getName() + ", ";
-                }
-
-                for (Subject subject : selectSubject) {
-                    result += subject.text + ", ";
-                }
-                Log.d("Selected_Subject", "onClick: " + result);
-
-                Intent intent = new Intent(SurveyActivity.this, MainActivity.class);
-                startActivity(intent);
-
-                finish();
-            }
-        });
-
-        btn_survey_skip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(SurveyActivity.this, MainActivity.class);
-                startActivity(intent);
-
-                finish();
-            }
-        });
-
-
-    }
-
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        View focusView = getCurrentFocus();
-        if (focusView != null) {
-            Rect rect = new Rect();
-            focusView.getGlobalVisibleRect(rect);
-            int x = (int) ev.getX(), y = (int) ev.getY();
-            if (!rect.contains(x, y)) {
-                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                if (imm != null)
-                    imm.hideSoftInputFromWindow(focusView.getWindowToken(), 0);
-                focusView.clearFocus();
-            }
-        }
-        return super.dispatchTouchEvent(ev);
     }
 
     public static void setListViewHeightBasedOnChildren(ListView listView) {
@@ -236,7 +229,7 @@ public class SurveyActivity extends AppCompatActivity implements adapter2activit
     @Override
     public void addItem(int type, int position) {
         if (type == 1) {
-            selectSubject.add(data.get(position));
+            selectSubject.add(subjectList.get(position));
         } else {
             selectTarget.add(targetList.get(position));
         }
@@ -245,7 +238,7 @@ public class SurveyActivity extends AppCompatActivity implements adapter2activit
     @Override
     public void deleteItem(int type, int position) {
         if (type == 1) {
-            selectSubject.remove(data.get(position));
+            selectSubject.remove(subjectList.get(position));
         } else {
             selectTarget.remove(targetList.get(position));
         }
