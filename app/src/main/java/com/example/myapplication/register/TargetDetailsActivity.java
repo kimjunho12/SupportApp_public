@@ -1,11 +1,14 @@
 package com.example.myapplication.register;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -23,6 +26,8 @@ public class TargetDetailsActivity extends AppCompatActivity {
     private EditText input_debut_date;
     private EditText input_SNS;
     private EditText input_pr;
+    private ImageView img_profile;
+    private TextView btn_change_profile;
     private static final int OK = 200;
 
     @Override
@@ -65,6 +70,8 @@ public class TargetDetailsActivity extends AppCompatActivity {
         input_debut_date = findViewById(R.id.input_debut_date);
         input_SNS = findViewById(R.id.input_SNS);
         input_pr = findViewById(R.id.input_pr);
+        img_profile = findViewById(R.id.img_profile);
+        btn_change_profile = findViewById(R.id.btn_change_profile);
 
         Intent intent = getIntent();
         if (intent.getExtras() != null) {

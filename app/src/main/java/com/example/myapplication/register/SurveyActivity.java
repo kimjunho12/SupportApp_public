@@ -59,14 +59,12 @@ public class SurveyActivity extends AppCompatActivity implements adapter2activit
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_survey);
 
-        // 임시
-
+        // DB에서 후원대상 불러오기
         FirebaseDatabase.getInstance().getReference("profile").orderByChild("name")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            Log.d(TAG, "onDataChange: in profile LOOP " + dataSnapshot.child("name").getValue());
                             targetList.add(new Target(dataSnapshot.child("name").getValue().toString()));
                         }
                         setTargetListAdapter();
@@ -84,6 +82,7 @@ public class SurveyActivity extends AppCompatActivity implements adapter2activit
         recyclerview = findViewById(R.id.re_survey_subject);
         recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
+        // DB에서 분야 불러오기
         FirebaseDatabase.getInstance().getReference("Subject").orderByKey()
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -92,7 +91,6 @@ public class SurveyActivity extends AppCompatActivity implements adapter2activit
                             subjectList.add(new Subject(Subject.HEADER, parentSubject.getKey()));
 
                             for (DataSnapshot childSubject : parentSubject.getChildren()) {
-                                Log.d(TAG, "onDataChange: in getchild_LOOP " + childSubject.getValue());
                                 subjectList.add(new Subject(Subject.CHILD, childSubject.getValue().toString()));
                             }
                         }
