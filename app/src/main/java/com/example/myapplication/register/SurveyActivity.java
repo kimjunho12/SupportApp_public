@@ -60,7 +60,7 @@ public class SurveyActivity extends AppCompatActivity implements adapter2activit
         setContentView(R.layout.activity_survey);
 
         // DB에서 후원대상 불러오기
-        FirebaseDatabase.getInstance().getReference("profile").orderByChild("name")
+        FirebaseDatabase.getInstance().getReference("target").orderByChild("name")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {

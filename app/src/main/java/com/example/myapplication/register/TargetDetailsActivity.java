@@ -1,9 +1,7 @@
 package com.example.myapplication.register;
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -57,7 +55,7 @@ public class TargetDetailsActivity extends AppCompatActivity {
                 String.valueOf(input_SNS.getText()),
                 String.valueOf(input_pr.getText()));
 
-        FirebaseDatabase.getInstance().getReference("profile").push().setValue(target);
+        FirebaseDatabase.getInstance().getReference("target").push().setValue(target);
         setResult(OK);
         finish();
     }
