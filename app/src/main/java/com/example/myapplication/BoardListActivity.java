@@ -5,12 +5,23 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.models.Post;
+import com.example.myapplication.models.bottom_favorite_profile_model;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,29 +31,45 @@ public class BoardListActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private BoardListAdapter boardListAdapter;
     private Button btn_create_post;
+    private Intent intent;
+    private ArrayList<Post> arrayList;
+    private FirebaseDatabase database;
+    private DatabaseReference databaseReference;
+    private GridLayoutManager gridLayoutManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board_list);
-
-        Date date = new Date();
-        ArrayList<Post> boardlist = new ArrayList<>();
-        boardlist.add(new Post(0, "공지사항", "관리자"));
-        boardlist.add(new Post(0, "긴급 공지", "관리자"));
-        boardlist.add(new Post(1, "둘둘말이김밥", "추", date, 0));
-        boardlist.add(new Post(0, "--안내--", "adsa"));
-        boardlist.add(new Post(1, "기무닝ㅁㄴ입ㅈ우", "czxcaqq"));
-        boardlist.add(new Post(1, "ddqwzxcasdasd!@#$%^&*()_+", "123d1d"));
-        boardlist.add(new Post(1, "아", "13adasdasd"));
-        boardlist.add(new Post(1, " ", "1dcv"));
-        boardlist.add(new Post(1, "가나다라마바사아자차카타파하", "김준호"));
-        boardlist.add(new Post(1, "준", "정"));
-        boardlist.add(new Post(1, "12345", "정진", date, 11));
-        boardlist.add(new Post(1, "미티치미ㅣㅣ이빚디비디", "감식", date, 120));
-
-        boardListAdapter = new BoardListAdapter(boardlist);
         recyclerView = findViewById(R.id.re_board_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        intent = getIntent();
+        String name = intent.getStringExtra("name1");
+        TextView textView = findViewById(R.id.tv_target_name);
+        textView.setText(name + " 게시판");
+
+        arrayList = new ArrayList<>();
+        database = FirebaseDatabase.getInstance();
+        databaseReference = database.getReference().child("profile").child("0").child("post");
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                arrayList.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Post Post = snapshot.getValue(Post.class);
+                    arrayList.add(Post);
+                }
+                boardListAdapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("Fraglike", String.valueOf(error.toException())); //에러 시 출력
+            }
+        });
+
+
+        boardListAdapter = new BoardListAdapter(arrayList);
         recyclerView.setAdapter(boardListAdapter);
 
         btn_create_post = findViewById(R.id.btn_create_post);

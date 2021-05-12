@@ -17,26 +17,26 @@ import com.example.myapplication.models.bottom_favorite_profile_model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class bottom_favorite_profile_adapter extends RecyclerView.Adapter<bottom_favorite_profile_adapter.CustomViewHolder> {
+public class bottom_favorite_adapter extends RecyclerView.Adapter<bottom_favorite_adapter.CustomViewHolder> {
 
     private Context context;
     private List<bottom_favorite_profile_model> arrayList;
 
-    public bottom_favorite_profile_adapter(ArrayList<bottom_favorite_profile_model> arrayList, Context context) {
+    public bottom_favorite_adapter(ArrayList<bottom_favorite_profile_model> arrayList, Context context) {
         this.context = context;
         this.arrayList = arrayList;
     }
 
     @NonNull
     @Override
-    public bottom_favorite_profile_adapter.CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public bottom_favorite_adapter.CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.bottom_favorite_profile, parent, false);
         CustomViewHolder holder = new CustomViewHolder(view);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull bottom_favorite_profile_adapter.CustomViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull bottom_favorite_adapter.CustomViewHolder holder, int position) {
         Glide.with(holder.itemView).load(arrayList.get(position).getIcon()).into(holder.icon);
         holder.name.setText(arrayList.get(position).getName());
         holder.itemView.setOnClickListener(new View.OnClickListener() {

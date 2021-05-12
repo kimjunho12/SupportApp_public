@@ -16,31 +16,12 @@ import java.util.ArrayList;
 
 public class BoardListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private ArrayList<Post> data;
+    private ArrayList<Post> arrayList;
 
-    public BoardListAdapter(ArrayList<Post> data) {
-        this.data = data;
+    public BoardListAdapter(ArrayList<Post> arrayList) {
+        this.arrayList = arrayList;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
-
-        TextView type;
-        TextView title;
-        TextView username;
-        TextView date;
-        TextView cnt;
-
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-
-            type = itemView.findViewById(R.id.tv_boardlist_type);
-            title = itemView.findViewById(R.id.tv_boardlist_title);
-            username = itemView.findViewById(R.id.tv_boardlist_user);
-            date = itemView.findViewById(R.id.tv_boardlist_date);
-            cnt = itemView.findViewById(R.id.tv_boardlist_cnt);
-
-        }
-    }
 
     @NonNull
     @Override
@@ -56,15 +37,14 @@ public class BoardListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        Post post = data.get(position);
+        Post post = arrayList.get(position);
         ViewHolder boardholder = (ViewHolder) holder;
 
-        boardholder.type.setText(Integer.toString(post.type));
-        boardholder.title.setText(post.title);
-        boardholder.username.setText(post.username);
-        // 밑에 두개는 제대로 받아서 보내주는 식으로
-        boardholder.date.setText("21.04.13");
-        boardholder.cnt.setText("조회 " + "0");
+        boardholder.type.setText(arrayList.get(position).getType());
+        boardholder.title.setText(arrayList.get(position).getTitle());
+        boardholder.username.setText(arrayList.get(position).getUsername());
+        boardholder.date.setText(arrayList.get(position).getDate());
+        boardholder.cnt.setText(arrayList.get(position).getView_cnt());
         
         boardholder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,6 +57,26 @@ public class BoardListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return (arrayList != null ? arrayList.size() : 0);
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder{
+
+        protected TextView type;
+        protected TextView title;
+        protected TextView username;
+        protected TextView date;
+        protected TextView cnt;
+
+        public ViewHolder(@NonNull View view) {
+            super(view);
+
+            this.type = (TextView) view.findViewById(R.id.tv_boardlist_type);
+            this.title = (TextView) view.findViewById(R.id.tv_boardlist_title);
+            this.username = (TextView) view.findViewById(R.id.tv_boardlist_user);
+            this.date = (TextView) view.findViewById(R.id.tv_boardlist_date);
+            this.cnt = (TextView) view.findViewById(R.id.tv_boardlist_cnt);
+
+        }
     }
 }

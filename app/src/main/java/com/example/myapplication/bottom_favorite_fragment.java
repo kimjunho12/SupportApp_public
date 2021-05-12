@@ -36,7 +36,6 @@ public class bottom_favorite_fragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.bottom_favorite_fragment, container, false);
-        recyclerView = (RecyclerView) view.findViewById(R.id.bottom_favorite_recyclerview);
         //recyclerview
         recyclerView = (RecyclerView) view.findViewById(R.id.bottom_favorite_recyclerview);// 리사이클러뷰 id
         recyclerView.setHasFixedSize(true);
@@ -68,7 +67,7 @@ public class bottom_favorite_fragment extends Fragment {
             }
         });
 
-        bottom_favorite_profile_adapter = new bottom_favorite_profile_adapter(arrayList, getContext());
+        bottom_favorite_profile_adapter = new bottom_favorite_adapter(arrayList, getContext());
         recyclerView.setAdapter(bottom_favorite_profile_adapter);
         return view;
     }

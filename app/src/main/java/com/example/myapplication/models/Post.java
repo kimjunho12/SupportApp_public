@@ -4,25 +4,54 @@ import java.util.Date;
 
 public class Post {
 
-    //    public int key;
-    public int type;
-    public String title;
-    // userkey로 matching
-    public String username;
-    public Date date;
-    public int view_cnt;
 
-    public Post(int type, String title, String username) {
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
         this.type = type;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
         this.username = username;
     }
 
-    public Post(int type, String title, String username, Date date, int view_cnt) {
-        this.type = type;
-        this.title = title;
-        this.username = username;
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getView_cnt() {
+        return view_cnt;
+    }
+
+    public void setView_cnt(String view_cnt) {
         this.view_cnt = view_cnt;
     }
+
+    //public int key;
+    public String type;
+    public String title;
+    //userkey로 matching
+    public String username;
+    public String date;
+    public String view_cnt;
+
+
 }
