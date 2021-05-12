@@ -45,10 +45,8 @@ public class Post {
         this.view_cnt = view_cnt;
     }
 
-    //public int key;
     public String type;
     public String title;
-    //userkey로 matching
     public String username;
     public String date;
     public String view_cnt;

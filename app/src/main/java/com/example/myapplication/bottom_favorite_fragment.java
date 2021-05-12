@@ -50,7 +50,7 @@ public class bottom_favorite_fragment extends Fragment {
 
         arrayList = new ArrayList<>();
         database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference("profile");
+        databaseReference = database.getReference("target");
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

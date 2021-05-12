@@ -10,36 +10,6 @@ public class bottom_favorite_profile_model {
     private String sns;
     private String team;
 
-    private class post {
-        private String title;
-        private int type;
-        private String username;
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
-        public int getType() {
-            return type;
-        }
-
-        public void setType(int type) {
-            this.type = type;
-        }
-
-        public String getUsername() {
-            return username;
-        }
-
-        public void setUsername(String username) {
-            this.username = username;
-        }
-    }
-
     public String getBirth() {
         return birth;
     }
