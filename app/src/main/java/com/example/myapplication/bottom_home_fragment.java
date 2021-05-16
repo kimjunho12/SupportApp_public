@@ -73,7 +73,7 @@ public class bottom_home_fragment extends Fragment {
         viewPager.setCurrentItem(0);
 
         database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference("newstitle");
+        databaseReference = database.getReference("news");
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
