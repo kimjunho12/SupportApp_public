@@ -1,7 +1,5 @@
 package com.example.myapplication.models;
 
-import java.util.Date;
-
 public class Post {
 
 
@@ -50,6 +48,6 @@ public class Post {
     public String username;
     public String date;
     public String view_cnt;
-
-
+    public String contents;
+    public String img;
 }

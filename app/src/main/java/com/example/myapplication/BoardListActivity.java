@@ -14,20 +14,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.models.Post;
-import com.example.myapplication.models.bottom_favorite_profile_model;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.Date;
 
 public class BoardListActivity extends AppCompatActivity {
 
+    private static final String TAG = "BoardListPage";
     private RecyclerView recyclerView;
     private BoardListAdapter boardListAdapter;
     private Button btn_create_post;
@@ -78,6 +75,7 @@ public class BoardListActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // 새글쓰기로 이동
                 Intent intent = new Intent(BoardListActivity.this, BoardwriteActivity.class);
+                intent.putExtra("DB", name);
                 startActivity(intent);
             }
         });

@@ -19,7 +19,6 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.R;
-import com.example.myapplication.models.Target;
 import com.example.myapplication.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -34,7 +33,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
-import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -91,21 +89,6 @@ public class RegisterActivity extends AppCompatActivity {
             et_register_id.setEnabled(false);
 
             et_register_name.setText(user.getDisplayName());
-
-            Log.d(TAG, "onCreate: user.getEmail             " + user.getEmail());
-            Log.d(TAG, "onCreate: user.getDisplayName       " + user.getDisplayName());
-            Log.d(TAG, "onCreate: user.getPhoneNumber       " + user.getPhoneNumber());
-            Log.d(TAG, "onCreate: user.getProviderId        " + user.getProviderId());
-            Log.d(TAG, "onCreate: user.getProviderData      " + user.getProviderData());
-            Log.d(TAG, "onCreate: user.getPhotoUrl          " + user.getPhotoUrl());
-            for (UserInfo profile : user.getProviderData()) {
-                Log.d(TAG, "onCreate: profile                      " + profile);
-                Log.d(TAG, "onCreate: profile.getEmail             " + profile.getEmail());
-                Log.d(TAG, "onCreate: profile.getDisplayName       " + profile.getDisplayName());
-                Log.d(TAG, "onCreate: profile.getPhoneNumber       " + profile.getPhoneNumber());
-                Log.d(TAG, "onCreate: profile.getProviderId        " + profile.getProviderId());
-                Log.d(TAG, "onCreate: profile.getPhotoUrl          " + profile.getPhotoUrl());
-            }
         }
 
         btn_check_id.setOnClickListener(new View.OnClickListener() {
