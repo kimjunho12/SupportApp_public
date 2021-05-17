@@ -44,7 +44,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         boardholder.title.setText(arrayList.get(position).getTitle());
         boardholder.username.setText(arrayList.get(position).getUsername());
         boardholder.date.setText(arrayList.get(position).getDate());
-        boardholder.cnt.setText(arrayList.get(position).getView_cnt());
+        boardholder.cnt.setText(String.valueOf(arrayList.get(position).getView_cnt()));
         
         boardholder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

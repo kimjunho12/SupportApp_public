@@ -1,5 +1,7 @@
 package com.example.myapplication.models;
 
+import java.util.Date;
+
 public class Post {
 
 
@@ -35,11 +37,11 @@ public class Post {
         this.date = date;
     }
 
-    public String getView_cnt() {
+    public int getView_cnt() {
         return view_cnt;
     }
 
-    public void setView_cnt(String view_cnt) {
+    public void setView_cnt(int view_cnt) {
         this.view_cnt = view_cnt;
     }
 
@@ -47,7 +49,7 @@ public class Post {
     public String title;
     public String username;
     public String date;
-    public String view_cnt;
+    public int view_cnt;
     public String contents;
     public String img;
 }

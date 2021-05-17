@@ -49,7 +49,7 @@ public class BoardListActivity extends AppCompatActivity {
         arrayList = new ArrayList<>();
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference().child("target").child(name).child("post");
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 arrayList.clear();
