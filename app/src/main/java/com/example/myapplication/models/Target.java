@@ -1,7 +1,5 @@
 package com.example.myapplication.models;
 
-import android.graphics.drawable.Icon;
-
 public class Target {
     private String name;
     private String phone;

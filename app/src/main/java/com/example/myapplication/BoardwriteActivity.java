@@ -19,7 +19,6 @@ import java.util.Date;
 
 public class BoardwriteActivity extends AppCompatActivity {
 
-    private Intent intent;
     private ImageView imageView;
     private TextView et_board_write_title;
     private TextView et_board_write_contents;
@@ -35,7 +34,7 @@ public class BoardwriteActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        intent = getIntent();
+        Intent intent = getIntent();
         target = intent.getStringExtra("DB");
 
         et_board_write_title = findViewById(R.id.et_board_write_title);
@@ -43,8 +42,6 @@ public class BoardwriteActivity extends AppCompatActivity {
         btn_board_add_photo = findViewById(R.id.btn_board_add_photo);
         btn_create_post = findViewById(R.id.btn_create_post);
         sw_board_type = findViewById(R.id.sw_board_type);
-
-
 
         btn_board_add_photo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,7 +54,7 @@ public class BoardwriteActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Post post = new Post();
-                if (sw_board_type.isChecked()){
+                if (sw_board_type.isChecked()) {
                     post.type = "공지";
                 } else {
                     post.type = "일반";

@@ -1,7 +1,5 @@
 package com.example.myapplication.models;
 
-import java.util.Date;
-
 public class Post {
 
 
