@@ -17,6 +17,7 @@ import java.util.ArrayList;
 public class BoardListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private ArrayList<Post> arrayList;
+    private Intent intent;
 
     public BoardListAdapter(ArrayList<Post> arrayList) {
         this.arrayList = arrayList;
@@ -37,6 +38,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+
         Post post = arrayList.get(position);
         ViewHolder boardholder = (ViewHolder) holder;
 
@@ -50,6 +52,9 @@ public class BoardListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), BoardcontentActivity.class);
+                intent.putExtra("title", arrayList.get(position).getTitle());
+                intent.putExtra("contents", arrayList.get(position).getContents());
+                //intent.putExtra("image", arrayList.get(position).getImg())
                 view.getContext().startActivity(intent);
             }
         });

@@ -1,29 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
 
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:gravity="center_vertical">
+
+
     <TextView
-        android:id="@+id/retext"
-        android:layout_width="match_parent"
+        android:id="@+id/name"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:text="댓글1">
+        android:text="유저"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/reply"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="댓글"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/name"
+        app:layout_constraintTop_toTopOf="parent">
 
     </TextView>
-    <TextView
-        android:id="@+id/retext1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="댓글2">
 
-    </TextView>
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

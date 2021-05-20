@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.models.Boardcontent_data;
+import com.example.myapplication.models.Post;
 
 import java.util.ArrayList;
 
@@ -32,17 +33,11 @@ public class Boardcontent_adapter extends RecyclerView.Adapter<Boardcontent_adap
 
     @Override
     public void onBindViewHolder(@NonNull Boardcontent_adapter.ViewHolder holder, int position) {
-        holder.retext.setText(arrayList.get(position).getRetext());
-        holder.retext1.setText(arrayList.get(position).getRetext1());
-        holder.itemView.setTag(position);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String name = holder.retext.getText().toString();
-                String name1 = holder.retext1.getText().toString();
-                Toast.makeText(view.getContext(), name, Toast.LENGTH_SHORT).show();
-            }
-        });
+        Boardcontent_data boardcontent_data = arrayList.get(position);
+        Boardcontent_adapter.ViewHolder viewHolder = (Boardcontent_adapter.ViewHolder) holder;
+
+        viewHolder.name.setText(arrayList.get(position).getName());
+        viewHolder.reply.setText(arrayList.get(position).getReply());
 
         /*//롱클릭
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -57,34 +52,26 @@ public class Boardcontent_adapter extends RecyclerView.Adapter<Boardcontent_adap
 
     @Override
     public int getItemCount() {
-        return (null != arrayList ? arrayList.size() : 0);
+        return (arrayList != null ? arrayList.size() : 0);
     }
 
-    /*public void remove(int positon) {
-        try {
-            arrayList.remove(positon);
-            notifyItemRemoved(positon);
-        } catch (IndexOutOfBoundsException ex) {
-            ex.printStackTrace();
-        }
-    }*/
-
-    public void addItem(Boardcontent_data item) {
+    /*public void addItem(Boardcontent_data item) {
         arrayList.add(item);
         notifyDataSetChanged();
     }
+
     public void addItems(ArrayList<Boardcontent_data> items) {
         this.arrayList = items;
-    }
+    }*/
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        protected TextView retext;
-        protected TextView retext1;
+        protected TextView name;
+        protected TextView reply;
 
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            this.retext = (TextView) itemView.findViewById(R.id.retext);
-            this.retext1 = (TextView) itemView.findViewById(R.id.retext1);
+        public ViewHolder(@NonNull View view) {
+            super(view);
+            this.name = (TextView) itemView.findViewById(R.id.name);
+            this.reply = (TextView) itemView.findViewById(R.id.reply);
         }
     }
 }
