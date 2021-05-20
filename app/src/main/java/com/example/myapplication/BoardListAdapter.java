@@ -57,6 +57,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 intent.putExtra("title", arrayList.get(position).getTitle());
                 intent.putExtra("contents", arrayList.get(position).getContents());
                 intent.putExtra("key", arrayList.get(position).key);
+                intent.putExtra("target", arrayList.get(position).target);
                 Log.d(TAG, "onClick: " + arrayList.get(position).key);
                 //intent.putExtra("image", arrayList.get(position).getImg())
                 view.getContext().startActivity(intent);

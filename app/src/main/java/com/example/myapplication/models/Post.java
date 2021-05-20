@@ -51,6 +51,7 @@ public class Post {
     public String contents;
     public String img;
     public String key;
+    public String target;
 
     public String getContents() {
         return contents;

@@ -4,13 +4,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.models.Boardcontent_data;
-import com.example.myapplication.models.Post;
 
 import java.util.ArrayList;
 
@@ -70,8 +68,8 @@ public class Boardcontent_adapter extends RecyclerView.Adapter<Boardcontent_adap
 
         public ViewHolder(@NonNull View view) {
             super(view);
-            this.name = (TextView) itemView.findViewById(R.id.name);
-            this.reply = (TextView) itemView.findViewById(R.id.reply);
+            this.name = view.findViewById(R.id.name);
+            this.reply = view.findViewById(R.id.reply);
         }
     }
 }

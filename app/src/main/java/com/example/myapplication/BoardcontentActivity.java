@@ -40,7 +40,7 @@ public class BoardcontentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_board_content);
 
         Intent intent = getIntent();
-        String name = intent.getStringExtra("name1");
+        String name = intent.getStringExtra("target");
         String key = intent.getStringExtra("key");
 
         Log.d(TAG, "onCreate: " + name + "   " + key);
