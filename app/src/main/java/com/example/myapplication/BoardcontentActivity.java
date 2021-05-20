@@ -69,6 +69,9 @@ public class BoardcontentActivity extends AppCompatActivity {
             }
         });
 
+        boardcontent_adapter = new Boardcontent_adapter(arrayList);
+        recyclerView.setAdapter(boardcontent_adapter);
+
 
         TextView textView1 = findViewById(R.id.tv_board_title);
         TextView textView2 = findViewById(R.id.tv_board_contents);
@@ -90,6 +93,7 @@ public class BoardcontentActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Boardcontent_data boardcontent_data = new Boardcontent_data(mAuth.getCurrentUser().getEmail(), String.valueOf(reply.getText()));
                 databaseReference.push().setValue(boardcontent_data);
+                reply.setText(null);
             }
         });
     }
