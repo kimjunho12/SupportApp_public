@@ -55,6 +55,7 @@ public class BoardListActivity extends AppCompatActivity {
                 arrayList.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Post Post = snapshot.getValue(Post.class);
+                    Post.key = snapshot.getKey();
                     arrayList.add(Post);
                 }
                 boardListAdapter.notifyDataSetChanged();

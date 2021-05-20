@@ -17,6 +17,13 @@ public class Boardcontent_data {
         this.reply = reply;
     }
 
+    public Boardcontent_data(){}
+
+    public Boardcontent_data(String name, String reply) {
+        this.name = name;
+        this.reply = reply;
+    }
+
     private String name;
     private String reply;
 

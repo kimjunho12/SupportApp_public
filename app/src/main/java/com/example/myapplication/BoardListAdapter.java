@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 
 public class BoardListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private static final String TAG = "BoardListAdapterPage";
     private ArrayList<Post> arrayList;
     private Intent intent;
 
@@ -54,6 +56,8 @@ public class BoardListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 Intent intent = new Intent(view.getContext(), BoardcontentActivity.class);
                 intent.putExtra("title", arrayList.get(position).getTitle());
                 intent.putExtra("contents", arrayList.get(position).getContents());
+                intent.putExtra("key", arrayList.get(position).key);
+                Log.d(TAG, "onClick: " + arrayList.get(position).key);
                 //intent.putExtra("image", arrayList.get(position).getImg())
                 view.getContext().startActivity(intent);
             }

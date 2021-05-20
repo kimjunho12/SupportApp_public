@@ -50,6 +50,7 @@ public class Post {
     public int view_cnt;
     public String contents;
     public String img;
+    public String key;
 
     public String getContents() {
         return contents;
