@@ -105,13 +105,6 @@ public class SurveyActivity extends AppCompatActivity implements adapter2activit
                     }
                 });
 
-//        // 두번째 방법 바로 place에 header와 invisiblechild로 입력 (처음부터 가려진 상태)
-//        Subject places = new Subject(ExpandableListAdapter.HEADER, "미술");
-//        places.invisibleChildren = new ArrayList<>();
-//        places.invisibleChildren.add(new Subject(Subject.CHILD, "현대미술"));
-//        places.invisibleChildren.add(new Subject(Subject.CHILD, "고전미술"));
-//        subjectList.add(places);
-
 
         btn_survey_save.setOnClickListener(new View.OnClickListener() {
             @Override
