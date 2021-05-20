@@ -49,7 +49,6 @@ public class BoardcontentActivity extends AppCompatActivity {
 
         //recyclerView
         recyclerView = (RecyclerView)findViewById(R.id.board_recycle);
-        boardcontent_adapter = new Boardcontent_adapter(arrayList);
 
         arrayList = new ArrayList<>();
         database = FirebaseDatabase.getInstance();
@@ -81,7 +80,10 @@ public class BoardcontentActivity extends AppCompatActivity {
 
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        boardcontent_adapter = new Boardcontent_adapter(arrayList);
         recyclerView.setAdapter(boardcontent_adapter);
+
+
         Button btn_board = findViewById(R.id.btn_board);
         btn_board.setOnClickListener(new View.OnClickListener() {
             @Override

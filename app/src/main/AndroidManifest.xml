@@ -26,8 +26,10 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".newsActivity" />
         <activity android:name=".profileActivity" />
-        <activity android:name=".BoardcontentActivity" />
-        <activity android:name=".BoardwriteActivity" />
+        <activity android:name=".BoardcontentActivity"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".BoardwriteActivity"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".support_popupActivity"
             android:theme="@style/Theme.AppCompat.Dialog" />

@@ -10,7 +10,7 @@
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_vertical">
 
@@ -18,18 +18,19 @@
     <TextView
         android:id="@+id/name"
         android:layout_width="60dp"
-        android:layout_height="wrap_content"
+        android:layout_height="20dp"
         android:text="유저"
+        android:layout_marginLeft="35dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/reply"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="220dp"
+        android:layout_height="20dp"
+        android:layout_marginRight="60dp"
         android:text="댓글"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/name"
         app:layout_constraintTop_toTopOf="parent">
 
     </TextView>
