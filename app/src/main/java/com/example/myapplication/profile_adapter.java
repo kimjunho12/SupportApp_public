@@ -16,21 +16,21 @@ import com.example.myapplication.models.bottom_home_data;
 
 import java.util.ArrayList;
 
-public class bottom_home_adapter extends RecyclerView.Adapter<bottom_home_adapter.CustomViewHolder> {
+public class profile_adapter extends RecyclerView.Adapter<profile_adapter.CustomViewHolder> {
     private Context context;
     private ArrayList<bottom_home_data> arrayList;
 
 
-    public bottom_home_adapter(ArrayList<bottom_home_data> arrayList, Context context) {
+    public profile_adapter(ArrayList<bottom_home_data> arrayList, Context context) {
         this.context = context;
         this.arrayList = arrayList;
     }
 
     @NonNull
     @Override
-    public bottom_home_adapter.CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public profile_adapter.CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.bottom_home_recyclerview, parent, false);
-        bottom_home_adapter.CustomViewHolder holder = new CustomViewHolder(view);
+        profile_adapter.CustomViewHolder holder = new CustomViewHolder(view);
         return holder;
     }
 
@@ -38,16 +38,15 @@ public class bottom_home_adapter extends RecyclerView.Adapter<bottom_home_adapte
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
         Glide.with(holder.itemView).load(arrayList.get(position).getImage()).into(holder.image);
         holder.title.setText(arrayList.get(position).getTitle());
-        //holder.content.setText(arrayList.get(position).getContent());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              Intent intent = new Intent(view.getContext(), newsActivity.class);
-              intent.putExtra("title", arrayList.get(position).getTitle());
-              intent.putExtra("image", arrayList.get(position).getImage());
-              intent.putExtra("content", arrayList.get(position).getContent());
-              intent.putExtra("name", arrayList.get(position).getName());
-              view.getContext().startActivity(intent);
+                Intent intent = new Intent(view.getContext(), newsActivity.class);
+                intent.putExtra("title", arrayList.get(position).getTitle());
+                intent.putExtra("image", arrayList.get(position).getImage());
+                intent.putExtra("content", arrayList.get(position).getContent());
+                intent.putExtra("name", arrayList.get(position).getName());
+                view.getContext().startActivity(intent);
             }
         });
     }

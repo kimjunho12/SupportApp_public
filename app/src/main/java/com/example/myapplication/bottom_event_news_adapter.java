@@ -46,6 +46,7 @@ public class bottom_event_news_adapter extends RecyclerView.Adapter<bottom_event
                 intent.putExtra("title", arrayList.get(position).getTitle());
                 intent.putExtra("image", arrayList.get(position).getImage());
                 intent.putExtra("content", arrayList.get(position).getContent());
+                intent.putExtra("name", arrayList.get(position).getName());
                 view.getContext().startActivity(intent);
             }
         });

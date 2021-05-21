@@ -6,8 +6,24 @@ public class bottom_home_data {
     private String image;
     private String title;
     private String content;
+    //private String time;
+    private String name;
 
-    public bottom_home_data(){}
+    /*public String getTime() {
+        return time;
+    }*/
+
+    /*public void setTime(String time) {
+        this.time = time;
+    }*/
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getImage() {
         return image;
