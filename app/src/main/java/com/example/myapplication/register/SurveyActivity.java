@@ -28,6 +28,7 @@ import com.example.myapplication.TargetListAdapter;
 import com.example.myapplication.adapter2activity;
 import com.example.myapplication.models.Subject;
 import com.example.myapplication.models.Target;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -111,15 +112,18 @@ public class SurveyActivity extends AppCompatActivity implements adapter2activit
             public void onClick(View v) {
                 searchView.setText(null);
 
-                String result = "";
+                ArrayList<String> like = new ArrayList<>();
+
                 for (Target target : selectTarget) {
-                    result += target.getName() + ", ";
+                    like.add(target.getName());
                 }
 
                 for (Subject subject : selectSubject) {
-                    result += subject.text + ", ";
+                    like.add(subject.text);
                 }
-                Log.d(TAG, "onClick: " + result);
+
+                FirebaseDatabase.getInstance().getReference("Users")
+                        .child(FirebaseAuth.getInstance().getUid()).child("like").setValue(like);
 
                 Intent intent = new Intent(SurveyActivity.this, MainActivity.class);
                 startActivity(intent);

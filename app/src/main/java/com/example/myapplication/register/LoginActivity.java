@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -244,31 +245,33 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void updateUI(FirebaseUser user, int key) {
-        if (user != null && key != -1) {
-            if (key == LOGIN) {
-                Intent intent = new Intent(LoginActivity.this, SurveyActivity.class);
-                startActivity(intent);
-                finish();
-            }
-            if (key == LOGIN_SNS) {
-                // DB 검사 후 이미 저장되어 있으면 survey로 이동
-                FirebaseDatabase.getInstance().getReference("Users").child(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
-                        Log.d(TAG, "onComplete: " + task.getResult() + " " + task.getResult().getValue());
-                        if (task.getResult().getValue() != null) {
-                            Intent intent = new Intent(LoginActivity.this, SurveyActivity.class);
-                            startActivity(intent);
-                            finish();
-                        } else {
-                            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-                            intent.putExtra("userInfo", user);
-                            startActivityForResult(intent, SIGN_UP);  //  activity 이동
-                        }
+        if (user != null && key != FAIL) {
+            FirebaseDatabase.getInstance().getReference("Users").child(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
+                    if (key == LOGIN) {
+                        skipSurvey(task.getResult().child("like").getValue());
+                    } else if (key == LOGIN_SNS && task.getResult().getValue() != null) {
+                        skipSurvey(task.getResult().child("like").getValue());
+                    } else {
+                        Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                        intent.putExtra("userInfo", user);
+                        startActivityForResult(intent, SIGN_UP);  //  activity 이동
                     }
-                });
-            }
+                }
+            });
         }
+    }
+
+    public void skipSurvey(Object like) {
+        Intent intent;
+        if (like != null) {
+            intent = new Intent(LoginActivity.this, MainActivity.class);
+        } else {
+            intent = new Intent(LoginActivity.this, SurveyActivity.class);
+        }
+        startActivity(intent);
+        finish();
     }
 
     // 마지막으로 뒤로 가기 버튼을 눌렀던 시간 저장
