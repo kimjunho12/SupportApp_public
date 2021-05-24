@@ -66,17 +66,17 @@ public class profileActivity extends AppCompatActivity {
             }
         });
 
-        /*databaseReference = database.getReference("target").child(name).child("icon");
+        databaseReference = database.getReference("target").child(name).child("icon");
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String icon = dataSnapshot.getValue().toString();
-                Glide.with(this).load(icon).into(imageView);
+                Glide.with(profileActivity.this).load(icon).into(imageView);
             }
             @Override
             public void onCancelled(@NonNull @NotNull DatabaseError error) {
             }
-        });*/
+        });
 
         databaseReference = database.getReference("target").child(name).child("debut");
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
