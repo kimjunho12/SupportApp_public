@@ -29,7 +29,7 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         this.a2a = a2a;
 
         for (Subject check_subject : data) {
-            hm.put(check_subject.text, false);
+            hm.put(check_subject.mCategory, false);
         }
     }
 
@@ -61,7 +61,7 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             case HEADER:
                 final ListHeaderViewHolder itemController = (ListHeaderViewHolder) holder;
                 itemController.refferalSubject = subject;
-                itemController.header_title.setText(subject.text);
+                itemController.header_title.setText(subject.lCategory);
                 if (subject.invisibleChildren == null) {
                     itemController.btn_expand_toggle.setImageResource(R.drawable.circle_minus);
                 } else {
@@ -122,12 +122,12 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 break;
             case CHILD:
                 final ListChildViewHolder childController = (ListChildViewHolder) holder;
-                childController.child_title.setText(data.get(position).text);
+                childController.child_title.setText(data.get(position).mCategory);
 
-                if (hm.get(subject.text) == null) {
-                    hm.put(subject.text, false);
+                if (hm.get(subject.mCategory) == null) {
+                    hm.put(subject.mCategory, false);
                 }
-                if (hm.get(subject.text)) {
+                if (hm.get(subject.mCategory)) {
                     childController.child_cb.setChecked(true);
                 } else {
                     childController.child_cb.setChecked(false);
@@ -144,7 +144,7 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                             checkBox.setChecked(false);
                             a2a.deleteItem(1,position);
                         }
-                        hm.put(subject.text, checkBox.isChecked());
+                        hm.put(subject.mCategory, checkBox.isChecked());
                     }
                 });
                 childController.itemView.setOnClickListener(new View.OnClickListener() {
@@ -158,7 +158,7 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                             checkBox.setChecked(true);
                             a2a.addItem(1,position);
                         }
-                        hm.put(subject.text, checkBox.isChecked());
+                        hm.put(subject.mCategory, checkBox.isChecked());
                     }
                 });
                 break;

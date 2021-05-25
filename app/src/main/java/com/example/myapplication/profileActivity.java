@@ -53,80 +53,112 @@ public class profileActivity extends AppCompatActivity {
         TextView textView5 = findViewById(R.id.profile_textView5);
         TextView textView6 = findViewById(R.id.profile_textView6);
 
+
         database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference("target").child(name).child("birth");
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        database.getReference("target").child(name).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String birth = dataSnapshot.getValue().toString();
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                String birth = snapshot.child("birth").getValue().toString();
+                String debut = snapshot.child("debut").getValue().toString();
+                String icon = snapshot.child("icon").getValue().toString();
+                String intro = snapshot.child("intro").getValue().toString();
+                String sns = snapshot.child("sns").getValue().toString();
+                String team = snapshot.child("team").getValue().toString();
+
                 textView1.setText(birth);
-            }
-            @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-            }
-        });
-
-        /*databaseReference = database.getReference("target").child(name).child("icon");
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String icon = dataSnapshot.getValue().toString();
-                Glide.with(this).load(icon).into(imageView);
-            }
-            @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-            }
-        });*/
-
-        databaseReference = database.getReference("target").child(name).child("debut");
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String debut = dataSnapshot.getValue().toString();
                 textView2.setText(debut);
-            }
-            @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-            }
-        });
-
-        databaseReference = database.getReference("target").child(name).child("intro");
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String intro = dataSnapshot.getValue().toString();
                 textView3.setText(intro);
-            }
-            @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-            }
-        });
-
-        textView4.setText(name);
-
-        databaseReference = database.getReference("target").child(name).child("sns");
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String sns = dataSnapshot.getValue().toString();
+                textView4.setText(name);
                 textView5.setText(sns);
+                textView6.setText(team);
+                Glide.with(profileActivity.this).load(icon).into(imageView);
             }
+
             @Override
             public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
             }
         });
 
-        databaseReference = database.getReference("target").child(name).child("team");
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String team = dataSnapshot.getValue().toString();
-                textView6.setText(team);
-            }
-            @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-            }
-        });
+//        databaseReference = database.getReference("target").child(name).child("birth");
+//        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                String birth = dataSnapshot.getValue().toString();
+//                textView1.setText(birth);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+//            }
+//        });
+//
+//        databaseReference = database.getReference("target").child(name).child("icon");
+//        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                String icon = dataSnapshot.getValue().toString();
+//                Glide.with(profileActivity.this).load(icon).into(imageView);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+//            }
+//        });
+//
+//        databaseReference = database.getReference("target").child(name).child("debut");
+//        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                String debut = dataSnapshot.getValue().toString();
+//                textView2.setText(debut);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+//            }
+//        });
+//
+//        databaseReference = database.getReference("target").child(name).child("intro");
+//        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                String intro = dataSnapshot.getValue().toString();
+//                textView3.setText(intro);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+//            }
+//        });
+//
+//        textView4.setText(name);
+//
+//        databaseReference = database.getReference("target").child(name).child("sns");
+//        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                String sns = dataSnapshot.getValue().toString();
+//                textView5.setText(sns);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+//            }
+//        });
+//
+//        databaseReference = database.getReference("target").child(name).child("team");
+//        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                String team = dataSnapshot.getValue().toString();
+//                textView6.setText(team);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+//            }
+//        });
 
 
         Button btn = findViewById(R.id.button2);
@@ -160,6 +192,7 @@ public class profileActivity extends AppCompatActivity {
                 }
                 profile_adapter.notifyDataSetChanged();
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.e("Fraglike", String.valueOf(error.toException())); //에러 시 출력

@@ -5,7 +5,6 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,7 +60,7 @@ public class SurveyActivity extends AppCompatActivity implements adapter2activit
         setContentView(R.layout.activity_survey);
 
         // DB에서 후원대상 불러오기
-        FirebaseDatabase.getInstance().getReference("target").orderByChild("name")
+        FirebaseDatabase.getInstance().getReference("target").orderByChild("name")  // 나중에는 orderbychild 붙여서
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
@@ -119,7 +118,7 @@ public class SurveyActivity extends AppCompatActivity implements adapter2activit
                 }
 
                 for (Subject subject : selectSubject) {
-                    like.add(subject.text);
+                    like.add(subject.mCategory);
                 }
 
                 FirebaseDatabase.getInstance().getReference("Users")

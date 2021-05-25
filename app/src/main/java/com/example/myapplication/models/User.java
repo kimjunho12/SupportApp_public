@@ -12,10 +12,9 @@ public class User {
     private Boolean is_surveyed;
 
     public User() {
-
     }
 
-    public User(String uid, String id, String pw, String name, String phone, String birth, int is_target){
+    public User(String uid, String id, String pw, String name, String phone, String birth, int is_target) {
         this.Uid = uid;
         this.id = id;
         this.pw = pw;
@@ -26,7 +25,7 @@ public class User {
         this.is_target = is_target;
     }
 
-    public User(String uid, String id, String pw, String name, String phone, String birth, String photoURL ,int is_target){
+    public User(String uid, String id, String pw, String name, String phone, String birth, String photoURL, int is_target) {
         this.Uid = uid;
         this.id = id;
         this.pw = pw;

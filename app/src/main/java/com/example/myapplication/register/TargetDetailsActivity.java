@@ -8,13 +8,27 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplication.ExpandableListAdapter;
 import com.example.myapplication.R;
+import com.example.myapplication.adapter2activity;
+import com.example.myapplication.models.Subject;
 import com.example.myapplication.models.Target;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-public class TargetDetailsActivity extends AppCompatActivity {
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+
+public class TargetDetailsActivity extends AppCompatActivity implements adapter2activity {
 
     private Button btn_input_save;
     private EditText input_name;
@@ -24,6 +38,9 @@ public class TargetDetailsActivity extends AppCompatActivity {
     private EditText input_debut_date;
     private EditText input_SNS;
     private EditText input_pr;
+    private RecyclerView recyclerview;
+    private ArrayList<Subject> subjectList = new ArrayList<>();
+    private ExpandableListAdapter expandableListAdapter;
     private ImageView img_profile;
     private TextView btn_change_profile;
     private static final int OK = 200;
@@ -36,6 +53,36 @@ public class TargetDetailsActivity extends AppCompatActivity {
         btn_input_save = findViewById(R.id.btn_details_save);
 
         init();
+
+        recyclerview = findViewById(R.id.re_survey_subject);
+        recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+
+        // DB에서 분야 불러오기
+        FirebaseDatabase.getInstance().getReference("Subject").orderByKey()
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                        for (DataSnapshot parentSubject : snapshot.getChildren()) {
+                            subjectList.add(new Subject(Subject.HEADER, parentSubject.getKey()));
+
+                            for (DataSnapshot childSubject : parentSubject.getChildren()) {
+                                Subject mSubject = new Subject(Subject.CHILD, childSubject.getValue().toString());
+                                mSubject.lCategory = parentSubject.getKey();
+                                subjectList.add(mSubject);
+                            }
+                        }
+
+                        expandableListAdapter = new ExpandableListAdapter(subjectList, TargetDetailsActivity.this);
+                        recyclerview.setAdapter(expandableListAdapter);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                    }
+                });
+
+
 
         btn_input_save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,7 +102,13 @@ public class TargetDetailsActivity extends AppCompatActivity {
                 String.valueOf(input_SNS.getText()),
                 String.valueOf(input_pr.getText()));
 
-        FirebaseDatabase.getInstance().getReference("target").push().setValue(target);
+        for (Subject subject : selectSubject) {
+            subject.sCategory = String.valueOf(input_sosock.getText());
+        }
+
+        DatabaseReference mDBRefer = FirebaseDatabase.getInstance().getReference("target").push();
+        mDBRefer.setValue(target);
+        mDBRefer.child("subject").setValue(selectSubject);
         setResult(OK);
         finish();
     }
@@ -77,5 +130,16 @@ public class TargetDetailsActivity extends AppCompatActivity {
             input_phone_no.setText(intent.getStringExtra("phone"));
             input_birth_date.setText(intent.getStringExtra("birth"));
         }
+    }
+    private ArrayList<Subject> selectSubject = new ArrayList<>();
+
+    @Override
+    public void addItem(int type, int position) {
+        selectSubject.add(subjectList.get(position));
+    }
+
+    @Override
+    public void deleteItem(int type, int position) {
+        selectSubject.remove(subjectList.get(position));
     }
 }
