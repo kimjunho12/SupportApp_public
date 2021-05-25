@@ -167,10 +167,16 @@ public class profileActivity extends AppCompatActivity {
         });
         profile_adapter = new bottom_home_adapter(arrayList2, this);
         recyclerView.setAdapter(profile_adapter);
-    }
 
-    public void profile_support_button(View view) {
-        intent = new Intent(this, support_popupActivity.class);
-        startActivity(intent);
+
+        Button btn2 =findViewById(R.id.button_support);
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(profileActivity.this, support_popupActivity.class);
+                intent.putExtra("name1", name);
+                startActivity(intent);
+            }
+        });
     }
 }

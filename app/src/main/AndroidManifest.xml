@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -33,6 +34,7 @@
         <activity
             android:name=".support_popupActivity"
             android:theme="@style/Theme.AppCompat.Dialog" />
+        <activity android:name=".payActivity"/>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -53,6 +55,17 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
+
+        <activity android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity">
+        <intent-filter>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+
+            <!-- Redirect URI: "kakao{NATIVE_APP_KEY}://oauth“ -->
+            <data android:host="oauth" android:scheme="kakao{384fa795b314ec8380a046df4f056a64}" />
+        </intent-filter>
+    </activity>
 
     </application>
 </manifest>

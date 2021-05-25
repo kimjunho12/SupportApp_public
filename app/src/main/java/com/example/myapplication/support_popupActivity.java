@@ -4,13 +4,19 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.util.Log;
+import android.content.Intent;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class support_popupActivity extends AppCompatActivity {
 
     private TextView textView;
+    private EditText editText;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,25 +26,23 @@ public class support_popupActivity extends AppCompatActivity {
         //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_supportpopup);
 
+        intent = getIntent();
+        editText = findViewById(R.id.price);
 
-        //UI 객체생성
-        //textView = (TextView)findViewById(R.id.txtText);
+        Button button = findViewById(R.id.ok);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String name = intent.getStringExtra("name1");
+                String price = editText.getText().toString();
 
-        //데이터 가져오기
-        /*Intent intent = getIntent();
-        String data = intent.getStringExtra("data");
-        textView.setText(data);*/
-    }
+                payActivity payActivity = new payActivity(name, price);
+                Intent intent = new Intent(getApplicationContext(), payActivity.getClass());
+                startActivity(intent);
+            }
 
-    //확인 버튼 클릭
-    public void profile_support_close(View view){
-        //데이터 전달하기
-        /*Intent intent = new Intent();
-        intent.putExtra("result", "Close Popup");
-        setResult(RESULT_OK, intent);*/
+        });
 
-        //액티비티(팝업) 닫기
-        finish();
     }
 
     @Override
