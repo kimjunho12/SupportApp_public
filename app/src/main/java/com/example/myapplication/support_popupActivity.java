@@ -56,7 +56,7 @@ public class support_popupActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        //안드로이드 백버튼 막기
+        finish();
         return;
     }
 }
