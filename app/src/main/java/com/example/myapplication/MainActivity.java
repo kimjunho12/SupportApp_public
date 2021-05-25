@@ -28,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import com.kakao.sdk.common.util.Utility;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -102,6 +103,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.e("Debug", Utility.INSTANCE.getKeyHash(this));
+
         //Hooks
         Toolbar toolbar = findViewById(R.id.toolbar);
         drawerLayout = (DrawerLayout) findViewById(R.id.top_category_layout);

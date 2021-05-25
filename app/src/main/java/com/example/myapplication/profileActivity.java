@@ -84,7 +84,6 @@ public class profileActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
             }
         });
 
@@ -92,7 +91,7 @@ public class profileActivity extends AppCompatActivity {
         btn_profile_like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    onLikeClicked(mAuth.getUid(), name);
+                onLikeClicked(mAuth.getUid(), name);
             }
         });
 
@@ -136,11 +135,17 @@ public class profileActivity extends AppCompatActivity {
         });
         profile_adapter = new bottom_home_adapter(arrayList2, this);
         recyclerView.setAdapter(profile_adapter);
-    }
 
-    public void profile_support_button(View view) {
-        intent = new Intent(this, support_popupActivity.class);
-        startActivity(intent);
+
+        Button btn2 = findViewById(R.id.btn_profile_dona);
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(profileActivity.this, support_popupActivity.class);
+                intent.putExtra("name1", name);
+                startActivity(intent);
+            }
+        });
     }
 
     public void onLikeClicked(String uid, String target) {
