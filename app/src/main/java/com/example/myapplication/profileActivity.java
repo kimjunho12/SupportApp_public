@@ -20,7 +20,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
@@ -32,6 +31,7 @@ import java.util.Map;
 
 public class profileActivity extends AppCompatActivity {
 
+    private static final String TAG = "ProfilePage";
     private View view;
     private Intent intent;
     private FirebaseDatabase database;
@@ -63,23 +63,26 @@ public class profileActivity extends AppCompatActivity {
 
 
         database = FirebaseDatabase.getInstance();
-        database.getReference("target").child(name).addListenerForSingleValueEvent(new ValueEventListener() {
+        database.getReference("target").orderByChild("name")
+                .equalTo(name).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                String birth = snapshot.child("birth").getValue().toString();
-                String debut = snapshot.child("debut").getValue().toString();
-                String icon = snapshot.child("icon").getValue().toString();
-                String intro = snapshot.child("intro").getValue().toString();
-                String sns = snapshot.child("sns").getValue().toString();
-                String team = snapshot.child("team").getValue().toString();
+                for (DataSnapshot this_target : snapshot.getChildren()) {
+                    String birth = this_target.child("birth").getValue().toString();
+                    String debut = this_target.child("debut").getValue().toString();
+                    String icon = this_target.child("icon").getValue().toString();
+                    String intro = this_target.child("intro").getValue().toString();
+                    String sns = this_target.child("sns").getValue().toString();
+                    String team = this_target.child("team").getValue().toString();
 
-                tv_profile_birth.setText(birth);
-                tv_profile_debut.setText(debut);
-                tv_profile_intro.setText(intro);
-                tv_profile_name.setText(name);
-                tv_profile_sns.setText(sns);
-                tv_profile_team.setText(team);
-                Glide.with(profileActivity.this).load(icon).into(imageView);
+                    tv_profile_birth.setText(birth);
+                    tv_profile_debut.setText(debut);
+                    tv_profile_intro.setText(intro);
+                    tv_profile_name.setText(name);
+                    tv_profile_sns.setText(sns);
+                    tv_profile_team.setText(team);
+                    Glide.with(profileActivity.this).load(icon).into(imageView);
+                }
             }
 
             @Override
@@ -149,15 +152,14 @@ public class profileActivity extends AppCompatActivity {
     }
 
     public void onLikeClicked(String uid, String target) {
-        Map<String, Object> updates = new HashMap<>();
-        ArrayList<String> like = new ArrayList<>();
-        FirebaseDatabase.getInstance().getReference("target").child(target).child("subject").addListenerForSingleValueEvent(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference("target").child(target)
+                .child("subject").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    like.add(dataSnapshot.child("lCategory").toString());
-                    like.add(dataSnapshot.child("mCategory").toString());
-                    like.add(dataSnapshot.child("sCategory").toString());
+                    mDatabase.child(uid).child("like").child(dataSnapshot.child("lCategory").getValue().toString()).setValue(true);
+                    mDatabase.child(uid).child("like").child(dataSnapshot.child("mCategory").getValue().toString()).setValue(true);
+                    mDatabase.child(uid).child("like").child(dataSnapshot.child("sCategory").getValue().toString()).setValue(true);
                 }
             }
 
@@ -165,8 +167,6 @@ public class profileActivity extends AppCompatActivity {
             public void onCancelled(@NonNull @NotNull DatabaseError error) {
             }
         });
-        updates.put("like", like);
-        mDatabase.child(uid).updateChildren(updates);
+        mDatabase.child(uid).child("like").child(target).setValue(true);
     }
-
 }
