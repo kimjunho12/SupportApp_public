@@ -84,7 +84,7 @@
                     android:layout_height="wrap_content"
                     android:text="이름 : " />
                 <TextView
-                    android:id="@+id/profile_textView4"
+                    android:id="@+id/tv_profile_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
@@ -98,7 +98,7 @@
                     android:layout_height="wrap_content"
                     android:text="출생 : " />
                 <TextView
-                    android:id="@+id/profile_textView1"
+                    android:id="@+id/tv_profile_birth"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
@@ -111,7 +111,7 @@
                     android:layout_height="wrap_content"
                     android:text="소속 : " />
                 <TextView
-                    android:id="@+id/profile_textView6"
+                    android:id="@+id/tv_profile_team"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
@@ -124,7 +124,7 @@
                     android:layout_height="wrap_content"
                     android:text="데뷔 : " />
                 <TextView
-                    android:id="@+id/profile_textView2"
+                    android:id="@+id/tv_profile_debut"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
@@ -137,7 +137,7 @@
                     android:layout_height="wrap_content"
                     android:text="SNS : " />
                 <TextView
-                    android:id="@+id/profile_textView5"
+                    android:id="@+id/tv_profile_sns"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
@@ -150,7 +150,7 @@
                     android:layout_height="50dp"
                     android:text="소개 : " />
                 <TextView
-                    android:id="@+id/profile_textView3"
+                    android:id="@+id/tv_profile_intro"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
@@ -164,7 +164,7 @@
         android:layout_height="60dp">
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/btn_profile_like"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -175,18 +175,18 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/btn_profile_board"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="56dp"
             android:layout_marginLeft="56dp"
             android:text="게시판"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/button"
+            app:layout_constraintStart_toEndOf="@+id/btn_profile_like"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/btn_profile_dona"
             android:onClick="profile_support_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -194,7 +194,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.728"
-            app:layout_constraintStart_toEndOf="@+id/button2"
+            app:layout_constraintStart_toEndOf="@+id/btn_profile_board"
             app:layout_constraintTop_toTopOf="parent" />
 
 

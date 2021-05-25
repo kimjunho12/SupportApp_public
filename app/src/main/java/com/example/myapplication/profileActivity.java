@@ -14,17 +14,20 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.myapplication.models.Target;
 import com.example.myapplication.models.bottom_home_data;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class profileActivity extends AppCompatActivity {
@@ -37,21 +40,26 @@ public class profileActivity extends AppCompatActivity {
     private GridLayoutManager gridLayoutManager;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter profile_adapter;
+    private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference("Users");
+
         intent = getIntent();
         String name = intent.getStringExtra("name");
 
-        TextView textView1 = findViewById(R.id.profile_textView1);
+        TextView tv_profile_birth = findViewById(R.id.tv_profile_birth);
         ImageView imageView = findViewById(R.id.img_profile);
-        TextView textView2 = findViewById(R.id.profile_textView2);
-        TextView textView3 = findViewById(R.id.profile_textView3);
-        TextView textView4 = findViewById(R.id.profile_textView4);
-        TextView textView5 = findViewById(R.id.profile_textView5);
-        TextView textView6 = findViewById(R.id.profile_textView6);
+        TextView tv_profile_debut = findViewById(R.id.tv_profile_debut);
+        TextView tv_profile_intro = findViewById(R.id.tv_profile_intro);
+        TextView tv_profile_name = findViewById(R.id.tv_profile_name);
+        TextView tv_profile_sns = findViewById(R.id.tv_profile_sns);
+        TextView tv_profile_team = findViewById(R.id.tv_profile_team);
 
 
         database = FirebaseDatabase.getInstance();
@@ -65,12 +73,12 @@ public class profileActivity extends AppCompatActivity {
                 String sns = snapshot.child("sns").getValue().toString();
                 String team = snapshot.child("team").getValue().toString();
 
-                textView1.setText(birth);
-                textView2.setText(debut);
-                textView3.setText(intro);
-                textView4.setText(name);
-                textView5.setText(sns);
-                textView6.setText(team);
+                tv_profile_birth.setText(birth);
+                tv_profile_debut.setText(debut);
+                tv_profile_intro.setText(intro);
+                tv_profile_name.setText(name);
+                tv_profile_sns.setText(sns);
+                tv_profile_team.setText(team);
                 Glide.with(profileActivity.this).load(icon).into(imageView);
             }
 
@@ -80,89 +88,17 @@ public class profileActivity extends AppCompatActivity {
             }
         });
 
-//        databaseReference = database.getReference("target").child(name).child("birth");
-//        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                String birth = dataSnapshot.getValue().toString();
-//                textView1.setText(birth);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-//            }
-//        });
-//
-//        databaseReference = database.getReference("target").child(name).child("icon");
-//        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                String icon = dataSnapshot.getValue().toString();
-//                Glide.with(profileActivity.this).load(icon).into(imageView);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-//            }
-//        });
-//
-//        databaseReference = database.getReference("target").child(name).child("debut");
-//        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                String debut = dataSnapshot.getValue().toString();
-//                textView2.setText(debut);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-//            }
-//        });
-//
-//        databaseReference = database.getReference("target").child(name).child("intro");
-//        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                String intro = dataSnapshot.getValue().toString();
-//                textView3.setText(intro);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-//            }
-//        });
-//
-//        textView4.setText(name);
-//
-//        databaseReference = database.getReference("target").child(name).child("sns");
-//        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                String sns = dataSnapshot.getValue().toString();
-//                textView5.setText(sns);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-//            }
-//        });
-//
-//        databaseReference = database.getReference("target").child(name).child("team");
-//        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                String team = dataSnapshot.getValue().toString();
-//                textView6.setText(team);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-//            }
-//        });
+        Button btn_profile_like = findViewById(R.id.btn_profile_like);
+        btn_profile_like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    onLikeClicked(mAuth.getUid(), name);
+            }
+        });
 
 
-        Button btn = findViewById(R.id.button2);
-        btn.setOnClickListener(new View.OnClickListener() {
+        Button btn_profile_board = findViewById(R.id.btn_profile_board);
+        btn_profile_board.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(profileActivity.this, BoardListActivity.class);
@@ -206,4 +142,26 @@ public class profileActivity extends AppCompatActivity {
         intent = new Intent(this, support_popupActivity.class);
         startActivity(intent);
     }
+
+    public void onLikeClicked(String uid, String target) {
+        Map<String, Object> updates = new HashMap<>();
+        ArrayList<String> like = new ArrayList<>();
+        FirebaseDatabase.getInstance().getReference("target").child(target).child("subject").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    like.add(dataSnapshot.child("lCategory").toString());
+                    like.add(dataSnapshot.child("mCategory").toString());
+                    like.add(dataSnapshot.child("sCategory").toString());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+            }
+        });
+        updates.put("like", like);
+        mDatabase.child(uid).updateChildren(updates);
+    }
+
 }
