@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.util.Log;
 import android.content.Intent;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -36,13 +37,13 @@ public class support_popupActivity extends AppCompatActivity {
                 String name = intent.getStringExtra("name1");
                 String price = editText.getText().toString();
 
-                payActivity payActivity = new payActivity(name, price);
-                Intent intent = new Intent(getApplicationContext(), payActivity.getClass());
-                startActivity(intent);
+                if(price.length() != 0) {
+                    payActivity payActivity = new payActivity(name, price);
+                    Intent intent = new Intent(getApplicationContext(), payActivity.getClass());
+                    startActivity(intent);
+                }
             }
-
         });
-
     }
 
     @Override
