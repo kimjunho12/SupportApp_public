@@ -72,24 +72,7 @@ public class bottom_favorite_fragment extends Fragment {
 
                     }
                 });
-
-
-//        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                arrayList.clear();
-//                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-//                    bottom_favorite_profile_model bottom_favorite_profile_model = snapshot.getValue(bottom_favorite_profile_model.class);
-//                    arrayList.add(bottom_favorite_profile_model);
-//                }
-//                bottom_favorite_profile_adapter.notifyDataSetChanged();
-//            }
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                Log.e("Fraglike", String.valueOf(error.toException())); //에러 시 출력
-//            }
-//        });
-
+        
         return view;
     }
 
@@ -98,13 +81,16 @@ public class bottom_favorite_fragment extends Fragment {
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference("target");
         for (String liked : likeList) {
-            databaseReference.child(liked).addListenerForSingleValueEvent(new ValueEventListener() {
+            databaseReference.orderByChild("name").equalTo(liked).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.getValue() != null) {
-                        bottom_favorite_profile_model bottom_favorite_profile_model = dataSnapshot.getValue(bottom_favorite_profile_model.class);
-                        arrayList.add(bottom_favorite_profile_model);
-                        bottom_favorite_profile_adapter.notifyDataSetChanged();
+                    for (DataSnapshot child : dataSnapshot.getChildren()) {
+                        if (child.getValue() != null) {
+                            Log.d(TAG, "onDataChange: " + child);
+                            bottom_favorite_profile_model bottom_favorite_profile_model = child.getValue(bottom_favorite_profile_model.class);
+                            arrayList.add(bottom_favorite_profile_model);
+                            bottom_favorite_profile_adapter.notifyDataSetChanged();
+                        }
                     }
                 }
 
