@@ -42,6 +42,8 @@ public class profileActivity extends AppCompatActivity {
     private RecyclerView.Adapter profile_adapter;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
+    private String targetKey;
+    private String name;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +53,7 @@ public class profileActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference("Users");
 
         intent = getIntent();
-        String name = intent.getStringExtra("name");
+        name = intent.getStringExtra("name");
 
         TextView tv_profile_birth = findViewById(R.id.tv_profile_birth);
         ImageView imageView = findViewById(R.id.img_profile);
@@ -68,6 +70,7 @@ public class profileActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 for (DataSnapshot this_target : snapshot.getChildren()) {
+                    targetKey = this_target.getKey();
                     String birth = this_target.child("birth").getValue().toString();
                     String debut = this_target.child("debut").getValue().toString();
                     String icon = this_target.child("icon").getValue().toString();
@@ -94,7 +97,7 @@ public class profileActivity extends AppCompatActivity {
         btn_profile_like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onLikeClicked(mAuth.getUid(), name);
+                onLikeClicked(mAuth.getUid(), targetKey);
             }
         });
 
@@ -167,6 +170,6 @@ public class profileActivity extends AppCompatActivity {
             public void onCancelled(@NonNull @NotNull DatabaseError error) {
             }
         });
-        mDatabase.child(uid).child("like").child(target).setValue(true);
+        mDatabase.child(uid).child("like").child(name).setValue(true);
     }
 }
