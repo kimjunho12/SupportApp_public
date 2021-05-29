@@ -14,11 +14,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.models.bottom_home_data;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -48,14 +52,14 @@ public class bottom_event_fragment extends Fragment {
         arrayList = new ArrayList<>();
 
         database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference("news");
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        Query query = database.getReference("news").orderByChild("time");
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 arrayList.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     bottom_home_data bottom_home_data = snapshot.getValue(bottom_home_data.class);
-                    arrayList.add(bottom_home_data);
+                    arrayList.add(0, bottom_home_data);
                 }
                 bottom_event_news_adapter.notifyDataSetChanged();
             }
@@ -64,6 +68,7 @@ public class bottom_event_fragment extends Fragment {
                 Log.e("Fraglike", String.valueOf(error.toException())); //에러 시 출력
             }
         });
+
 
         bottom_event_news_adapter = new bottom_event_news_adapter(arrayList, getContext());
         recyclerView.setAdapter(bottom_event_news_adapter);

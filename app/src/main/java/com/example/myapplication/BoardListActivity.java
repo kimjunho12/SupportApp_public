@@ -18,7 +18,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -57,7 +60,9 @@ public class BoardListActivity extends AppCompatActivity {
                     Post Post = snapshot.getValue(Post.class);
                     Post.key = snapshot.getKey();
                     Post.target = name;
-                    arrayList.add(Post);
+                    Post.type = snapshot.child("type").getValue().toString();
+                    Log.e("값 : ", Post.key + " / " + Post.type);
+                    arrayList.add(0, Post);
                 }
                 boardListAdapter.notifyDataSetChanged();
             }
@@ -66,6 +71,37 @@ public class BoardListActivity extends AppCompatActivity {
                 Log.e("Fraglike", String.valueOf(error.toException())); //에러 시 출력
             }
         });
+
+        /*Query query1 = database.getReference("target").child(name).child("post").orderByChild("type").equalTo("공지");
+        query1.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                    Post Post = snapshot1.getValue(Post.class);
+                    arrayList.add(Post);
+                }
+                boardListAdapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+            }
+        });*/
+
+        /*Query query2 = database.getReference("target").child(name).child("post").orderByChild("type").equalTo("일반");
+        query2.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                for (DataSnapshot snapshot2 : snapshot.getChildren()) {
+                    Post Post = snapshot2.getValue(Post.class);
+                    arrayList.add(Post);
+                }
+                boardListAdapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+            }
+        });*/
+
 
 
         boardListAdapter = new BoardListAdapter(arrayList);
