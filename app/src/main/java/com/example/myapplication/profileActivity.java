@@ -25,8 +25,6 @@ import com.google.firebase.database.ValueEventListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class profileActivity extends AppCompatActivity {
@@ -44,6 +42,7 @@ public class profileActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private String targetKey;
     private String name;
+    private boolean is_liked = false;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,10 +93,29 @@ public class profileActivity extends AppCompatActivity {
         });
 
         Button btn_profile_like = findViewById(R.id.btn_profile_like);
+        mDatabase.child(mAuth.getUid()).child("like").child(name).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                if (snapshot.getValue() != null) {
+                    btn_profile_like.setText("찜 취소");
+                    is_liked = true;
+                } else {
+                    btn_profile_like.setText("찜하기");
+                    is_liked = false;
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+
+
         btn_profile_like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onLikeClicked(mAuth.getUid(), targetKey);
+                onLikeClicked(mAuth.getUid(), targetKey, is_liked);
             }
         });
 
@@ -154,22 +172,27 @@ public class profileActivity extends AppCompatActivity {
         });
     }
 
-    public void onLikeClicked(String uid, String target) {
-        FirebaseDatabase.getInstance().getReference("target").child(target)
-                .child("subject").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    mDatabase.child(uid).child("like").child(dataSnapshot.child("lCategory").getValue().toString()).setValue(true);
-                    mDatabase.child(uid).child("like").child(dataSnapshot.child("mCategory").getValue().toString()).setValue(true);
-                    mDatabase.child(uid).child("like").child(dataSnapshot.child("sCategory").getValue().toString()).setValue(true);
+    public void onLikeClicked(String uid, String target, boolean is_liked) {
+        if (!is_liked) {
+            FirebaseDatabase.getInstance().getReference("target").child(target)
+                    .child("subject").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        mDatabase.child(uid).child("like").child(dataSnapshot.child("lCategory").getValue().toString()).setValue(true);
+                        mDatabase.child(uid).child("like").child(dataSnapshot.child("mCategory").getValue().toString()).setValue(true);
+                        mDatabase.child(uid).child("like").child(dataSnapshot.child("sCategory").getValue().toString()).setValue(true);
+                    }
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-            }
-        });
-        mDatabase.child(uid).child("like").child(name).setValue(true);
+                @Override
+                public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                }
+            });
+            mDatabase.child(uid).child("like").child(name).setValue(true);
+        } else {
+            mDatabase.child(uid).child("like").child(name).setValue(null);
+        }
+
     }
 }
