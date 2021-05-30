@@ -61,8 +61,10 @@ public class BoardListActivity extends AppCompatActivity {
                     Post.key = snapshot.getKey();
                     Post.target = name;
                     Post.type = snapshot.child("type").getValue().toString();
-                    Log.e("값 : ", Post.key + " / " + Post.type);
-                    arrayList.add(0, Post);
+                    //Log.d("값 : ", Post.key + " / " + Post.type + " / " + name);
+                    if (Post.type.equals("일반")) {
+                        arrayList.add(0, Post);
+                    }
                 }
                 boardListAdapter.notifyDataSetChanged();
             }
@@ -72,37 +74,26 @@ public class BoardListActivity extends AppCompatActivity {
             }
         });
 
-        /*Query query1 = database.getReference("target").child(name).child("post").orderByChild("type").equalTo("공지");
-        query1.addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                for (DataSnapshot snapshot1 : snapshot.getChildren()) {
-                    Post Post = snapshot1.getValue(Post.class);
-                    arrayList.add(Post);
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Post Post = snapshot.getValue(Post.class);
+                    Post.key = snapshot.getKey();
+                    Post.target = name;
+                    Post.type = snapshot.child("type").getValue().toString();
+                    //Log.d("값 : ", Post.key + " / " + Post.type + " / " + name);
+                    if (Post.type.equals("공지")) {
+                        arrayList.add(0, Post);
+                    }
                 }
                 boardListAdapter.notifyDataSetChanged();
             }
             @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("Fraglike", String.valueOf(error.toException())); //에러 시 출력
             }
-        });*/
-
-        /*Query query2 = database.getReference("target").child(name).child("post").orderByChild("type").equalTo("일반");
-        query2.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                for (DataSnapshot snapshot2 : snapshot.getChildren()) {
-                    Post Post = snapshot2.getValue(Post.class);
-                    arrayList.add(Post);
-                }
-                boardListAdapter.notifyDataSetChanged();
-            }
-            @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-            }
-        });*/
-
-
+        });
 
         boardListAdapter = new BoardListAdapter(arrayList);
         recyclerView.setAdapter(boardListAdapter);
