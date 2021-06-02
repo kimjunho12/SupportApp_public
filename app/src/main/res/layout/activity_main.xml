@@ -9,15 +9,6 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
-    <com.google.android.material.navigation.NavigationView
-        android:fitsSystemWindows="true"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:id="@+id/top_category_view"
-        app:menu="@menu/top_category_menu"
-        android:layout_gravity="start">
-    </com.google.android.material.navigation.NavigationView>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -47,5 +38,20 @@
         </include>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left">
+        <androidx.recyclerview.widget.RecyclerView
+            android:fitsSystemWindows="true"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/top_category_view"
+            android:background="#ffffff"
+            android:scrollbars="vertical"
+            android:layout_marginTop="50dp">
+        </androidx.recyclerview.widget.RecyclerView>
+    </com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>

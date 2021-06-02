@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -15,7 +16,10 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplication.models.Subject;
 import com.example.myapplication.models.Target;
 import com.example.myapplication.register.SurveyActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -31,7 +35,7 @@ import java.util.ArrayList;
 import com.kakao.sdk.common.util.Utility;
 
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, adapter2activity{
 
     private static final String TAG = "MainPage";
     private BottomNavigationView bottomNavigationView;
@@ -45,6 +49,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private MenuItem top_menu_Search;
     private DrawerLayout drawerLayout;
     private ArrayList<Target> targetList = new ArrayList<>();
+    private RecyclerView recyclerview;
+    private ArrayList<Subject> subjectList = new ArrayList<>();
+    private MainAdapter MainAdapter;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -108,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //Hooks
         Toolbar toolbar = findViewById(R.id.toolbar);
         drawerLayout = (DrawerLayout) findViewById(R.id.top_category_layout);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.top_category_view);
+        //NavigationView navigationView = (NavigationView) findViewById(R.id.top_category_view);
         //Toolbar
         setSupportActionBar(toolbar);
         //Actionbar
@@ -118,8 +125,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-        navigationView.setNavigationItemSelectedListener(this);
-        navigationView.bringToFront();
 
         //bottomNavigation
         bottomNavigationView = findViewById(R.id.bottomNavi);
@@ -152,6 +157,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         frag4 = new bottom_account_fragment();
         frag5 = new bottom_setting_fragment();
         setFrag(0); // 기본 페이지 0
+
+        //카테고리 recycler
+        recyclerview = findViewById(R.id.top_category_view);
+        recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        FirebaseDatabase.getInstance().getReference("Subject").orderByKey()
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                        for (DataSnapshot parentSubject : snapshot.getChildren()) {
+                            subjectList.add(new Subject(Subject.HEADER, parentSubject.getKey()));
+
+                            for (DataSnapshot childSubject : parentSubject.getChildren()) {
+                                subjectList.add(new Subject(Subject.CHILD, childSubject.getValue().toString()));
+                            }
+                        }
+                        MainAdapter = new MainAdapter(subjectList, MainActivity.this);
+                        recyclerview.setAdapter(MainAdapter);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                    }
+                });
+
 
         // DB에서 후원대상 불러오기
         FirebaseDatabase.getInstance().getReference("target").orderByChild("name")  // 나중에는 orderbychild 붙여서
@@ -195,5 +225,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 ft.commit();
                 break;
         }
+    }
+
+    @Override
+    public void addItem(int type, int position) {
+
+    }
+
+    @Override
+    public void deleteItem(int type, int position) {
+
     }
 }
