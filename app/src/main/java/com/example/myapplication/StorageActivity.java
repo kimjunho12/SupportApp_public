@@ -39,7 +39,7 @@ import java.util.List;
 
 public class StorageActivity extends AppCompatActivity {
     private final String TAG = "java.StorageActivity";
-    private int imageView;
+   // private int imageView;
     // [START storage_field_declaration]
     // [END storage_field_declaration]
 
@@ -48,7 +48,7 @@ public class StorageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board_write);
-        setContentView(findViewById(R.id.imageView));
+        //setContentView(findViewById(R.id.imageView));
 
         // [START storage_field_initialization]
         FirebaseStorage storage = FirebaseStorage.getInstance();

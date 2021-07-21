@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch(item.getItemId()) {
+                switch (item.getItemId()) {
                     case R.id.action_home:
                         setFrag(0);
                         break;
@@ -181,21 +181,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 });
 
 
-//        // DB에서 후원대상 불러오기
-//        FirebaseDatabase.getInstance().getReference("target").orderByChild("name")  // 나중에는 orderbychild 붙여서
-//                .addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-//                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-//                            targetList.add(new Target(dataSnapshot.child("name").getValue().toString()));
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
-//
-//                    }
-//                });
+        // DB에서 후원대상 불러오기
+        FirebaseDatabase.getInstance().getReference("target").orderByChild("name")  // 나중에는 orderbychild 붙여서
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            targetList.add(new Target(dataSnapshot.child("name").getValue().toString()));
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                    }
+                });
     }
 
     private void setFrag(int n) {
