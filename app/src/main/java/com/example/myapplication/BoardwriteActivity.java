@@ -71,6 +71,8 @@ public class BoardwriteActivity extends AppCompatActivity {
         btn_create_post = findViewById(R.id.btn_create_post);
         sw_board_type = findViewById(R.id.sw_board_type);
         btn_board_add_photo = (Button) findViewById(R.id.btn_board_add_photo);
+        imageView = (ImageView) findViewById(R.id.imageView);
+
         storage = FirebaseStorage.getInstance();
         //사진
         btn_board_add_photo.setOnClickListener(new View.OnClickListener() {

@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -38,6 +39,7 @@ import java.util.List;
 
 public class StorageActivity extends AppCompatActivity {
     private final String TAG = "java.StorageActivity";
+    private int imageView;
     // [START storage_field_declaration]
     // [END storage_field_declaration]
 
@@ -46,6 +48,7 @@ public class StorageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board_write);
+        setContentView(findViewById(R.id.imageView));
 
         // [START storage_field_initialization]
         FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -607,6 +610,9 @@ public class StorageActivity extends AppCompatActivity {
             String errorMessage = exception.getMessage();
             // test the errorCode and errorMessage, and handle accordingly
         }
+    }
+
+    private class imageView {
     }
     // [END storage_custom_failure_listener]
 
