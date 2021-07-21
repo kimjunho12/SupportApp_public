@@ -75,6 +75,7 @@ public class LoginActivity extends AppCompatActivity {
         btn_twt = findViewById(R.id.btn_twitter);
         btn_login = findViewById(R.id.btn_login);
 
+
         et_email = findViewById(R.id.et_email);
         et_pw = findViewById(R.id.et_pw);
 
