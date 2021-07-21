@@ -111,18 +111,15 @@ public class SurveyActivity extends AppCompatActivity implements adapter2activit
             public void onClick(View v) {
                 searchView.setText(null);
 
-                ArrayList<String> like = new ArrayList<>();
-
                 for (Target target : selectTarget) {
-                    like.add(target.getName());
+                    FirebaseDatabase.getInstance().getReference("Users")
+                            .child(FirebaseAuth.getInstance().getUid()).child("like").child(target.getName()).setValue(true);
                 }
 
                 for (Subject subject : selectSubject) {
-                    like.add(subject.mCategory);
+                    FirebaseDatabase.getInstance().getReference("Users")
+                            .child(FirebaseAuth.getInstance().getUid()).child("like").child(subject.mCategory).setValue(true);
                 }
-
-                FirebaseDatabase.getInstance().getReference("Users")
-                        .child(FirebaseAuth.getInstance().getUid()).child("like").setValue(like);
 
                 Intent intent = new Intent(SurveyActivity.this, MainActivity.class);
                 startActivity(intent);

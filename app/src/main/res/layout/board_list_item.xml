@@ -50,8 +50,8 @@
 
     <TextView
         android:id="@+id/tv_boardlist_user"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="20dp"
         android:layout_marginStart="224dp"
         android:layout_marginLeft="224dp"
         android:layout_weight="2"
@@ -66,12 +66,11 @@
 
     <TextView
         android:id="@+id/tv_boardlist_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_width="40dp"
+        android:layout_height="20dp"
         android:gravity="center"
         android:text="작성일"
+        android:layout_marginLeft="16dp"
         android:textColor="@android:color/darker_gray"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -81,8 +80,8 @@
 
     <TextView
         android:id="@+id/tv_boardlist_cnt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="20dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:gravity="center"

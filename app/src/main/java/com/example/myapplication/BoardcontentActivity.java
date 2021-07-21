@@ -59,7 +59,7 @@ public class BoardcontentActivity extends AppCompatActivity {
                 arrayList.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Boardcontent_data boardcontent_data = snapshot.getValue(Boardcontent_data.class);
-                    arrayList.add(boardcontent_data);
+                    arrayList.add(0, boardcontent_data);
                 }
                 boardcontent_adapter.notifyDataSetChanged();
             }

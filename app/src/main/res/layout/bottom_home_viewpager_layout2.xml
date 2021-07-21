@@ -17,7 +17,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/app_name"
-                app:layout_constraintBottom_toTopOf="@+id/viewpager"
                 tools:ignore="UnknownId"
                 android:src="@drawable/support_image2"/>
 

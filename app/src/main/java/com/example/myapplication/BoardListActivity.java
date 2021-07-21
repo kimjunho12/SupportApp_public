@@ -18,7 +18,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -57,7 +60,11 @@ public class BoardListActivity extends AppCompatActivity {
                     Post Post = snapshot.getValue(Post.class);
                     Post.key = snapshot.getKey();
                     Post.target = name;
-                    arrayList.add(Post);
+                    Post.type = snapshot.child("type").getValue().toString();
+                    //Log.d("값 : ", Post.key + " / " + Post.type + " / " + name);
+                    if (Post.type.equals("일반")) {
+                        arrayList.add(0, Post);
+                    }
                 }
                 boardListAdapter.notifyDataSetChanged();
             }
@@ -67,6 +74,26 @@ public class BoardListActivity extends AppCompatActivity {
             }
         });
 
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Post Post = snapshot.getValue(Post.class);
+                    Post.key = snapshot.getKey();
+                    Post.target = name;
+                    Post.type = snapshot.child("type").getValue().toString();
+                    //Log.d("값 : ", Post.key + " / " + Post.type + " / " + name);
+                    if (Post.type.equals("공지")) {
+                        arrayList.add(0, Post);
+                    }
+                }
+                boardListAdapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("Fraglike", String.valueOf(error.toException())); //에러 시 출력
+            }
+        });
 
         boardListAdapter = new BoardListAdapter(arrayList);
         recyclerView.setAdapter(boardListAdapter);
