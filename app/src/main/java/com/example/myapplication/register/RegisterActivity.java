@@ -380,4 +380,7 @@ public class RegisterActivity extends AppCompatActivity {
     private void reload() {
         mAuth.signOut();
     }
+
+    private class UserDetailsActivity {
+    }
 }

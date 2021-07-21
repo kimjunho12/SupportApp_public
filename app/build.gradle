@@ -69,6 +69,7 @@ dependencies {
 
     // Google-services
     // Import the Firebase BoM
+    // storage
     implementation platform('com.google.firebase:firebase-bom:27.0.0')
     implementation 'com.google.firebase:firebase-firestore'
     implementation 'com.google.firebase:firebase-storage'
@@ -93,4 +94,6 @@ dependencies {
     // Find the latest Facebook SDK releases here: https://goo.gl/Ce5L94
     implementation 'com.facebook.android:facebook-android-sdk:[8,9)'
     implementation 'com.facebook.android:facebook-login:[8,9)'
+
+
 }
