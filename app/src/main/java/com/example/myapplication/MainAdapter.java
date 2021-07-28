@@ -1,6 +1,8 @@
 package com.example.myapplication;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +19,15 @@ import java.util.HashMap;
 import java.util.List;
 
 public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private static final String TAG = "category";
     public static final int HEADER = 0;
     public static final int CHILD = 1;
 
     private List<Subject> data;
     private adapter2activity a2a;
+
+    private Intent intent;
+
     HashMap<String, Boolean> hm = new HashMap<String, Boolean>();
 
     public MainAdapter(List<Subject> data, adapter2activity a2a) {
@@ -48,7 +54,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 return header;
             case CHILD:
                 LayoutInflater child_inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                view = child_inflater.inflate(R.layout.target_list_item, parent, false);
+                view = child_inflater.inflate(R.layout.target_list_item2, parent, false);
                 ListChildViewHolder child = new ListChildViewHolder(view);
                 return child;
         }
@@ -127,38 +133,19 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 if (hm.get(subject.mCategory) == null) {
                     hm.put(subject.mCategory, false);
                 }
-                if (hm.get(subject.mCategory)) {
+                /*if (hm.get(subject.mCategory)) {
                     childController.child_cb.setChecked(true);
                 } else {
                     childController.child_cb.setChecked(false);
-                }
+                }*/
 
-                childController.child_cb.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        CheckBox checkBox = (CheckBox) view.findViewById(R.id.picked_target);
-                        if (checkBox.isChecked()) {
-                            checkBox.setChecked(true);
-                            a2a.addItem(1,position);
-                        } else {
-                            checkBox.setChecked(false);
-                            a2a.deleteItem(1,position);
-                        }
-                        hm.put(subject.mCategory, checkBox.isChecked());
-                    }
-                });
+                //이부분 페이지 넘기기
                 childController.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View arg0) {
-                        CheckBox checkBox = (CheckBox) arg0.findViewById(R.id.picked_target);
-                        if (checkBox.isChecked()) {
-                            checkBox.setChecked(false);
-                            a2a.deleteItem(1,position);
-                        } else {
-                            checkBox.setChecked(true);
-                            a2a.addItem(1,position);
-                        }
-                        hm.put(subject.mCategory, checkBox.isChecked());
+                    public void onClick(View view) {
+                        intent = new Intent(view.getContext(), categoryActivity.class);
+                        intent.putExtra("mCategory", data.get(position).mCategory);
+                        view.getContext().startActivity(intent);
                     }
                 });
                 break;
@@ -190,13 +177,11 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static class ListChildViewHolder extends RecyclerView.ViewHolder {
         public TextView child_title;
         public ImageView child_img;
-        public CheckBox child_cb;
 
         public ListChildViewHolder(View childView) {
             super(childView);
             child_title = childView.findViewById(R.id.tv_name);
             child_img = childView.findViewById(R.id.iv_icon);
-            child_cb = childView.findViewById(R.id.picked_target);
         }
     }
 }

@@ -75,9 +75,11 @@ public class BoardcontentActivity extends AppCompatActivity {
 
         TextView textView1 = findViewById(R.id.tv_board_title);
         TextView textView2 = findViewById(R.id.tv_board_contents);
+        TextView textView3= findViewById(R.id.board_top_name);
 
         textView1.setText(intent.getStringExtra("title"));
         textView2.setText(intent.getStringExtra("contents"));
+        textView3.setText(name + " 게시판");
 
         EditText reply = findViewById(R.id.et_reply);
 

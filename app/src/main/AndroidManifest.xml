@@ -38,6 +38,7 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity android:name=".newsActivity" />
+        <activity android:name=".categoryActivity"/>
         <activity android:name=".profileActivity" />
         <activity
             android:name=".BoardcontentActivity"
