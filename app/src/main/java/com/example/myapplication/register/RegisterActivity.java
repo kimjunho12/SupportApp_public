@@ -14,10 +14,12 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.R;
+import com.example.myapplication.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
@@ -31,13 +33,22 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
-import com.google.firebase.auth.UserInfo;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public class RegisterActivity extends AppCompatActivity {
     private static final String TAG = "RegisterPage";
+    private static final int TARGET = 1;
+    private boolean is_signuped = false;
     private ImageButton btn_back;
     private Button btn_register_save;
     private CheckBox cb_target;
@@ -51,8 +62,16 @@ public class RegisterActivity extends AppCompatActivity {
     private PhoneAuthProvider.ForceResendingToken mResendToken;
     private String smsCode = null;
 
+    private String email;
+    private String password;
+    private String pw_check;
+    private String name;
+    private String phone;
+    private String birthday;
+
     boolean is_id_checked = false;
     boolean is_phone_checked = false;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,39 +89,37 @@ public class RegisterActivity extends AppCompatActivity {
             et_register_id.setEnabled(false);
 
             et_register_name.setText(user.getDisplayName());
-
-            Log.d(TAG, "onCreate: user.getEmail             " + user.getEmail());
-            Log.d(TAG, "onCreate: user.getDisplayName       " + user.getDisplayName());
-            Log.d(TAG, "onCreate: user.getPhoneNumber       " + user.getPhoneNumber());
-            Log.d(TAG, "onCreate: user.getProviderId        " + user.getProviderId());
-            Log.d(TAG, "onCreate: user.getProviderData      " + user.getProviderData());
-            Log.d(TAG, "onCreate: user.getPhotoUrl          " + user.getPhotoUrl());
-            for (UserInfo profile : user.getProviderData()) {
-                Log.d(TAG, "onCreate: profile                      " + profile);
-                Log.d(TAG, "onCreate: profile.getEmail             " + profile.getEmail());
-                Log.d(TAG, "onCreate: profile.getDisplayName       " + profile.getDisplayName());
-                Log.d(TAG, "onCreate: profile.getPhoneNumber       " + profile.getPhoneNumber());
-                Log.d(TAG, "onCreate: profile.getProviderId        " + profile.getProviderId());
-                Log.d(TAG, "onCreate: profile.getPhotoUrl          " + profile.getPhotoUrl());
-            }
         }
 
         btn_check_id.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View v) {
-                // 중복확인 로직 필요
-                /*
-                if 중복
-                    Toast
-                esle 안중복
-                    중복확인버튼(btn_check_id) 체크표시로 변경
-                    is_id_checked = true;
-                 */
+                Query mQuery = FirebaseDatabase.getInstance().getReference().child("Users").orderByChild("id").equalTo(String.valueOf(et_register_id.getText()));
+                mQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                        Log.d(TAG, "onDataChange: " + snapshot.getValue());
+                        if (snapshot.getValue() != null) {
+                            Toast.makeText(RegisterActivity.this, "아이디가 중복 되었습니다.\n다시 입력해주세요.", Toast.LENGTH_SHORT).show();
+                            et_register_id.requestFocus();
+                        } else {
+                            if (TextUtils.isEmpty(et_register_id.getText())) {
+                                return;
+                            }
+                            Toast.makeText(RegisterActivity.this, "사용가능한 아이디 입니다.", Toast.LENGTH_SHORT).show();
+                            et_register_id.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_checked, 0);
+                            et_register_id.setEnabled(false);
+                            btn_check_id.setEnabled(false);
+                            is_id_checked = true;
+                        }
+                    }
 
-
-                // 임시 (나중에는 위에 ifesle에 넣어야함)
-                is_id_checked = true;
+                    @Override
+                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                        Log.e(TAG, "onCancelled: ", error.toException());
+                    }
+                });
             }
         });
 
@@ -151,7 +168,7 @@ public class RegisterActivity extends AppCompatActivity {
                 if (e instanceof FirebaseAuthInvalidCredentialsException) {
                     Toast.makeText(RegisterActivity.this, "휴대폰 번호를 확인해 주세요", Toast.LENGTH_SHORT).show();
                     et_register_phone.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.design_default_color_error)));
-                    et_register_phone.findFocus();
+                    et_register_phone.requestFocus();
                 } else if (e instanceof FirebaseTooManyRequestsException) {
                     Toast.makeText(RegisterActivity.this, "인증 가능 횟수를 초과하였습니다\n잠시 후에 다시 시도해 주세요", Toast.LENGTH_SHORT).show();
                 }
@@ -186,7 +203,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                     Toast.makeText(RegisterActivity.this, "인증번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show();
                     et_register_no_check.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.design_default_color_error)));
-                    et_register_no_check.findFocus();
+                    et_register_no_check.requestFocus();
                 }
                 Log.d(TAG, "submit.onClick: " + smsCode);
             }
@@ -197,16 +214,21 @@ public class RegisterActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View v) {
-                String email = String.valueOf(et_register_id.getText());
-                String password = String.valueOf(et_register_pw.getText());
-                String pw_check = String.valueOf(et_register_pw_check.getText());
-                String name = String.valueOf(et_register_name.getText());
-                String phone = String.valueOf(et_register_phone.getText());
-                String birthday = String.valueOf(et_register_birth.getText());
-                Boolean OK = true;
+                email = String.valueOf(et_register_id.getText());
+                password = String.valueOf(et_register_pw.getText());
+                pw_check = String.valueOf(et_register_pw_check.getText());
+                name = String.valueOf(et_register_name.getText());
+                phone = String.valueOf(et_register_phone.getText());
+                birthday = String.valueOf(et_register_birth.getText());
+                boolean OK = true;
 
                 // Phone & ID 중복확인 수행 결과 로직 추가 필요
                 // is_id_checked, is_phone_checked 홯용
+
+                if (!is_id_checked) {
+                    Toast.makeText(RegisterActivity.this, "아이디 중복 확인을 해주세요", Toast.LENGTH_SHORT).show();
+                    OK = false;
+                }
 
                 if (TextUtils.isEmpty(email)) {
                     Toast.makeText(RegisterActivity.this, "아이디를 정확하게 입력해주세요", Toast.LENGTH_SHORT).show();
@@ -248,10 +270,15 @@ public class RegisterActivity extends AppCompatActivity {
                     createAccount(email, password);
                 }
 
-                if (OK && mAuth.getCurrentUser() != null) {
+                if (OK && is_signuped) {
+                    moveToTargetDetailsActivity();
+                }
+
+                if (OK && mAuth.getCurrentUser() != null && !is_signuped) {
                     AuthCredential credential = EmailAuthProvider.getCredential(email, password);
                     linkAccount(credential);
                 }
+
             }
         });
     }
@@ -265,6 +292,20 @@ public class RegisterActivity extends AppCompatActivity {
 //            reload();
 //        }
 //    }
+
+    private void updateUserInfo(String uid, String id, String pw, String name, String phone, String birth, boolean is_target) {
+        User user = null;
+        if (is_target) {
+            user = new User(uid, id, pw, name, phone, birth, 1);
+        } else {
+            user = new User(uid, id, pw, name, phone, birth, 0);
+        }
+        user.setIs_surveyed(false);
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference mRef = database.getReference();
+        mRef.child("Users").child(uid).setValue(user);
+    }
 
     private void startPhoneNumberVerification(String phoneNumber) {
         // [START start_phone_auth]
@@ -327,26 +368,40 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                 });
     }
-    
+
     private void updateUI(FirebaseUser user) {
         if (user != null) {
+            Log.d(TAG, "updateUI: " + (user.getUid().equals(mAuth.getUid())));
+            updateUserInfo(mAuth.getUid(), email, password, name, phone, birthday, cb_target.isChecked());
             // 후원 대상 체크 시
             if (cb_target.isChecked()) {
                 // setResult 및 Intent 수정 필요
                 setResult(0);
-                Intent intent = new Intent(RegisterActivity.this, UserDetailsActivity.class);
-                startActivity(intent);
-
-                //콜백 받으면 finish
-                finish();
+                is_signuped = true;
+                moveToTargetDetailsActivity();
             }
             // 일반 회원일 경우
             else {
-                //CallBack으로 처리해
-//                    Intent intent = new Intent(RegisterActivity.this, SurveyActivity.class);
-//                    startActivity(intent);
                 finish();
             }
+        }
+    }
+
+    private void moveToTargetDetailsActivity() {
+        Intent intent = new Intent(RegisterActivity.this, TargetDetailsActivity.class);
+        intent.putExtra("name", name);
+        intent.putExtra("phone", phone);
+        intent.putExtra("birth", birthday);
+        startActivityForResult(intent, TARGET);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // 정보입력 다 했는지 확인
+        Log.d(TAG, "onActivityResult: " + requestCode + " " + resultCode);
+        if (requestCode == TARGET && resultCode == 200) {
+            finish();
         }
     }
 
@@ -377,10 +432,8 @@ public class RegisterActivity extends AppCompatActivity {
 
         btn_register_save = findViewById(R.id.btn_register_save);
     }
+
     private void reload() {
         mAuth.signOut();
-    }
-
-    private class UserDetailsActivity {
     }
 }

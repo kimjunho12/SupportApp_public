@@ -7,11 +7,9 @@ public class User {
     private String name;
     private String phone;
     private String birth;
-
     private String photoURL;
     private int is_target;  // 0 : 일반, 1 : 후원 대상
     private Boolean is_surveyed;
-
 
     public User() {
     }
@@ -23,7 +21,6 @@ public class User {
         this.name = name;
         this.phone = phone;
         this.birth = birth;
-
         this.photoURL = "null";
         this.is_target = is_target;
     }
@@ -46,17 +43,6 @@ public class User {
     public void setPhotoURL(String photoURL) {
         this.photoURL = photoURL;
     }
-    {
-
-        this.is_target =is_target;
-
-
-}
-
-    public void setIs_surveyed(boolean is_surveyed) {
-        this.is_surveyed = is_surveyed;
-    }
-
 
     public String getUid() {
         return Uid;
@@ -86,7 +72,6 @@ public class User {
         return is_target;
     }
 
-
     public String getPhotoURL() {
         return photoURL;
     }
@@ -98,5 +83,4 @@ public class User {
     public void setIs_target(int is_target) {
         this.is_target = is_target;
     }
-
 }

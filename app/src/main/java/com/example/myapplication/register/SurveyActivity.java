@@ -76,7 +76,6 @@ public class SurveyActivity extends AppCompatActivity implements adapter2activit
                     }
                 });
 
-
         btn_survey_save = findViewById(R.id.btn_survey_save);
         btn_survey_skip = findViewById(R.id.btn_survey_skip);
 
@@ -110,7 +109,7 @@ public class SurveyActivity extends AppCompatActivity implements adapter2activit
         btn_survey_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                searchView.setText(null);
+                searchView.setText(null);
 
                 for (Target target : selectTarget) {
                     FirebaseDatabase.getInstance().getReference("Users")
