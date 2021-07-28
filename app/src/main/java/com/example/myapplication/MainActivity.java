@@ -184,7 +184,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         // DB에서 후원대상 불러오기
-        /*FirebaseDatabase.getInstance().getReference("target").orderByChild("name")  // 나중에는 orderbychild 붙여서
+        FirebaseDatabase.getInstance().getReference("target").orderByChild("name")  // 나중에는 orderbychild 붙여서
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
@@ -197,7 +197,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     public void onCancelled(@NonNull @NotNull DatabaseError error) {
 
                     }
-                });*/
+                });
     }
 
     private void setFrag(int n) {
