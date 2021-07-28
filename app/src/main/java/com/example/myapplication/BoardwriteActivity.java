@@ -42,6 +42,8 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.xml.transform.Result;
+
 public class BoardwriteActivity extends AppCompatActivity {
 
     private ImageView imageView;
@@ -71,21 +73,20 @@ public class BoardwriteActivity extends AppCompatActivity {
         btn_create_post = findViewById(R.id.btn_create_post);
         sw_board_type = findViewById(R.id.sw_board_type);
         btn_board_add_photo = (Button) findViewById(R.id.btn_board_add_photo);
-        //imageView = (ImageView) findViewById(R.id.imageView);
+        imageView = (ImageView) findViewById(R.id.imageView);
 
         storage = FirebaseStorage.getInstance();
         //사진
         btn_board_add_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //사진첨부 로직
-               Intent intent = new Intent(String.valueOf(StorageActivity.class));
-               intent.setType("image/*");
-               intent.setAction(Intent.ACTION_GET_CONTENT);
-               startActivityForResult(intent, GET_GALLARY);
-
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,"image/*");
+                startActivityForResult(intent, GET_GALLARY);
             }
+
         });
+
 
         btn_create_post.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,4 +110,14 @@ public class BoardwriteActivity extends AppCompatActivity {
                     }
                 });
             }
-        }
+            @Override
+            protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+                super.onActivityResult(requestCode, resultCode, data);
+                if (GET_GALLARY == requestCode && resultCode == RESULT_OK && data
+                != null && data.getData() != null){
+                    Uri selectedImageUri = data.getData();
+                    imageView.setImageURI(selectedImageUri);
+                }
+            }
+            }
+

@@ -53,20 +53,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_top" />
-    <LinearLayout
-        android:layout_width="350dp"
-        android:layout_height="150dp"
-        tools:layout_editor_absoluteX="30dp"
-        tools:layout_editor_absoluteY="220dp"
-        tools:ignore="MissingConstraints" >
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="fitCenter"
-            android:layout_gravity="center_vertical"
-            />
-    </LinearLayout>
     <EditText
         android:id="@+id/et_board_write_contents"
         android:layout_width="350dp"
@@ -81,6 +67,18 @@
         app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_board_add_photo" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="339dp"
+        android:layout_height="299dp"
+        android:layout_gravity="center_vertical"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="@+id/et_board_write_contents"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_top"
+        tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/btn_board_add_photo"
