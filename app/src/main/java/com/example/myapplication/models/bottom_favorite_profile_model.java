@@ -2,13 +2,22 @@ package com.example.myapplication.models;
 
 public class bottom_favorite_profile_model {
 
-    private String birth;
-    private String debut;
-    private String icon;
-    private String intro;
-    private String name;
-    private String sns;
-    private String team;
+    public String birth;
+    public String debut;
+    public String icon;
+    public String intro;
+    public String name;
+    public String sns;
+    public String team;
+    public String mCategory;
+
+    public String getmCategory() {
+        return mCategory;
+    }
+
+    public void setmCategory(String mCategory) {
+        this.mCategory = mCategory;
+    }
 
     public String getBirth() {
         return birth;
