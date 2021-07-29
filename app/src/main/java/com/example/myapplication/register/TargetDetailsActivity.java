@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -108,8 +109,9 @@ public class TargetDetailsActivity extends AppCompatActivity implements adapter2
 
         DatabaseReference mDBRefer = FirebaseDatabase.getInstance().getReference("target").push();
         mDBRefer.setValue(target);
-        mDBRefer.child("subject").setValue(selectSubject);
+        mDBRefer.child("subject").setValue(selectSubject.get(0));
         setResult(OK);
+        Toast.makeText(TargetDetailsActivity.this, "후원대상 상세정보 입력이 완료 되었습니다.\n로그인을 진행 해 주세요.", Toast.LENGTH_LONG).show();
         finish();
     }
 
