@@ -4,18 +4,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myapplication.models.Post;
 import com.example.myapplication.models.bottom_favorite_profile_model;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -86,28 +82,48 @@ public class categoryActivity extends Activity {
                 });*/
         arrayList = new ArrayList<>();
         database = FirebaseDatabase.getInstance();
-        Query query = database.getReference("target").orderByChild("name");
+        Query query = database.getReference("target").orderByChild("subject/mCategory").equalTo(mCategory);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
                 arrayList.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    bottom_favorite_profile_model bottom_favorite_profile_model = snapshot.getValue(bottom_favorite_profile_model.class);
-                    bottom_favorite_profile_model.mCategory = snapshot.child("subject").child("mCategory").getValue().toString();
-                    if (bottom_favorite_profile_model.mCategory.equals(mCategory)) {
-                        arrayList.add(bottom_favorite_profile_model);
-                    }
-                    //arrayList.add(bottom_favorite_profile_model);
+                    Log.d(TAG, "Snapshot: " + snapshot.toString());
+                    arrayList.add(snapshot.getValue(bottom_favorite_profile_model.class));
                 }
                 category_adapter.notifyDataSetChanged();
             }
+
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("Fraglike", String.valueOf(error.toException())); //에러 시 출력
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
             }
         });
         category_adapter = new category_adapter(arrayList, this);
         recyclerView.setAdapter(category_adapter);
+
+        // 현우형 원본
+//        query.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                arrayList.clear();
+//                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                    bottom_favorite_profile_model bottom_favorite_profile_model = snapshot.getValue(bottom_favorite_profile_model.class);
+//                    bottom_favorite_profile_model.mCategory = snapshot.child("subject").child("mCategory").getValue().toString();
+//                    if (bottom_favorite_profile_model.mCategory.equals(mCategory)) {
+//                        arrayList.add(bottom_favorite_profile_model);
+//                    }
+//                    //arrayList.add(bottom_favorite_profile_model);
+//                }
+//                category_adapter.notifyDataSetChanged();
+//            }
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//                Log.e("Fraglike", String.valueOf(error.toException())); //에러 시 출력
+//            }
+//        });
+//        category_adapter = new category_adapter(arrayList, this);
+//        recyclerView.setAdapter(category_adapter);
     }
 
     /*public void loadLikeTarget() {
