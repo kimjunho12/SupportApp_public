@@ -54,6 +54,10 @@ public class profileActivity extends AppCompatActivity {
         intent = getIntent();
         name = intent.getStringExtra("name");
 
+
+        TextView textView = findViewById(R.id.profile_top_name);
+        textView.setText(name + " 프로필");
+
         TextView tv_profile_birth = findViewById(R.id.tv_profile_birth);
         ImageView imageView = findViewById(R.id.img_profile);
         TextView tv_profile_debut = findViewById(R.id.tv_profile_debut);
