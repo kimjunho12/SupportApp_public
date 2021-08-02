@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +25,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.loader.content.CursorLoader;
 
+import com.bumptech.glide.load.engine.Resource;
 import com.example.myapplication.models.Post;
 import com.example.myapplication.register.LoginActivity;
 import com.google.android.gms.tasks.Continuation;
@@ -56,6 +59,8 @@ public class BoardwriteActivity extends AppCompatActivity {
     private String target;
     private FirebaseAuth mAuth;
     private FirebaseStorage storage;
+    private ScrollView scrollView;
+    private BitmapDrawable bitmapDrawable;
 
 
 
@@ -74,6 +79,11 @@ public class BoardwriteActivity extends AppCompatActivity {
         sw_board_type = findViewById(R.id.sw_board_type);
         btn_board_add_photo = (Button) findViewById(R.id.btn_board_add_photo);
         imageView = (ImageView) findViewById(R.id.imageView);
+        //스크롤뷰
+        scrollView = findViewById(R.id.scrollView);
+        scrollView.setHorizontalFadingEdgeEnabled(true);
+        scrollView.setVerticalFadingEdgeEnabled(true);
+        Resource res = (Resource) getResources();
 
         storage = FirebaseStorage.getInstance();
         //사진
