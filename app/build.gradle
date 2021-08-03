@@ -93,4 +93,8 @@ dependencies {
     // Find the latest Facebook SDK releases here: https://goo.gl/Ce5L94
     implementation 'com.facebook.android:facebook-android-sdk:[8,9)'
     implementation 'com.facebook.android:facebook-login:[8,9)'
+
+    //agora live sdk
+    implementation 'io.agora.rtc:full-sdk:3.1.2'
+    androidTestImplementation("org.mockito:mockito-android:2.24.5")
 }
