@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -35,7 +36,7 @@ public class bottom_home_adapter extends RecyclerView.Adapter<bottom_home_adapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CustomViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Glide.with(holder.itemView).load(arrayList.get(position).getImage()).into(holder.image);
         holder.title.setText(arrayList.get(position).getTitle());
         //holder.content.setText(arrayList.get(position).getContent());
