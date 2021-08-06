@@ -85,20 +85,35 @@
             app:layout_constraintStart_toEndOf="@+id/textView"
             app:layout_constraintTop_toBottomOf="@+id/profile_top" />
 
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="376dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="64dp"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toTopOf="@+id/et_board_write_contents"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.457"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profile_top"
+            app:layout_constraintVertical_bias="0.0"
+            tools:ignore="MissingConstraints,UnknownIdInLayout" />
+
         <TextView
             android:id="@+id/tv_board_contents"
-            android:layout_width="350dp"
-            android:layout_height="400dp"
-            android:layout_marginTop="16dp"
+            android:layout_width="376dp"
+            android:layout_height="170dp"
+            android:layout_marginTop="180dp"
+            android:background="@drawable/border_layout"
             android:gravity="top"
             android:hint="내용"
-            android:background="@drawable/border_layout"
             android:padding="10dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.491"
+            app:layout_constraintHorizontal_bias="0.466"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_board_title" />
-
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/board_recycle"
@@ -132,6 +147,7 @@
             android:text="등록"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/board_recycle" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
 
