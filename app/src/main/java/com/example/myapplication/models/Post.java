@@ -3,6 +3,8 @@ package com.example.myapplication.models;
 public class Post {
 
 
+    public String imgName;
+
     public String getType() {
         return type;
     }

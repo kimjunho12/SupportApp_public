@@ -97,7 +97,7 @@ public class BoardwriteActivity extends AppCompatActivity {
                 } else {
                     post.type = "일반";
                 }
-                upload(imagePath);
+
                 post.title = String.valueOf(et_board_write_title.getText());
                 post.username = mAuth.getCurrentUser().getEmail();      // 나중에 닉네임으로 나오게끔
                 post.date = new SimpleDateFormat("MM-dd hh:mm").format(new Date(System.currentTimeMillis()));
@@ -148,6 +148,22 @@ public class BoardwriteActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Task<Uri> downloadUrl = taskSnapshot.getStorage().getDownloadUrl();
+                    Post post = new Post();
+                    if (sw_board_type.isChecked()) {
+                        post.type = "공지";
+                    } else {
+                        post.type = "일반";
+                    }
+                    post.title = String.valueOf(et_board_write_title.getText());
+                    post.username = mAuth.getCurrentUser().getEmail();      // 나중에 닉네임으로 나오게끔
+                    post.date = new SimpleDateFormat("MM-dd hh:mm").format(new Date(System.currentTimeMillis()));
+                    post.view_cnt = 0;
+                    post.contents = String.valueOf(et_board_write_contents.getText());
+                    post.img = imagePath.toString();
+                    post.imgName = file.getLastPathSegment();
+                    FirebaseDatabase.getInstance().getReference("target").child(target).child("post").push().setValue(post);
+                    setResult(200);
+                    finish();
 
                 }
             });
