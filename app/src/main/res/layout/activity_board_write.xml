@@ -62,22 +62,23 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="381dp"
-        android:layout_height="165dp"
+        android:layout_width="380dp"
+        android:layout_height="210dp"
         android:layout_gravity="center_vertical"
         android:adjustViewBounds="true"
+        android:contentDescription="TODO"
         android:scaleType="fitCenter"
+        android:windowSoftInputMode="adjustResize"
         app:layout_constraintBottom_toTopOf="@+id/et_board_write_contents"
         app:layout_constraintTop_toBottomOf="@+id/profile_top_name"
-        app:layout_constraintVertical_bias="0.894"
+        app:layout_constraintVertical_bias="0.88"
         tools:ignore="MissingConstraints"
-        android:windowSoftInputMode="adjustResize"
         tools:layout_editor_absoluteX="16dp" />
 
     <EditText
         android:id="@+id/et_board_write_contents"
-        android:layout_width="381dp"
-        android:layout_height="236dp"
+        android:layout_width="380dp"
+        android:layout_height="300dp"
         android:layout_marginBottom="36dp"
         android:background="@drawable/border_layout"
         android:gravity="top"
@@ -85,7 +86,7 @@
         android:padding="10dp"
         app:layout_constraintBottom_toTopOf="@+id/btn_create_post"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.466"
+        app:layout_constraintHorizontal_bias="0.516"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sw_board_type"
         app:layout_constraintVertical_bias="1.0" />
