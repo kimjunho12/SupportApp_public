@@ -5,6 +5,8 @@ public class Post {
 
     public String imgName;
 
+
+
     public String getType() {
         return type;
     }
@@ -54,6 +56,7 @@ public class Post {
     public String img;
     public String key;
     public String target;
+
 
     public String getContents() {
         return contents;

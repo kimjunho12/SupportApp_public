@@ -97,7 +97,7 @@ public class BoardwriteActivity extends AppCompatActivity {
                 } else {
                     post.type = "일반";
                 }
-
+                upload(imagePath);
                 post.title = String.valueOf(et_board_write_title.getText());
                 post.username = mAuth.getCurrentUser().getEmail();      // 나중에 닉네임으로 나오게끔
                 post.date = new SimpleDateFormat("MM-dd hh:mm").format(new Date(System.currentTimeMillis()));
@@ -131,44 +131,25 @@ public class BoardwriteActivity extends AppCompatActivity {
         return cursor.getString(index);
     }
     private void upload(String uri){
-            StorageReference storageRef = storage.getReferenceFromUrl("gs://supportapp-f34a1.appspot.com");
+        StorageReference storageRef = storage.getReferenceFromUrl("gs://supportapp-f34a1.appspot.com");
 
 
-            Uri file = Uri.fromFile(new File(uri));
-            StorageReference riversRef = storageRef.child("images/" + file.getLastPathSegment());
-            UploadTask uploadTask = riversRef.putFile(file);
+        Uri file = Uri.fromFile(new File(uri));
+        StorageReference riversRef = storageRef.child("images/" + file.getLastPathSegment());
+        UploadTask uploadTask = riversRef.putFile(file);
 
 // Register observers to listen for when the download is done or if it fails
-            uploadTask.addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    // Handle unsuccessful uploads
-                }
-            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Task<Uri> downloadUrl = taskSnapshot.getStorage().getDownloadUrl();
-                    Post post = new Post();
-                    if (sw_board_type.isChecked()) {
-                        post.type = "공지";
-                    } else {
-                        post.type = "일반";
-                    }
-                    post.title = String.valueOf(et_board_write_title.getText());
-                    post.username = mAuth.getCurrentUser().getEmail();      // 나중에 닉네임으로 나오게끔
-                    post.date = new SimpleDateFormat("MM-dd hh:mm").format(new Date(System.currentTimeMillis()));
-                    post.view_cnt = 0;
-                    post.contents = String.valueOf(et_board_write_contents.getText());
-                    post.img = imagePath.toString();
-                    post.imgName = file.getLastPathSegment();
-                    FirebaseDatabase.getInstance().getReference("target").child(target).child("post").push().setValue(post);
-                    setResult(200);
-                    finish();
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle unsuccessful uploads
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Task<Uri> downloadUrl = taskSnapshot.getStorage().getDownloadUrl();
 
-                }
-            });
-        }
+            }
+        });
+    }
 }
-
-
-

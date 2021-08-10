@@ -61,7 +61,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/divider" />
 
-        <TextView
+        <Button
             android:id="@+id/btn_change_profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

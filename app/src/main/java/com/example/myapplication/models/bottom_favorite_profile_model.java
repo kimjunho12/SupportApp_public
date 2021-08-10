@@ -3,6 +3,7 @@ package com.example.myapplication.models;
 public class bottom_favorite_profile_model {
 
     public String birth;
+    public String phone;
     public String debut;
     public String icon;
     public String intro;
@@ -10,6 +11,8 @@ public class bottom_favorite_profile_model {
     public String sns;
     public String team;
     public String mCategory;
+    public String email;
+    public bottom_favorite_profile_model(){}
 
     public String getmCategory() {
         return mCategory;
@@ -17,6 +20,14 @@ public class bottom_favorite_profile_model {
 
     public void setmCategory(String mCategory) {
         this.mCategory = mCategory;
+    }
+
+    public String getemail() {
+        return email;
+    }
+
+    public void setemail(String email) {
+        this.email = email;
     }
 
     public String getBirth() {
@@ -27,11 +38,10 @@ public class bottom_favorite_profile_model {
         this.birth = birth;
     }
 
-    public String getDebut() {
-        return debut;
+    public String  getDebut() { return debut;
     }
 
-    public void setDebut(String debut) {
+    public void setDebut(String  debut) {
         this.debut = debut;
     }
 
@@ -51,7 +61,7 @@ public class bottom_favorite_profile_model {
         this.intro = intro;
     }
 
-    public String getName() {
+    public  String getName() {
         return name;
     }
 
@@ -75,5 +85,22 @@ public class bottom_favorite_profile_model {
         this.team = team;
     }
 
+    public String getphone() {
+        return phone;
+    }
 
+    public void setphone(String phone) {
+        this.phone = phone;
+    }
+
+    public void profile(String icon, String name, String sns, String team, String phone, String birth, String debut) {
+        this.birth = birth;
+        this.debut = debut;
+        this.icon = icon;
+        this.team = team;
+        this.name = name;
+        this.sns = sns;
+        this.phone = phone;
+
+    }
 }
