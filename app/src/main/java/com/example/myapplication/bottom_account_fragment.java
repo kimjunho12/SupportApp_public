@@ -47,9 +47,11 @@ import com.google.firebase.storage.UploadTask;
 import com.kakao.sdk.story.model.BirthdayType;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 
-public class bottom_account_fragment extends Fragment {
+public class bottom_account_fragment<bottom_favorite_profile_models> extends Fragment {
     private View view;
     private ImageView imageView;
     private static final int GET_GALLARY = 100;
@@ -67,15 +69,8 @@ public class bottom_account_fragment extends Fragment {
     private TextView input_SNS;
     private TextView input_pr;
     private DatabaseReference mDatabase;
-    private int birth;
-    private int debut;
-    private String icon;
-    private String intro;
-    private String name;
-    private int phone;
-    private String sns;
-    private String team;
 
+    private List<bottom_favorite_profile_model> models= new ArrayList<>();
 
 
     @Nullable
@@ -85,6 +80,7 @@ public class bottom_account_fragment extends Fragment {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user != null ? user.getUid(): null; // 로그인한 유저 고유 uid
+
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference(); // 파이어베이스 realtime 가져오기
@@ -106,14 +102,13 @@ public class bottom_account_fragment extends Fragment {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
         }
-        mDatabase.child("target").child("1").addValueEventListener(new ValueEventListener() {
+        mDatabase.child("target").addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.getValue(bottom_favorite_profile_model.class) != null) {
-                    bottom_favorite_profile_model user = snapshot.getValue(bottom_favorite_profile_model.class);
-                    Log.w("FirebaseData", "getData"+user.toString());
-                }
-                else{
+            public void onDataChange(@NonNull DataSnapshot datasnapshot) {
+              models.clear();;
+                for(DataSnapshot snapshot : datasnapshot.getChildren()){
+                    bottom_favorite_profile_model bottom_favorite_profile_model = snapshot.getValue(com.example.myapplication.models.bottom_favorite_profile_model.class);
+                    models.add(bottom_favorite_profile_model);
                 }
             }
 
@@ -140,14 +135,14 @@ public class bottom_account_fragment extends Fragment {
                 upload(imagePath);
                 model.name = String.valueOf(input_name.getText());
                 model.email = mAuth.getCurrentUser().getEmail();      // 나중에 닉네임으로 나오게끔
-                model.phone = String.valueOf(input_phone_no.getText());
+                //model.phone = mAuth.ge();//valueOf(input_phone_no.getText());
                 model.intro = String.valueOf(input_pr.getText());
                 model.sns = String.valueOf(input_SNS.getText());
                 model.team = String.valueOf(input_sosock.getText());
                 model.birth =String.valueOf(input_birth_date.getText());
                 model.debut = String.valueOf(input_debut_date.getText());
                 model.icon = imagePath;
-                FirebaseDatabase.getInstance().getReference("target").push().setValue(model);
+                FirebaseDatabase.getInstance().getReference("profile").push().setValue(model);
             }
         });
         return view;

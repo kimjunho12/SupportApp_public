@@ -1,5 +1,7 @@
 package com.example.myapplication.models;
 
+import android.net.Uri;
+
 public class bottom_favorite_profile_model {
 
     public String birth;

@@ -9,20 +9,34 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/SupportApp/app/src/main/res/layout/activity_board_write.xml" value="0.16" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SupportApp/app/src/main/res/layout/activity_choose_role.xml" value="0.1911231884057971" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SupportApp/app/src/main/res/layout/activity_live_room.xml" value="0.1911231884057971" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SupportApp/app/src/main/res/layout/activity_login.xml" value="0.17806484295845998" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SupportApp/app/src/main/res/layout/activity_main.xml" value="0.3491847826086957" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SupportApp/app/src/main/res/layout/activity_news.xml" value="0.17806484295845998" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SupportApp/app/src/main/res/layout/activity_pay.xml" value="0.3491847826086957" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SupportApp/app/src/main/res/layout/activity_profile.xml" value="0.25" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SupportApp/app/src/main/res/layout/activity_register.xml" value="0.17806484295845998" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SupportApp/app/src/main/res/layout/activity_settings.xml" value="0.1911231884057971" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SupportApp/app/src/main/res/layout/activity_supportpopup.xml" value="0.17806484295845998" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SupportApp/app/src/main/res/layout/activity_survey.xml" value="0.17806484295845998" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SupportApp/app/src/main/res/layout/activity_target_details.xml" value="0.17806484295845998" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SupportApp/app/src/main/res/layout/board_list_item.xml" value="0.17806484295845998" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SupportApp/app/src/main/res/layout/bottom_account_fragment.xml" value="0.17806484295845998" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SupportApp/app/src/main/res/layout/bottom_event_fragment.xml" value="0.3491847826086957" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SupportApp/app/src/main/res/layout/bottom_event_news.xml" value="0.3491847826086957" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SupportApp/app/src/main/res/layout/bottom_favorite_fragment.xml" value="0.17806484295845998" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SupportApp/app/src/main/res/layout/bottom_favorite_profile.xml" value="0.17806484295845998" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SupportApp/app/src/main/res/layout/bottom_home_fragment.xml" value="0.17806484295845998" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SupportApp/app/src/main/res/layout/bottom_home_recyclerview.xml" value="0.17806484295845998" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SupportApp/app/src/main/res/layout/bottom_home_viewpager_layout1.xml" value="0.17806484295845998" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SupportApp/app/src/main/res/layout/bottom_home_viewpager_layout2.xml" value="0.1" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SupportApp/app/src/main/res/layout/bottom_home_viewpager_layout3.xml" value="0.3491847826086957" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SupportApp/app/src/main/res/layout/bottom_setting_fragment.xml" value="0.3491847826086957" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SupportApp/app/src/main/res/layout/category_fragment.xml" value="0.17806484295845998" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SupportApp/app/src/main/res/layout/dimension_item.xml" value="0.17806484295845998" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SupportApp/app/src/main/res/layout/expandable_list_header.xml" value="0.17806484295845998" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SupportApp/app/src/main/res/layout/live_activity_main.xml" value="0.3491847826086957" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SupportApp/app/src/main/res/layout/target_list_item.xml" value="0.3491847826086957" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SupportApp/app/src/main/res/layout/target_list_item2.xml" value="0.3491847826086957" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SupportApp/app/src/main/res/layout/toolbar.xml" value="0.17806484295845998" />
       </map>
     </option>
