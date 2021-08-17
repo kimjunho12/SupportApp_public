@@ -113,7 +113,7 @@ public class BoardwriteActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (GET_GALLARY == requestCode && requestCode == RESULT_OK) {
+        if (GET_GALLARY == requestCode) {
             imagePath = getPath(data.getData());
             File file =new File(imagePath);
             imageView.setImageURI(Uri.fromFile(file));
@@ -131,28 +131,25 @@ public class BoardwriteActivity extends AppCompatActivity {
         return cursor.getString(index);
     }
     private void upload(String uri){
-            StorageReference storageRef = storage.getReferenceFromUrl("gs://supportapp-f34a1.appspot.com");
+        StorageReference storageRef = storage.getReferenceFromUrl("gs://supportapp-f34a1.appspot.com");
 
 
-            Uri file = Uri.fromFile(new File(uri));
-            StorageReference riversRef = storageRef.child("images/" + file.getLastPathSegment());
-            UploadTask uploadTask = riversRef.putFile(file);
+        Uri file = Uri.fromFile(new File(uri));
+        StorageReference riversRef = storageRef.child("images/" + file.getLastPathSegment());
+        UploadTask uploadTask = riversRef.putFile(file);
 
 // Register observers to listen for when the download is done or if it fails
-            uploadTask.addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    // Handle unsuccessful uploads
-                }
-            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Task<Uri> downloadUrl = taskSnapshot.getStorage().getDownloadUrl();
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle unsuccessful uploads
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Task<Uri> downloadUrl = taskSnapshot.getStorage().getDownloadUrl();
 
-                }
-            });
-        }
+            }
+        });
+    }
 }
-
-
-
