@@ -13,8 +13,6 @@ import androidx.fragment.app.Fragment;
 
 
 public class accountActivity extends Activity {
-    private View view;
-    private Button input_save;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
