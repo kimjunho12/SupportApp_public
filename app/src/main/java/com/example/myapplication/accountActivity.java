@@ -31,6 +31,7 @@ import androidx.fragment.app.Fragment;
 import androidx.loader.content.CursorLoader;
 
 import com.bumptech.glide.Glide;
+import com.example.myapplication.models.Post;
 import com.example.myapplication.models.Target;
 import com.example.myapplication.models.User;
 import com.example.myapplication.models.bottom_favorite_profile_model;
@@ -66,7 +67,6 @@ public class accountActivity extends Activity {
     private FirebaseStorage storage;
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
-    private Button account_details_save;
     private EditText input_name;
     private EditText input_phone_no;
     private EditText input_birth_date;
@@ -75,8 +75,10 @@ public class accountActivity extends Activity {
     private EditText input_SNS;
     private EditText input_pr;
     private ImageView input_image;
-    private ArrayList<User> arrayList;
     private String Uid;
+    private String imagePath;
+    private Button account_image_change_profile;
+    private Button account_details_save;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,9 +96,11 @@ public class accountActivity extends Activity {
         input_birth_date = findViewById(R.id.input_birth_date);
         input_sosock = findViewById(R.id.input_sosock);
         input_image = findViewById(R.id.account_image);
+        account_image_change_profile = (Button) findViewById(R.id.account_image_change_profile);
+        account_details_save = (Button) findViewById(R.id.account_details_save);
 
         Uid = mAuth.getUid();
-        Log.d(TAG,"Uid : " + Uid);
+        Log.d(TAG, "Uid : " + Uid);
 
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference("Users");
@@ -111,12 +115,12 @@ public class accountActivity extends Activity {
                 //String debut_date = snapshot.child("debut_date").getValue().toString();
                 //String SNS = snapshot.child("SNS").getValue().toString();
                 //String pr = snapshot.child("pr").getValue().toString();
-                Glide.with(accountActivity.this).load(icon).into(input_image);
+                //Glide.with(accountActivity.this).load(icon).into(input_image);
                 input_name.setText(name);
                 input_phone_no.setText(phone_no);
                 input_birth_date.setText(birth_date);
-                Log.d(TAG,"name : " + name);
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.e("accountActivity error", String.valueOf(error.toException())); //에러 시 출력
@@ -126,17 +130,34 @@ public class accountActivity extends Activity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
         }
-
-        //account_details_save.setOnClickListener();
-
-        Button account_image_change_profile = findViewById(R.id.account_image_change_profile);
         account_image_change_profile.setOnClickListener(new View.OnClickListener() {
             @Override
-            //앨범 선택
-            public void onClick(View view) {
+            public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
                 startActivityForResult(intent, GET_GALLARY);
+            }
+
+        });
+        account_details_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                account_details_save.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String name = input_name.getText().toString();
+                        String phone = input_phone_no.getText().toString();
+                        String birth = input_birth_date.getText().toString();
+                        upload(imagePath);
+                        database = FirebaseDatabase.getInstance();
+                        databaseReference = database.getReference("Users");
+                        databaseReference.child(Uid).child("name").setValue(name);
+                        databaseReference.child(Uid).child("phone").setValue(phone);
+                        databaseReference.child(Uid).child("birth").setValue(birth);
+                        databaseReference.child(Uid).child("photoURL").setValue(imagePath);
+                        finish();
+                    }
+                });
             }
         });
     }
@@ -144,15 +165,16 @@ public class accountActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (GET_GALLARY == requestCode && requestCode == RESULT_OK) {
-            //imagePath = getPath(data.getData());
-            //File file =new File(imagePath);
-            //imageView.setImageURI(Uri.fromFile(file));
+        if (GET_GALLARY == requestCode) {
+            imagePath = getPath(data.getData());
+            File file = new File(imagePath);
+            input_image.setImageURI(Uri.fromFile(file));
         }
     }
-    public String getPath(Uri uri){
-        String [] proj = {MediaStore.Images.Media.DATA};
-        CursorLoader cursorLoader = new CursorLoader(this, uri,proj, null,null,null);
+
+    public String getPath(Uri uri) {
+        String[] proj = {MediaStore.Images.Media.DATA};
+        CursorLoader cursorLoader = new CursorLoader(this, uri, proj, null, null, null);
 
         Cursor cursor = cursorLoader.loadInBackground();
         int index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
@@ -161,13 +183,16 @@ public class accountActivity extends Activity {
 
         return cursor.getString(index);
     }
-    private void upload(String uri){
+
+    private void upload(String uri) {
         StorageReference storageRef = storage.getReferenceFromUrl("gs://supportapp-f34a1.appspot.com");
 
 
         Uri file = Uri.fromFile(new File(uri));
         StorageReference riversRef = storageRef.child("images/" + file.getLastPathSegment());
         UploadTask uploadTask = riversRef.putFile(file);
+
+// Register observers to listen for when the download is done or if it fails
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {

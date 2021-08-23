@@ -8,11 +8,12 @@ public class User {
     private String Uid;
     private String id;
     private String pw;
-    private String name;
-    private String phone;
+    public String name;
+    public String phone;
     private String photoURL;
     private int is_target;  // 0 : 일반, 1 : 후원 대상
     private Boolean is_surveyed;
+    public String birth;
 
     public User() {
     }
