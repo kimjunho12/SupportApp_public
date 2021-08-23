@@ -66,6 +66,51 @@ public class profileActivity extends AppCompatActivity implements NavigationView
         intent = getIntent();
         name = intent.getStringExtra("name");
 
+        drawerLayout = (DrawerLayout) findViewById(R.id.top_category_layout_profile);
+        drawer = (View) findViewById(R.id.category_drawer_profile);
+        ImageButton imageButton = (ImageButton)findViewById(R.id.top_category_click_profile);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.openDrawer(drawer);
+            }
+        });
+
+        //카테고리 recycler
+        recyclerview = findViewById(R.id.top_category_view_profile);
+        recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        FirebaseDatabase.getInstance().getReference("Subject").orderByKey()
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                        for (DataSnapshot parentSubject : snapshot.getChildren()) {
+                            subjectList.add(new Subject(Subject.HEADER, parentSubject.getKey()));
+
+                            for (DataSnapshot childSubject : parentSubject.getChildren()) {
+                                subjectList.add(new Subject(Subject.CHILD, childSubject.getValue().toString()));
+                            }
+                        }
+                        MainAdapter = new MainAdapter(subjectList,profileActivity.this);
+                        recyclerview.setAdapter(MainAdapter);
+                    }
+                    @Override
+                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                    }
+                });
+        // DB에서 후원대상 불러오기
+        FirebaseDatabase.getInstance().getReference("target").orderByChild("name")  // 나중에는 orderbychild 붙여서
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            targetList.add(new Target(dataSnapshot.child("name").getValue().toString()));
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                    }
+                });
+
 
         TextView textView = findViewById(R.id.profile_top_name);
         textView.setText(name + " 프로필");
@@ -209,52 +254,6 @@ public class profileActivity extends AppCompatActivity implements NavigationView
         } else {
             mDatabase.child(uid).child("like").child(name).setValue(null);
         }
-
-        drawerLayout = (DrawerLayout) findViewById(R.id.top_category_layout_profile);
-        drawer = (View) findViewById(R.id.category_drawer_profile);
-        ImageButton imageButton = (ImageButton)findViewById(R.id.top_category_click_profile);
-        imageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawerLayout.openDrawer(drawer);
-            }
-        });
-
-        //카테고리 recycler
-        recyclerview = findViewById(R.id.top_category_view_profile);
-        recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        FirebaseDatabase.getInstance().getReference("Subject").orderByKey()
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                        for (DataSnapshot parentSubject : snapshot.getChildren()) {
-                            subjectList.add(new Subject(Subject.HEADER, parentSubject.getKey()));
-
-                            for (DataSnapshot childSubject : parentSubject.getChildren()) {
-                                subjectList.add(new Subject(Subject.CHILD, childSubject.getValue().toString()));
-                            }
-                        }
-                        MainAdapter = new MainAdapter(subjectList,profileActivity.this);
-                        recyclerview.setAdapter(MainAdapter);
-                    }
-                    @Override
-                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
-                    }
-                });
-        // DB에서 후원대상 불러오기
-        FirebaseDatabase.getInstance().getReference("target").orderByChild("name")  // 나중에는 orderbychild 붙여서
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            targetList.add(new Target(dataSnapshot.child("name").getValue().toString()));
-                        }
-                    }
-                    @Override
-                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
-                    }
-                });
-
     }
 
     @Override
