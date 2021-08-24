@@ -3,6 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/pc/Workspace/Android/SupportApp/app/src/main/res/drawable/setting_switch.xml" value="0.14046052631578948" />
+        <entry key="..\:/Users/pc/Workspace/Android/SupportApp/app/src/main/res/layout/activity_login.xml" value="0.29125575279421434" />
+        <entry key="..\:/Users/pc/Workspace/Android/SupportApp/app/src/main/res/layout/activity_main.xml" value="0.13026315789473683" />
+        <entry key="..\:/Users/pc/Workspace/Android/SupportApp/app/src/main/res/layout/activity_news.xml" value="0.1457236842105263" />
+        <entry key="..\:/Users/pc/Workspace/Android/SupportApp/app/src/main/res/layout/activity_profile.xml" value="0.13026315789473683" />
         <entry key="..\:/Users/pc/Workspace/Android/SupportApp/app/src/main/res/layout/bottom_favorite_fragment.xml" value="0.15032894736842106" />
         <entry key="..\:/Users/pc/Workspace/Android/SupportApp/app/src/main/res/layout/bottom_favorite_profile.xml" value="0.15032894736842106" />
         <entry key="..\:/Users/pc/Workspace/Android/SupportApp/app/src/main/res/layout/bottom_reco_fragment.xml" value="0.23125" />
