@@ -37,7 +37,7 @@
 
 
     <ImageButton
-        android:id="@+id/profile_top_back"
+        android:id="@+id/board_write_back"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_marginStart="16dp"
