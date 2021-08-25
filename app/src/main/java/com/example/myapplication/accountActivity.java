@@ -182,7 +182,7 @@ public class accountActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (GET_GALLARY == requestCode && requestCode == RESULT_OK) {
+        if (GET_GALLARY == requestCode && data != null) {
             imagePath = getPath(data.getData());
             File file = new File(imagePath);
             input_image.setImageURI(Uri.fromFile(file));
