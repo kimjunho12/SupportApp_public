@@ -65,31 +65,31 @@
         android:layout_width="380dp"
         android:layout_height="210dp"
         android:layout_gravity="center_vertical"
+        android:layout_marginTop="24dp"
         android:adjustViewBounds="true"
         android:contentDescription="TODO"
         android:scaleType="fitCenter"
+
         android:windowSoftInputMode="adjustResize"
-        app:layout_constraintBottom_toTopOf="@+id/et_board_write_contents"
-        app:layout_constraintTop_toBottomOf="@+id/profile_top_name"
-        app:layout_constraintVertical_bias="0.88"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="16dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.516"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_board_add_photo"
+        tools:ignore="MissingConstraints" />
 
     <EditText
         android:id="@+id/et_board_write_contents"
         android:layout_width="380dp"
-        android:layout_height="300dp"
-        android:layout_marginBottom="36dp"
+        android:layout_height="240dp"
+        android:layout_marginTop="24dp"
         android:background="@drawable/border_layout"
         android:gravity="top"
         android:hint="내용을 입력하세요."
         android:padding="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_create_post"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.516"
+        app:layout_constraintHorizontal_bias="0.483"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sw_board_type"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <Button
         android:id="@+id/btn_board_add_photo"
@@ -107,12 +107,11 @@
         android:id="@+id/btn_create_post"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="12dp"
         android:text="등록"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_board_write_contents" />
 
     <Switch
         android:id="@+id/sw_board_type"
