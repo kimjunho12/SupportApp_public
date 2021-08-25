@@ -1,13 +1,22 @@
 package com.example.myapplication;
 
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -32,6 +41,7 @@ import com.google.firebase.database.ValueEventListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 
 public class profileActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, adapter2activity {
@@ -53,8 +63,13 @@ public class profileActivity extends AppCompatActivity implements NavigationView
     private RecyclerView recyclerview;
     private ArrayList<Subject> subjectList = new ArrayList<>();
     private MainAdapter MainAdapter;
+
     private DrawerLayout drawerLayout;
     private View drawer;
+    private View searchDrawer;
+    private TargetListAdapter targetListAdapter;
+    private ListView searched_target_list;
+    private EditText searchView;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,13 +83,40 @@ public class profileActivity extends AppCompatActivity implements NavigationView
 
         drawerLayout = (DrawerLayout) findViewById(R.id.top_category_layout_profile);
         drawer = (View) findViewById(R.id.category_drawer_profile);
-        ImageButton imageButton = (ImageButton)findViewById(R.id.top_category_click_profile);
+        ImageButton imageButton = (ImageButton) findViewById(R.id.top_category_click_profile);
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 drawerLayout.openDrawer(drawer);
             }
         });
+        // 검색
+        searchDrawer = findViewById(R.id.search_drawer);
+        ImageButton searchButton = findViewById(R.id.top_search_click);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchView.setText(null);
+                drawerLayout.openDrawer(searchDrawer);
+            }
+        });
+        // DB에서 후원대상 불러오기
+        FirebaseDatabase.getInstance().getReference("target").orderByChild("name")  // 나중에는 orderbychild 붙여서
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            targetList.add(new Target(dataSnapshot.child("name").getValue().toString()));
+                        }
+                        setTargetListAdapter();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                    }
+                });
+
 
         //카테고리 recycler
         recyclerview = findViewById(R.id.top_category_view_profile);
@@ -90,22 +132,10 @@ public class profileActivity extends AppCompatActivity implements NavigationView
                                 subjectList.add(new Subject(Subject.CHILD, childSubject.getValue().toString()));
                             }
                         }
-                        MainAdapter = new MainAdapter(subjectList,profileActivity.this);
+                        MainAdapter = new MainAdapter(subjectList, profileActivity.this);
                         recyclerview.setAdapter(MainAdapter);
                     }
-                    @Override
-                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
-                    }
-                });
-        // DB에서 후원대상 불러오기
-        FirebaseDatabase.getInstance().getReference("target").orderByChild("name")  // 나중에는 orderbychild 붙여서
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            targetList.add(new Target(dataSnapshot.child("name").getValue().toString()));
-                        }
-                    }
+
                     @Override
                     public void onCancelled(@NonNull @NotNull DatabaseError error) {
                     }
@@ -270,4 +300,80 @@ public class profileActivity extends AppCompatActivity implements NavigationView
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         return false;
     }
+
+    // 검색 부분 ↓
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        View focusView = getCurrentFocus();
+        if (focusView != null) {
+            Rect rect = new Rect();
+            focusView.getGlobalVisibleRect(rect);
+            int x = (int) ev.getX(), y = (int) ev.getY();
+            if (!rect.contains(x, y)) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                if (imm != null)
+                    imm.hideSoftInputFromWindow(focusView.getWindowToken(), 0);
+                focusView.clearFocus();
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+    public void setTargetListAdapter() {
+        targetListAdapter = new TargetListAdapter(this, targetList, this);
+        searched_target_list = findViewById(R.id.searched_target_list);
+        searched_target_list.setAdapter(targetListAdapter);
+        searchView = findViewById(R.id.search_target);
+
+        searchView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String text = searchView.getText().toString().toLowerCase(Locale.getDefault());
+                targetListAdapter.filter(text);
+                searched_target_list.setVisibility(View.VISIBLE);
+                setListViewHeightBasedOnChildren(searched_target_list);
+            }
+        });
+
+        searchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                searchView.setText(null);
+            }
+        });
+    }
+
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            // pre-condition
+            return;
+        }
+
+        int totalHeight = 0;
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.AT_MOST);
+        if (listAdapter.getCount() > 0) {
+            View listItem = listAdapter.getView(0, null, listView);
+            listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+            totalHeight = listItem.getMeasuredHeight() * listAdapter.getCount();
+        }
+
+        if (listAdapter.getCount() > 0) {
+            totalHeight = totalHeight + listView.getPaddingTop() + listView.getPaddingBottom() * 2;
+        }
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight;
+        listView.setLayoutParams(params);
+        listView.requestLayout();
+    } // 검색 부분 끝
 }
