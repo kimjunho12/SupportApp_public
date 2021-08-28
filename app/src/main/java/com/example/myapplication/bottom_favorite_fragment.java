@@ -85,6 +85,15 @@ public class bottom_favorite_fragment extends Fragment {
                 frag_clickListener.click(num);
             }
         });
+
+        // 검색
+        ImageButton searchButton = view.findViewById(R.id.top_search_click);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                frag_clickListener.click(2);
+            }
+        }); // 검색 끝
         
         return view;
     }

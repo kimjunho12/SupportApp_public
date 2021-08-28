@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -24,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.models.Subject;
 import com.example.myapplication.models.Target;
 import com.example.myapplication.register.SurveyActivity;
+import com.example.myapplication.searching.TargetSearch;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
@@ -56,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private MainAdapter MainAdapter;
     private DrawerLayout drawerLayout;
     private View drawer;
+    private View searchDrawer;
 
    /* @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -95,12 +98,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }*/
 
+    // 마지막으로 뒤로 가기 버튼을 눌렀던 시간 저장
+    private long backKeyPressedTime = 0;
+    private Toast toast;
+
     @Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
+        } else if (drawerLayout.isDrawerOpen(GravityCompat.END)) {
+            drawerLayout.closeDrawer(GravityCompat.END);
         } else {
-            super.onBackPressed();
+            //super.onBackPressed();
+            // 기존 뒤로 가기 버튼의 기능을 막기 위해 주석 처리 또는 삭제
+
+            // 마지막으로 뒤로 가기 버튼을 눌렀던 시간에 2초를 더해 현재 시간과 비교 후
+            // 마지막으로 뒤로 가기 버튼을 눌렀던 시간이 2초가 지났으면 Toast 출력
+            // 2000 milliseconds = 2 seconds
+            if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
+                backKeyPressedTime = System.currentTimeMillis();
+                toast = Toast.makeText(this, "뒤로 가기 버튼을 한 번 더 누르시면 종료됩니다.", Toast.LENGTH_LONG);
+                toast.show();
+                return;
+            }
+            // 마지막으로 뒤로 가기 버튼을 눌렀던 시간에 2초를 더해 현재 시간과 비교 후
+            // 마지막으로 뒤로 가기 버튼을 눌렀던 시간이 2초가 지나지 않았으면 종료
+            if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
+                finish();
+                toast.cancel();
+                toast = Toast.makeText(this, "이용해 주셔서 감사합니다.", Toast.LENGTH_SHORT);
+                toast.show();
+            }
         }
     }
 
@@ -161,6 +189,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         frag5 = new bottom_setting_fragment();
         setFrag(0); // 기본 페이지 0
 
+        // drawer 선언
+        drawerLayout = (DrawerLayout) findViewById(R.id.top_category_layout);
+        searchDrawer = new TargetSearch(this).searchDrawer; // 우측 drawer view load 및 제어 권한
+
         //카테고리 recycler
         recyclerview = findViewById(R.id.top_category_view);
         recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -177,19 +209,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         }
                         MainAdapter = new MainAdapter(subjectList, MainActivity.this);
                         recyclerview.setAdapter(MainAdapter);
-                    }
-                    @Override
-                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
-                    }
-                });
-        // DB에서 후원대상 불러오기
-        FirebaseDatabase.getInstance().getReference("target").orderByChild("name")  // 나중에는 orderbychild 붙여서
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            targetList.add(new Target(dataSnapshot.child("name").getValue().toString()));
-                        }
                     }
                     @Override
                     public void onCancelled(@NonNull @NotNull DatabaseError error) {
@@ -237,9 +256,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void click(int num) {
         if(num == 1) {
-            drawerLayout = (DrawerLayout) findViewById(R.id.top_category_layout);
             drawer = (View) findViewById(R.id.category_drawer);
             drawerLayout.openDrawer(drawer);
+        } else if (num == 2) {
+            // 검색
+            drawerLayout.openDrawer(searchDrawer);
         }
     }
 }

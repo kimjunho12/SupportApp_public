@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.models.bottom_home_data;
+import com.example.myapplication.searching.TargetSearch;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -62,6 +63,15 @@ public class bottom_event_fragment extends Fragment {
                 frag_clickListener.click(num);
             }
         });
+
+        // 검색
+        ImageButton searchButton = view.findViewById(R.id.top_search_click);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                frag_clickListener.click(2);
+            }
+        }); // 검색 끝
 
         database = FirebaseDatabase.getInstance();
         Query query = database.getReference("news").orderByChild("time");

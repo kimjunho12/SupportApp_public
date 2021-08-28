@@ -96,6 +96,14 @@ public class bottom_home_fragment extends Fragment {
             }
         });
 
+        // 검색
+        ImageButton searchButton = view.findViewById(R.id.top_search_click);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                frag_clickListener.click(2);
+            }
+        }); // 검색 끝
 
         // 추천 목록 불러오기
         recoList = new ArrayList<>();

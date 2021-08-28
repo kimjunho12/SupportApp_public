@@ -87,7 +87,8 @@ public class TargetSearchAdapter extends BaseAdapter {
                 intent.putExtra("sns", targetList.get(position).getSns());
                 intent.putExtra("team", targetList.get(position).getTeam());
                 arg0.getContext().startActivity(intent);
-                ((Activity) context).finish();
+                // fragment와 activity 구분해서 종료하는 로직 필요
+//                ((Activity) context).finish();
             }
         });
 

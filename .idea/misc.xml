@@ -3,9 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/FDOS/Program Files/JunHo/AndroidStudioProjects/SupportApp/app/src/main/res/layout/activity_main.xml" value="0.13333333333333333" />
         <entry key="..\:/FDOS/Program Files/JunHo/AndroidStudioProjects/SupportApp/app/src/main/res/layout/activity_profile.xml" value="0.13333333333333333" />
         <entry key="..\:/FDOS/Program Files/JunHo/AndroidStudioProjects/SupportApp/app/src/main/res/layout/activity_survey.xml" value="0.13020833333333334" />
         <entry key="..\:/FDOS/Program Files/JunHo/AndroidStudioProjects/SupportApp/app/src/main/res/layout/activity_target_details.xml" value="0.13020833333333334" />
+        <entry key="..\:/FDOS/Program Files/JunHo/AndroidStudioProjects/SupportApp/app/src/main/res/layout/bottom_favorite_fragment.xml" value="0.13333333333333333" />
+        <entry key="..\:/FDOS/Program Files/JunHo/AndroidStudioProjects/SupportApp/app/src/main/res/layout/bottom_home_fragment.xml" value="0.13333333333333333" />
         <entry key="..\:/FDOS/Program Files/JunHo/AndroidStudioProjects/SupportApp/app/src/main/res/layout/sample_my_view.xml" value="0.13333333333333333" />
         <entry key="..\:/FDOS/Program Files/JunHo/AndroidStudioProjects/SupportApp/app/src/main/res/layout/search_view.xml" value="0.25885416666666666" />
         <entry key="..\:/FDOS/Program Files/JunHo/AndroidStudioProjects/SupportApp/app/src/main/res/layout/target_list_item.xml" value="0.13020833333333334" />
