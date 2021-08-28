@@ -392,6 +392,7 @@ public class RegisterActivity extends AppCompatActivity {
         intent.putExtra("name", name);
         intent.putExtra("phone", phone);
         intent.putExtra("birth", birthday);
+        intent.putExtra("Uid", mAuth.getUid());
         startActivityForResult(intent, TARGET);
     }
 
