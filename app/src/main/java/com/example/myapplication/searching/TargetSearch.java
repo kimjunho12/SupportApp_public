@@ -61,7 +61,9 @@ public class TargetSearch extends NavigationView {
                     @Override
                     public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            targetList.add(new Target(dataSnapshot.child("name").getValue().toString()));
+//                            targetList.add(new Target(dataSnapshot.child("name").getValue().toString()));
+                            Target target = dataSnapshot.getValue(Target.class);
+                            targetList.add(target);
                         }
                         setTargetListAdapter();
                     }

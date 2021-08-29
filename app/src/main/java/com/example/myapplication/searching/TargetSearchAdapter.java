@@ -11,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
 import com.example.myapplication.models.Target;
 import com.example.myapplication.profileActivity;
@@ -72,6 +73,7 @@ public class TargetSearchAdapter extends BaseAdapter {
         }
         // Set the results into TextViews
         holder.tv_name.setText(target.getName());
+        Glide.with(context).load(target.getIcon()).into(holder.iv_icon);
 
         // Listen for ListView Item Click
         view.setOnClickListener(new View.OnClickListener() {
