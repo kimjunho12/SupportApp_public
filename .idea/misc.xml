@@ -54,9 +54,18 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/layout/target_list_item3.xml" value="0.22" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/menu/bottom_menu.xml" value="0.12072368421052632" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/menu/top_menu.xml" value="0.15763888888888888" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SupportApp/app/src/main/res/drawable/divider.xml" value="0.38229166666666664" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SupportApp/app/src/main/res/layout/acitivity_board_content_recycle.xml" value="0.21603260869565216" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SupportApp/app/src/main/res/layout/activity_account.xml" value="0.21603260869565216" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SupportApp/app/src/main/res/layout/activity_board_content.xml" value="0.20516304347826086" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SupportApp/app/src/main/res/layout/activity_board_list.xml" value="0.21302083333333333" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SupportApp/app/src/main/res/layout/activity_board_write.xml" value="0.16" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SupportApp/app/src/main/res/layout/activity_choose_role.xml" value="0.21603260869565216" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SupportApp/app/src/main/res/layout/activity_main.xml" value="0.21603260869565216" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SupportApp/app/src/main/res/layout/activity_news.xml" value="0.21603260869565216" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SupportApp/app/src/main/res/layout/board_list_item.xml" value="0.21603260869565216" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SupportApp/app/src/main/res/layout/bottom_event_fragment.xml" value="0.21603260869565216" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SupportApp/app/src/main/res/layout/bottom_event_news.xml" value="0.21603260869565216" />
       </map>
     </option>
   </component>

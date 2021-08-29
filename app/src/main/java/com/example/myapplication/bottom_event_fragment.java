@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -51,8 +52,8 @@ public class bottom_event_fragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
-
         arrayList = new ArrayList<>();
+        recyclerView.addItemDecoration(new divider_event_news(getContext(), R.drawable.divider));
 
         ImageButton imageButton = (ImageButton) view.findViewById(R.id.top_category_click_event);
         imageButton.setOnClickListener(new View.OnClickListener() {

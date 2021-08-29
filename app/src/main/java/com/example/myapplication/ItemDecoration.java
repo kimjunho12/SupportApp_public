@@ -37,4 +37,5 @@ public class ItemDecoration extends RecyclerView.ItemDecoration {
             }
         }
     }
+
 }
