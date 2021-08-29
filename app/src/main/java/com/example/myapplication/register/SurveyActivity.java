@@ -27,6 +27,7 @@ import com.example.myapplication.TargetListAdapter;
 import com.example.myapplication.adapter2activity;
 import com.example.myapplication.models.Subject;
 import com.example.myapplication.models.Target;
+import com.example.myapplication.models.bottom_favorite_profile_model;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -65,7 +66,9 @@ public class SurveyActivity extends AppCompatActivity implements adapter2activit
                     @Override
                     public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            targetList.add(new Target(dataSnapshot.child("name").getValue().toString()));
+                            //targetList.add(new Target(dataSnapshot.child("name").getValue().toString()));
+                            Target target = dataSnapshot.getValue(Target.class);
+                            targetList.add(target);
                         }
                         setTargetListAdapter();
                     }

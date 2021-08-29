@@ -10,6 +10,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.myapplication.models.Target;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import java.util.Locale;
 
 public class TargetListAdapter extends BaseAdapter {
 
+    private static final String TAG = "TargetListAdapter";
     private adapter2activity a2a;
     HashMap<String, Boolean> hm = new HashMap<String, Boolean>();
     // Declare Variables
@@ -68,7 +70,6 @@ public class TargetListAdapter extends BaseAdapter {
         final ViewHolder holder;
         final Target target = targetList.get(position);
 
-
         if (view == null) {
             view = inflater.inflate(R.layout.target_list_item, null);
             holder = new ViewHolder();
@@ -81,6 +82,7 @@ public class TargetListAdapter extends BaseAdapter {
         }
         // Set the results into TextViews
         holder.tv_name.setText(target.getName());
+        Glide.with(context).load(target.getIcon()).into(holder.iv_icon);
 
         // name으로 hashmap 검색 나중에는 Key값으로 찾아라
         if (hm.get(target.getName())) {

@@ -240,11 +240,10 @@ public class profileActivity extends AppCompatActivity implements NavigationView
                     .child("subject").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                        mDatabase.child(uid).child("like").child(dataSnapshot.child("lCategory").getValue().toString()).setValue(true);
-                        mDatabase.child(uid).child("like").child(dataSnapshot.child("mCategory").getValue().toString()).setValue(true);
-                        mDatabase.child(uid).child("like").child(dataSnapshot.child("sCategory").getValue().toString()).setValue(true);
-                    }
+                        Log.d(TAG, "onDataChange: like button" + snapshot);
+                        mDatabase.child(uid).child("like").child(snapshot.child("lCategory").getValue().toString()).setValue(true);
+                        mDatabase.child(uid).child("like").child(snapshot.child("mCategory").getValue().toString()).setValue(true);
+                        mDatabase.child(uid).child("like").child(snapshot.child("sCategory").getValue().toString()).setValue(true);
                 }
 
                 @Override

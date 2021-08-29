@@ -10,11 +10,13 @@ public class Target {
     private String intro;
     private String icon;
 
+    public Target(){}
+
     public Target(String name) {
         this.name = name;
     }
 
-    public Target(String name, String phone, String birth, String team, String debut, String sns, String intro) {
+    public Target(String name, String phone, String birth, String team, String debut, String sns, String intro, String icon) {
         this.name = name;
         this.phone = phone;
         this.birth = birth;
@@ -22,7 +24,7 @@ public class Target {
         this.debut = debut;
         this.sns = sns;
         this.intro = intro;
-        this.icon = "null";
+        this.icon = icon;
     }
 
     public String getName() {
