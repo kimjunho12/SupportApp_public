@@ -24,6 +24,7 @@ import com.example.myapplication.R;
 import com.example.myapplication.adapter2activity;
 import com.example.myapplication.models.Subject;
 import com.example.myapplication.models.Target;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -57,11 +58,14 @@ public class TargetDetailsActivity extends AppCompatActivity implements adapter2
     private FirebaseStorage storage;
     private String imagePath;
     private static final int OK = 200;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_target_details);
+
+        mAuth = FirebaseAuth.getInstance();
 
         btn_input_save = findViewById(R.id.btn_details_save);
 
@@ -152,7 +156,7 @@ public class TargetDetailsActivity extends AppCompatActivity implements adapter2
             subject.sCategory = String.valueOf(input_sosock.getText());
         }
 
-        DatabaseReference mDBRefer = FirebaseDatabase.getInstance().getReference("target").push();
+        DatabaseReference mDBRefer = FirebaseDatabase.getInstance().getReference("target").child(mAuth.getUid());
         mDBRefer.setValue(target);
         mDBRefer.child("subject").setValue(selectSubject.get(0));
 
