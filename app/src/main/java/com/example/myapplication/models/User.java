@@ -24,6 +24,7 @@ public class User {
         this.pw = pw;
         this.name = name;
         this.phone = phone;
+        this.birth = birth;
         this.photoURL = "null";
         this.is_target = is_target;
     }
@@ -34,6 +35,7 @@ public class User {
         this.pw = pw;
         this.name = name;
         this.phone = phone;
+        this.birth = birth;
         this.photoURL = photoURL;
         this.is_target = is_target;
     }
