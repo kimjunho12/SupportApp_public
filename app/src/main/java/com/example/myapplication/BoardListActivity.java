@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -60,6 +61,7 @@ public class BoardListActivity extends AppCompatActivity implements NavigationVi
         String name = intent.getStringExtra("name1");
         TextView textView = findViewById(R.id.tv_target_name);
         textView.setText(name + " 게시판");
+        textView.setTextColor(Color.parseColor("#63EDBA"));
 
         drawerLayout = (DrawerLayout) findViewById(R.id.top_category_layout_board_list);
         drawer = (View) findViewById(R.id.category_drawer_board_list);

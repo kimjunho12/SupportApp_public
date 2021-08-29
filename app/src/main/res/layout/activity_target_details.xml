@@ -30,6 +30,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:text="상세정보 입력"
+            android:textColor="@color/mint"
             android:textSize="30sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/divider"
@@ -63,12 +64,14 @@
 
         <Button
             android:id="@+id/btn_change_profile"
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:clickable="true"
             android:text="프로필 사진 바꾸기"
-            android:textColor="@color/teal_200"
+            android:background="@drawable/button_design"
+            android:textStyle="bold"
+            android:textColor="#ffffff"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="@+id/img_profile"
             app:layout_constraintStart_toStartOf="@+id/img_profile"
@@ -257,7 +260,10 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/linearLayout"
             app:layout_constraintStart_toStartOf="@+id/linearLayout"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+            android:background="@drawable/button_design"
+            android:textStyle="bold"
+            android:textColor="#ffffff"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

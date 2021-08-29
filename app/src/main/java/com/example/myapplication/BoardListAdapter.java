@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,7 +45,12 @@ public class BoardListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         Post post = arrayList.get(position);
         ViewHolder boardholder = (ViewHolder) holder;
 
-        boardholder.type.setText(arrayList.get(position).getType());
+        if(arrayList.get(position).getType().equals("공지")) {
+            boardholder.type.setText(arrayList.get(position).getType());
+            boardholder.type.setTextColor(Color.RED);
+        }
+        else
+            boardholder.type.setText(arrayList.get(position).getType());
         boardholder.title.setText(arrayList.get(position).getTitle());
         boardholder.username.setText(arrayList.get(position).getUsername());
         boardholder.date.setText(arrayList.get(position).getDate());
