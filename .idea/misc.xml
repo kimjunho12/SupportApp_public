@@ -3,41 +3,39 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/FDOS/Program Files/JunHo/AndroidStudioProjects/SupportApp/app/src/main/res/layout/activity_main.xml" value="0.13333333333333333" />
-        <entry key="..\:/FDOS/Program Files/JunHo/AndroidStudioProjects/SupportApp/app/src/main/res/layout/activity_profile.xml" value="0.13333333333333333" />
-        <entry key="..\:/FDOS/Program Files/JunHo/AndroidStudioProjects/SupportApp/app/src/main/res/layout/activity_survey.xml" value="0.13020833333333334" />
-        <entry key="..\:/FDOS/Program Files/JunHo/AndroidStudioProjects/SupportApp/app/src/main/res/layout/activity_target_details.xml" value="0.13020833333333334" />
-        <entry key="..\:/FDOS/Program Files/JunHo/AndroidStudioProjects/SupportApp/app/src/main/res/layout/bottom_favorite_fragment.xml" value="0.13333333333333333" />
-        <entry key="..\:/FDOS/Program Files/JunHo/AndroidStudioProjects/SupportApp/app/src/main/res/layout/bottom_home_fragment.xml" value="0.13333333333333333" />
-        <entry key="..\:/FDOS/Program Files/JunHo/AndroidStudioProjects/SupportApp/app/src/main/res/layout/sample_my_view.xml" value="0.13333333333333333" />
-        <entry key="..\:/FDOS/Program Files/JunHo/AndroidStudioProjects/SupportApp/app/src/main/res/layout/search_view.xml" value="0.25885416666666666" />
-        <entry key="..\:/FDOS/Program Files/JunHo/AndroidStudioProjects/SupportApp/app/src/main/res/layout/target_list_item.xml" value="0.13020833333333334" />
-        <entry key="..\:/FDOS/Program Files/JunHo/AndroidStudioProjects/SupportApp/app/src/main/res/layout/target_list_item2.xml" value="0.13020833333333334" />
-        <entry key="..\:/FDOS/Program Files/JunHo/AndroidStudioProjects/SupportApp/app/src/main/res/layout/target_list_item3.xml" value="0.13333333333333333" />
-        <entry key="..\:/FDOS/Program Files/JunHo/AndroidStudioProjects/SupportApp/app/src/main/res/layout/target_search_item.xml" value="0.13020833333333334" />
         <entry key="..\:/Users/pc/Workspace/Android/SupportApp/app/src/main/res/layout/bottom_favorite_fragment.xml" value="0.15032894736842106" />
         <entry key="..\:/Users/pc/Workspace/Android/SupportApp/app/src/main/res/layout/bottom_favorite_profile.xml" value="0.15032894736842106" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/drawable/border_layout.xml" value="0.13092105263157894" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/drawable/bottom_favorite.xml" value="0.13092105263157894" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/drawable/ic_baseline_arrow_forward_24.xml" value="0.13026315789473683" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/drawable/setting_switch.xml" value="0.13092105263157894" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/drawable/top_category.xml" value="0.13092105263157894" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/drawable/top_search.xml" value="0.13092105263157894" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/layout/activity_account.xml" value="0.2" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/layout/activity_board_content.xml" value="0.1123141564318035" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/layout/activity_board_list.xml" value="0.25" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/layout/activity_board_write.xml" value="0.16400277970813065" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/layout/activity_board_write.xml" value="0.15" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/layout/activity_category.xml" value="0.22861842105263158" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/layout/activity_live_room.xml" value="0.1" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/layout/activity_login.xml" value="0.12598684210526315" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/layout/activity_news.xml" value="0.15" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/layout/activity_profile.xml" value="0.10006830601092896" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/layout/activity_survey.xml" value="0.1" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/layout/activity_target_details.xml" value="0.17" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/layout/bottom_event_fragment.xml" value="0.16" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/layout/bottom_event_news.xml" value="0.10006830601092896" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/layout/bottom_favorite_fragment.xml" value="0.22" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/layout/bottom_favorite_profile.xml" value="0.1123141564318035" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/layout/bottom_home_fragment.xml" value="0.22" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/layout/bottom_home_recyclerview.xml" value="0.1123141564318035" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/layout/bottom_reco_fragment.xml" value="0.1123141564318035" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/layout/category_drawer.xml" value="0.18" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/layout/category_fragment.xml" value="0.1" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/layout/expandable_list_header.xml" value="0.22861842105263158" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/layout/target_list_item.xml" value="0.12006578947368421" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/layout/target_list_item2.xml" value="0.22861842105263158" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/layout/target_list_item3.xml" value="0.22" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/menu/bottom_menu.xml" value="0.12072368421052632" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/menu/top_menu.xml" value="0.15763888888888888" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SupportApp/app/src/main/res/layout/activity_board_content.xml" value="0.20516304347826086" />

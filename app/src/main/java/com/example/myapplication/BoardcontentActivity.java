@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -152,6 +153,7 @@ public class BoardcontentActivity extends AppCompatActivity implements Navigatio
         textView1.setText(intent.getStringExtra("title"));
         textView2.setText(intent.getStringExtra("contents"));
         textView3.setText(name + " 게시판");
+        textView3.setTextColor(Color.parseColor("#63EDBA"));
 
         //Glide.with(BoardcontentActivity.this).load(img).into(imageView);
         EditText reply = findViewById(R.id.et_reply);

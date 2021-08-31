@@ -30,6 +30,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:text="회원가입"
+            android:textColor="@color/mint"
             android:textSize="30sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/divider"
@@ -48,7 +49,7 @@
             app:layout_constraintBottom_toTopOf="@+id/divider"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="?attr/actionModeCloseDrawable" />
+            android:src="@drawable/top_back"/>
 
         <!--테두리 넣어주어야 함-->
 
@@ -148,7 +149,10 @@
             app:layout_constraintBottom_toBottomOf="@+id/et_register_id"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/et_register_id"
-            app:layout_constraintTop_toTopOf="@+id/et_register_id" />
+            app:layout_constraintTop_toTopOf="@+id/et_register_id"
+            android:background="@drawable/button_design"
+            android:textStyle="bold"
+            android:textColor="#ffffff"/>
 
         <Button
             android:id="@+id/btn_check_phone"
@@ -160,7 +164,10 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/et_register_phone"
             app:layout_constraintTop_toTopOf="@+id/et_register_phone"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="0.0"
+            android:background="@drawable/button_design"
+            android:textStyle="bold"
+            android:textColor="#ffffff"/>
 
         <Button
             android:id="@+id/btn_check_submit"
@@ -191,13 +198,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingRight="10dp"
-                android:text="남성" />
+                android:text="남성"
+                android:background="@drawable/button_design"
+                android:textStyle="bold"
+                android:textColor="#ffffff"/>
 
             <RadioButton
                 android:id="@+id/rbtn_female"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="여성" />
+                android:text="여성"
+                android:background="@drawable/button_design"
+                android:textStyle="bold"
+                android:textColor="#ffffff"/>
         </RadioGroup>
 
         <CheckBox
@@ -208,7 +221,10 @@
             android:text="이용약관 동의"
             app:layout_constraintEnd_toEndOf="@+id/btn_check_id"
             app:layout_constraintStart_toStartOf="@+id/et_register_id"
-            app:layout_constraintTop_toBottomOf="@+id/cb_target_check" />
+            app:layout_constraintTop_toBottomOf="@+id/cb_target_check"
+            android:background="@drawable/button_design"
+            android:textStyle="bold"
+            android:textColor="#ffffff"/>
 
         <CheckBox
             android:id="@+id/cb_agreement_my"
@@ -218,7 +234,10 @@
             android:text="개인정보 취급방침 동의"
             app:layout_constraintEnd_toEndOf="@+id/btn_check_id"
             app:layout_constraintStart_toStartOf="@+id/et_register_id"
-            app:layout_constraintTop_toBottomOf="@+id/cb_agreement_use" />
+            app:layout_constraintTop_toBottomOf="@+id/cb_agreement_use"
+            android:background="@drawable/button_design"
+            android:textStyle="bold"
+            android:textColor="#ffffff"/>
 
         <CheckBox
             android:id="@+id/cb_agreement_marketing"
@@ -228,7 +247,10 @@
             android:text="마케팅 정보 수신 동의"
             app:layout_constraintEnd_toEndOf="@+id/btn_check_id"
             app:layout_constraintStart_toStartOf="@+id/et_register_id"
-            app:layout_constraintTop_toBottomOf="@+id/cb_agreement_my" />
+            app:layout_constraintTop_toBottomOf="@+id/cb_agreement_my"
+            android:background="@drawable/button_design"
+            android:textStyle="bold"
+            android:textColor="#ffffff"/>
 
         <Button
             android:id="@+id/btn_register_save"
@@ -239,11 +261,15 @@
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:text="회원가입"
+            android:background="@drawable/button_design"
+            android:textStyle="bold"
+            android:textColor="#ffffff"
             android:textSize="30sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/btn_check_id"
             app:layout_constraintStart_toStartOf="@+id/et_register_id"
-            app:layout_constraintTop_toBottomOf="@+id/cb_agreement_marketing" />
+            app:layout_constraintTop_toBottomOf="@+id/cb_agreement_marketing"
+            />
 
         <!--        인증 코드 입력 승인 방식 or 우리가 후원 대상 회원가입 보고 승인 방식-->
         <CheckBox
@@ -252,10 +278,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:text="후원 대상입니까 ?"
-            android:textStyle="italic"
             app:layout_constraintEnd_toEndOf="@+id/btn_check_id"
             app:layout_constraintStart_toEndOf="@+id/et_register_birth"
-            app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+            app:layout_constraintTop_toBottomOf="@+id/radioGroup"
+            android:background="@drawable/button_design"
+            android:textStyle="bold"
+            android:textSize="13sp"
+            android:textColor="#ffffff"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

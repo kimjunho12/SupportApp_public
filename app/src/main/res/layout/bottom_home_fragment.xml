@@ -10,9 +10,9 @@
     <View
         android:id="@+id/profile_top"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
         android:layout_marginTop="64dp"
-        android:background="?android:attr/listDivider"
+        android:layout_height="5dp"
+        android:background="@drawable/button_design"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -52,6 +52,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:text="메인화면"
+        android:textColor="@color/mint"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/profile_top"

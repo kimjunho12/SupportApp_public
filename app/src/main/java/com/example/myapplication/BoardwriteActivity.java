@@ -100,13 +100,18 @@ public class BoardwriteActivity extends AppCompatActivity {
                 } else {
                     post.type = "일반";
                 }
-                upload(imagePath);
+                if(imagePath == null) {
+                    post.img = "null";
+                }
+                else {
+                    upload(imagePath);
+                    post.img = imagePath;
+                }
                 post.title = String.valueOf(et_board_write_title.getText());
                 post.username = mAuth.getCurrentUser().getEmail();      // 나중에 닉네임으로 나오게끔
                 post.date = new SimpleDateFormat("MM-dd hh:mm").format(new Date(System.currentTimeMillis()));
                 post.view_cnt = 0;
                 post.contents = String.valueOf(et_board_write_contents.getText());
-                post.img = imagePath;
                 FirebaseDatabase.getInstance().getReference("target").child(target).child("post").push().setValue(post);
                 setResult(200);
                 finish();
@@ -142,8 +147,6 @@ public class BoardwriteActivity extends AppCompatActivity {
     }
     private void upload(String uri){
         StorageReference storageRef = storage.getReferenceFromUrl("gs://supportapp-f34a1.appspot.com");
-
-
         Uri file = Uri.fromFile(new File(uri));
         StorageReference riversRef = storageRef.child("images/" + file.getLastPathSegment());
         UploadTask uploadTask = riversRef.putFile(file);

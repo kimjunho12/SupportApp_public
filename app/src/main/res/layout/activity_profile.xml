@@ -18,9 +18,9 @@
         <View
             android:id="@+id/profile_top"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="5dp"
+            android:background="@drawable/button_design"
             android:layout_marginTop="64dp"
-            android:background="?android:attr/listDivider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -33,6 +33,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:text="프로필"
+            android:textColor="@color/mint"
             android:textSize="30sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/profile_top"
@@ -178,17 +179,24 @@
             android:text="찜하기"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/button_design"
+            android:textStyle="bold"
+            android:textColor="#ffffff"/>
+
         <Button
             android:id="@+id/btn_profile_board"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="56dp"
-            android:layout_marginLeft="56dp"
             android:text="게시판"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/btn_profile_like"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/button_design"
+            android:textStyle="bold"
+            android:textColor="#ffffff"/>
+
         <Button
             android:id="@+id/btn_profile_dona"
             android:onClick="profile_support_button"
@@ -199,7 +207,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.728"
             app:layout_constraintStart_toEndOf="@+id/btn_profile_board"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/button_design"
+            android:textStyle="bold"
+            android:textColor="#ffffff"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView

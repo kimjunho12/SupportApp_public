@@ -15,9 +15,9 @@
     <View
         android:id="@+id/profile_top"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="5dp"
+        android:background="@drawable/button_design"
         android:layout_marginTop="64dp"
-        android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -31,6 +31,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:text="뉴스"
+        android:textColor="@color/mint"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/profile_top"
@@ -73,7 +74,8 @@
         android:textSize="20sp"
         app:layout_constraintTop_toTopOf="@+id/profile_top"
         tools:layout_editor_absoluteX="0dp"
-        android:layout_marginTop="15dp"/>
+        android:layout_marginTop="15dp"
+        android:textStyle="bold"/>
 
     <ImageView
         android:id="@+id/news_detail"
@@ -128,7 +130,11 @@
         android:text="후원하기"
         android:textAllCaps="false"
         android:textSize="40dp"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/button_design"
+        android:textStyle="bold"
+        android:textColor="#ffffff"
+        android:layout_marginBottom="1dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
