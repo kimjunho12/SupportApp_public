@@ -158,7 +158,7 @@ public class TargetDetailsActivity extends AppCompatActivity implements adapter2
 
         DatabaseReference mDBRefer = FirebaseDatabase.getInstance().getReference("target").child(mAuth.getUid());
         mDBRefer.setValue(target);
-        mDBRefer.child("subject").setValue(selectSubject.get(0));
+        mDBRefer.child("subject").setValue(selectSubject.size() > 0 ? selectSubject.get(0) : null);
 
         Intent intent = getIntent();
         String Uid = intent.getStringExtra("Uid");

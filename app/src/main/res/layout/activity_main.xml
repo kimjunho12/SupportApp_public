@@ -20,6 +20,7 @@
             app:itemTextColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:menu="@menu/bottom_menu"
+            android:background="@color/mint"
             tools:layout_editor_absoluteX="0dp" />
 
         <FrameLayout
