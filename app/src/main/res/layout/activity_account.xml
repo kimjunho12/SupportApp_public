@@ -13,8 +13,8 @@
         <View
             android:id="@+id/account_top"
             android:layout_width="match_parent"
-            android:layout_marginTop="64dp"
             android:layout_height="5dp"
+            android:layout_marginTop="64dp"
             android:background="@drawable/button_design"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -29,9 +29,9 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:text="계정정보변경"
+            android:textColor="@color/mint"
             android:textSize="30sp"
             android:textStyle="bold"
-            android:textColor="@color/mint"
             app:layout_constraintBottom_toTopOf="@+id/account_top"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -52,12 +52,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:background="@drawable/button_design"
             android:clickable="true"
             android:text="프로필 사진 바꾸기"
-            android:textSize="12sp"
-            android:background="@drawable/button_design"
-            android:textStyle="bold"
             android:textColor="#ffffff"
+            android:textSize="12sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/account_image"
             app:layout_constraintStart_toStartOf="@+id/account_image"
             app:layout_constraintTop_toBottomOf="@+id/account_image" />
@@ -108,64 +108,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="연락처를 입력하세요."
-                    android:inputType="phone" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="60dp"
-                    android:layout_height="wrap_content"
-                    android:text="분야 : " />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="스포츠 : " />
-
-                        <CheckBox
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="축구" />
-
-                        <CheckBox
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="농구" />
-
-                        <CheckBox
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="야구" />
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="음악 : " />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="미술 : " />
-
-
-                </LinearLayout>
-
+                    android:inputType="phone"
+                    android:maxLength="11" />
 
             </LinearLayout>
 
@@ -184,7 +128,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="생일을 입력하세요."
-                    android:inputType="date" />
+                    android:inputType="date"
+                    android:maxLength="8" />
 
             </LinearLayout>
 
@@ -270,11 +215,12 @@
             android:id="@+id/account_details_save"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:layout_marginBottom="32dp"
-            android:text="저장하기"
             android:background="@drawable/button_design"
-            android:textStyle="bold"
+            android:text="저장하기"
             android:textColor="#ffffff"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/linearLayout"
             app:layout_constraintHorizontal_bias="0.0"
