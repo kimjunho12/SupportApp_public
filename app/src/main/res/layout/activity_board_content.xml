@@ -187,4 +187,5 @@
             android:layout_marginTop="50dp">
         </androidx.recyclerview.widget.RecyclerView>
     </com.google.android.material.navigation.NavigationView>
+    <include layout="@layout/search_view" />
 </androidx.drawerlayout.widget.DrawerLayout>
