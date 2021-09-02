@@ -141,6 +141,10 @@ public class TargetDetailsActivity extends AppCompatActivity implements adapter2
     }
 
     private void updateTargetInfo() {
+        if (selectSubject.size() <= 0) {
+            Toast.makeText(TargetDetailsActivity.this, "분야를 선택 해 주세요.", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Target target = new Target(
                 String.valueOf(input_name.getText()),
                 String.valueOf(input_phone_no.getText()),
