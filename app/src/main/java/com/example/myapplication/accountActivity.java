@@ -188,11 +188,13 @@ public class accountActivity extends Activity {
                 input_name.setText(name);
                 input_phone_no.setText(phone_no);
                 input_birth_date.setText(birth_date);
-//                // 후원대상이 아닐경우 나머지 정보 감추기
-//                input_sosock.setVisibility(View.GONE);
-//                input_debut_date.setVisibility(View.GONE);
-//                input_SNS.setVisibility(View.GONE);
-//                input_pr.setVisibility(View.GONE);
+
+                if (is_target == 0) { // 후원대상이 아닐경우 나머지 정보 감추기
+                    ((View) input_sosock.getParent()).setVisibility(View.INVISIBLE);
+                    ((View) input_debut_date.getParent()).setVisibility(View.INVISIBLE);
+                    ((View) input_SNS.getParent()).setVisibility(View.INVISIBLE);
+                    ((View) input_pr.getParent()).setVisibility(View.INVISIBLE);
+                }
             }
 
             @Override
