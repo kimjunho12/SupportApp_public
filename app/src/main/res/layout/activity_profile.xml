@@ -182,7 +182,8 @@
             app:layout_constraintTop_toTopOf="parent"
             android:background="@drawable/button_design"
             android:textStyle="bold"
-            android:textColor="#ffffff"/>
+            android:textColor="#ffffff"
+            android:textSize="20sp"/>
 
         <Button
             android:id="@+id/btn_profile_board"
@@ -195,14 +196,15 @@
             app:layout_constraintTop_toTopOf="parent"
             android:background="@drawable/button_design"
             android:textStyle="bold"
-            android:textColor="#ffffff"/>
+            android:textColor="#ffffff"
+            android:textSize="20sp"/>
 
         <Button
             android:id="@+id/btn_profile_dona"
             android:onClick="profile_support_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="후원하기"
+            android:text="후원"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.728"
@@ -210,7 +212,8 @@
             app:layout_constraintTop_toTopOf="parent"
             android:background="@drawable/button_design"
             android:textStyle="bold"
-            android:textColor="#ffffff"/>
+            android:textColor="#ffffff"
+            android:textSize="20sp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView

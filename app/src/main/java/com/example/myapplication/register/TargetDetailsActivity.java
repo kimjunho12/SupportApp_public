@@ -19,11 +19,15 @@ import androidx.loader.content.CursorLoader;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.example.myapplication.BoardcontentActivity;
 import com.example.myapplication.ExpandableListAdapter;
 import com.example.myapplication.R;
 import com.example.myapplication.adapter2activity;
 import com.example.myapplication.models.Subject;
 import com.example.myapplication.models.Target;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -59,6 +63,8 @@ public class TargetDetailsActivity extends AppCompatActivity implements adapter2
     private String imagePath;
     private static final int OK = 200;
     private FirebaseAuth mAuth;
+    private FirebaseDatabase database;
+    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +72,6 @@ public class TargetDetailsActivity extends AppCompatActivity implements adapter2
         setContentView(R.layout.activity_target_details);
 
         mAuth = FirebaseAuth.getInstance();
-
         btn_input_save = findViewById(R.id.btn_details_save);
 
         init();
@@ -113,6 +118,7 @@ public class TargetDetailsActivity extends AppCompatActivity implements adapter2
             @Override
             public void onClick(View view) {
                 updateTargetInfo();
+                change();
             }
         });
     }
@@ -173,6 +179,28 @@ public class TargetDetailsActivity extends AppCompatActivity implements adapter2
         setResult(OK);
         Toast.makeText(TargetDetailsActivity.this, "후원대상 상세정보 입력이 완료 되었습니다.\n로그인을 진행 해 주세요.", Toast.LENGTH_LONG).show();
         finish();
+    }
+
+    private void change() {
+        Intent intent = getIntent();
+        String Uid = intent.getStringExtra("Uid");
+        File file = new File(imagePath);
+        String strFileName = file.getName();
+        FirebaseStorage storage = FirebaseStorage.getInstance("gs://supportapp-f34a1.appspot.com");
+        StorageReference storageReference = storage.getReference();
+        storageReference.child("images/" + strFileName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Log.d(TAG, "img uri : " + uri);
+                database = FirebaseDatabase.getInstance();
+                databaseReference = database.getReference().child("target").child(Uid).child("icon");
+                databaseReference.setValue(uri.toString()); // Permission denied
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull @NotNull Exception e) {
+            }
+        });
     }
 
     private void init() {

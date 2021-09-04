@@ -99,6 +99,7 @@
         android:layout_marginStart="28dp"
         android:layout_marginTop="16dp"
         android:text="사진첨부"
+        android:textSize="15sp"
         android:background="@drawable/button_design"
         android:textStyle="bold"
         android:textColor="#ffffff"
@@ -118,7 +119,8 @@
         app:layout_constraintTop_toBottomOf="@+id/et_board_write_contents"
         android:background="@drawable/button_design"
         android:textStyle="bold"
-        android:textColor="#ffffff"/>
+        android:textColor="#ffffff"
+        android:textSize="20sp"/>
 
     <Switch
         android:id="@+id/sw_board_type"
@@ -131,7 +133,8 @@
         app:layout_constraintTop_toBottomOf="@+id/profile_top_name"
         android:background="@drawable/button_design"
         android:textStyle="bold"
-        android:textColor="#ffffff"/>
+        android:textColor="#ffffff"
+        android:textSize="15sp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

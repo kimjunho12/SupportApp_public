@@ -120,6 +120,7 @@
             android:layout_marginTop="24dp"
             android:layout_marginBottom="48dp"
             android:text="시작하기"
+            android:textSize="30sp"
             android:background="@drawable/button_design"
             android:textStyle="bold"
             android:textColor="#ffffff"
