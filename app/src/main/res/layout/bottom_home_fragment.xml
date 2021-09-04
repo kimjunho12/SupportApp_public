@@ -66,12 +66,19 @@
         android:layout_height="@dimen/frameSize"
         app:layout_constraintTop_toBottomOf="@id/profile_top"
         android:id="@+id/Frame">
-        <androidx.viewpager.widget.ViewPager
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/frameSize"
+
+        <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="271dp"
             android:clipChildren="false"
             android:clipToPadding="false" />
+
+        <me.relex.circleindicator.CircleIndicator3
+            android:id="@+id/indicator"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_gravity="bottom" />
     </FrameLayout>
 
     <androidx.recyclerview.widget.RecyclerView
