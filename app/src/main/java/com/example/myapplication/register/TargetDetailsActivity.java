@@ -19,8 +19,6 @@ import androidx.loader.content.CursorLoader;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.example.myapplication.BoardcontentActivity;
 import com.example.myapplication.ExpandableListAdapter;
 import com.example.myapplication.R;
 import com.example.myapplication.adapter2activity;
@@ -36,7 +34,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -45,7 +42,7 @@ import java.util.ArrayList;
 
 public class TargetDetailsActivity extends AppCompatActivity implements adapter2activity {
 
-    private static final String TAG = "TargetDetailsActivity";
+    private static final String TAG = "TargetDetailsPage";
     private Button btn_input_save;
     private EditText input_name;
     private EditText input_phone_no;
@@ -107,6 +104,7 @@ public class TargetDetailsActivity extends AppCompatActivity implements adapter2
         btn_change_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d(TAG, "onClick: before load image mAuth.Uid = " + mAuth.getUid());
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
                 startActivityForResult(intent, OK);
@@ -128,9 +126,11 @@ public class TargetDetailsActivity extends AppCompatActivity implements adapter2
 
         super.onActivityResult(requestCode, resultCode, data);
         if (OK == requestCode && data != null) {
+            Log.d(TAG, "onActivityResult: data = " + data);
             imagePath = getPath(data.getData());
             File file = new File(imagePath);
             img_profile.setImageURI(Uri.fromFile(file));
+            Log.d(TAG, "onActivityResult: after load image, mAuth.Uid = " + mAuth.getUid());
         }
     }
 
@@ -166,10 +166,7 @@ public class TargetDetailsActivity extends AppCompatActivity implements adapter2
         mDBRefer.setValue(target);
         mDBRefer.child("subject").setValue(selectSubject.size() > 0 ? selectSubject.get(0) : null);
 
-        Intent intent = getIntent();
-        String Uid = intent.getStringExtra("Uid");
-        Log.d(TAG, "Uid : " + Uid);
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(Uid);
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(mAuth.getUid());
         if(imagePath == null) {
             databaseReference.child("photoURL").setValue("null");
         }
@@ -182,8 +179,11 @@ public class TargetDetailsActivity extends AppCompatActivity implements adapter2
     }
 
     private void change() {
-        Intent intent = getIntent();
-        String Uid = intent.getStringExtra("Uid");
+        Log.d(TAG, "change: imagePath = " + imagePath);
+        if (imagePath == null) {
+            return;
+        }
+        Log.d(TAG, "change: start");
         File file = new File(imagePath);
         String strFileName = file.getName();
         FirebaseStorage storage = FirebaseStorage.getInstance("gs://supportapp-f34a1.appspot.com");
@@ -191,9 +191,10 @@ public class TargetDetailsActivity extends AppCompatActivity implements adapter2
         storageReference.child("images/" + strFileName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
+                // 실행 안됨 & Storage 업로드 또한 안됨
                 Log.d(TAG, "img uri : " + uri);
                 database = FirebaseDatabase.getInstance();
-                databaseReference = database.getReference().child("target").child(Uid).child("icon");
+                databaseReference = database.getReference().child("target").child(mAuth.getUid()).child("icon");
                 databaseReference.setValue(uri.toString()); // Permission denied
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -221,6 +222,7 @@ public class TargetDetailsActivity extends AppCompatActivity implements adapter2
             input_phone_no.setText(intent.getStringExtra("phone"));
             input_birth_date.setText(intent.getStringExtra("birth"));
         }
+        Log.d(TAG, "init: mAuth = " + mAuth);
     }
     private ArrayList<Subject> selectSubject = new ArrayList<>();
 
