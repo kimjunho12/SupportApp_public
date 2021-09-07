@@ -177,7 +177,9 @@ public class accountActivity extends Activity {
                     @Override
                     public void onSuccess(Uri uri) {
                         Log.d(TAG, "img uri : " + uri);
-                        Glide.with(accountActivity.this).load(uri).into(input_image);
+                        if (!accountActivity.this.isDestroyed()) {
+                            Glide.with(accountActivity.this).load(uri).into(input_image);
+                        }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
