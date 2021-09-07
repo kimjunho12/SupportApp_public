@@ -11,12 +11,16 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.ViewCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.myapplication.models.Subject;
 import com.example.myapplication.models.Target;
@@ -32,6 +36,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
+import me.relex.circleindicator.CircleIndicator3;
+
 public class bottom_home_fragment extends Fragment {
     private static final String TAG = "HomeNews";
     private View view;
@@ -43,12 +49,17 @@ public class bottom_home_fragment extends Fragment {
     private DatabaseReference databaseReference;
     private GridLayoutManager gridLayoutManager;
 
-    private ViewPager viewPager;
+    private ViewPager2 viewPager;
     private viewpager_FirstFragment fragment1;
     private viewpager_SecondFragment fragment2;
     private viewpager_ThirdFragment fragment3;
+    private FragmentStateAdapter pagerAdapter;
+    private int num_page = 3;
+    private CircleIndicator3 mIndicator;
     private ArrayList<String> recoList;
     private FirebaseAuth mAuth;
+
+
 
     private clickListener frag_clickListener;
 
@@ -74,9 +85,10 @@ public class bottom_home_fragment extends Fragment {
         //layoutManager = new LinearLayoutManager(getContext());
 
         arrayList = new ArrayList<>();
+
         //viewpager
-        viewPager = (ViewPager) view.findViewById(R.id.viewpager);
-        bottom_home_viewpager_adapter adapter = new bottom_home_viewpager_adapter(getChildFragmentManager());
+        viewPager = view.findViewById(R.id.viewpager);
+        bottom_home_viewpager_adapter adapter = new bottom_home_viewpager_adapter(this, num_page);
         fragment1 = new viewpager_FirstFragment();
         adapter.addItem(fragment1);
         fragment2 = new viewpager_SecondFragment();
@@ -84,7 +96,29 @@ public class bottom_home_fragment extends Fragment {
         fragment3 = new viewpager_ThirdFragment();
         adapter.addItem(fragment3);
         viewPager.setAdapter(adapter);
+        //indicator
+        mIndicator = view.findViewById(R.id.indicator);
+        mIndicator.setViewPager(viewPager);
+        mIndicator.createIndicators(num_page,0);
+        viewPager.setSaveEnabled(false);
         viewPager.setCurrentItem(0);
+        viewPager.setOffscreenPageLimit(2);
+
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+                if (positionOffsetPixels == 0) {
+                    viewPager.setCurrentItem(position);
+                }
+            }
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                mIndicator.animatePageSelected(position%num_page);
+            }
+
+        });
 
         ImageButton imageButton = (ImageButton) view.findViewById(R.id.top_category_click_main);
         imageButton.setOnClickListener(new View.OnClickListener() {

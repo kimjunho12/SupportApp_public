@@ -29,7 +29,11 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -41,6 +45,7 @@ import java.util.Date;
 public class BoardwriteActivity extends AppCompatActivity {
 
     private ImageView imageView;
+    private static final String TAG = "Board_write_Activity";
     private static final int GET_GALLARY = 100;
     private TextView et_board_write_title;
     private TextView et_board_write_contents;
@@ -48,13 +53,13 @@ public class BoardwriteActivity extends AppCompatActivity {
     private Button btn_create_post;
     private ImageButton btn_board_back;
     private Switch sw_board_type;
-    private String target;
     private FirebaseAuth mAuth;
     private FirebaseStorage storage;
     private FirebaseDatabase database;
+    private DatabaseReference databaseReference;
     private String imagePath;
-    private ScrollView scroll;
-    private BitmapDrawable bitmap;
+    private String name;
+    private String target;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +72,29 @@ public class BoardwriteActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         target = intent.getStringExtra("DB");
+        TextView textView = findViewById(R.id.profile_top_name);
+        textView.setText(target + " 게시판");
+
+        database = FirebaseDatabase.getInstance();
+        databaseReference = database.getReference().child("Users").child(mAuth.getUid()).child("name");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                name = snapshot.getValue().toString();
+                if(!name.equals(target)) {
+                    sw_board_type.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Log.d(TAG, "name, target = " + name + " , " + target);
+                            sw_board_type.setChecked(false);
+                        }
+                    });
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
 
@@ -81,7 +109,7 @@ public class BoardwriteActivity extends AppCompatActivity {
             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
         }
 
-        //사진
+        //사진첨부 버튼
         btn_board_add_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,6 +119,8 @@ public class BoardwriteActivity extends AppCompatActivity {
             }
 
         });
+
+        //새글쓰기 버튼
         btn_create_post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
