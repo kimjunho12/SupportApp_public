@@ -67,7 +67,7 @@ public class TargetDetailsActivity extends AppCompatActivity implements adapter2
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
-    private String uri_string;
+    private String uri_string = "null";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,13 +126,7 @@ public class TargetDetailsActivity extends AppCompatActivity implements adapter2
             @Override
             public void onClick(View view) {
                 updateTargetInfo();
-                change(mAuth.getUid());
-                database = FirebaseDatabase.getInstance();
-                databaseReference = database.getReference().child("target").child(mAuth.getUid()).child("icon");
-                databaseReference.setValue(uri_string);
-                Log.d(TAG, "uri String : " + uri_string);
-                setResult(200);
-                finish();
+//                change(mAuth.getUid());
             }
         });
     }
@@ -144,6 +138,7 @@ public class TargetDetailsActivity extends AppCompatActivity implements adapter2
             imagePath = getPath(data.getData());
             File file = new File(imagePath);
             img_profile.setImageURI(Uri.fromFile(file));
+            upload(imagePath);
         }
     }
 
@@ -178,6 +173,13 @@ public class TargetDetailsActivity extends AppCompatActivity implements adapter2
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 Task<Uri> downloadUrl = taskSnapshot.getStorage().getDownloadUrl();
+                downloadUrl.addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        Log.d(TAG, "uri String : " + task.getResult().getPath());
+                        uri_string = "https://firebasestorage.googleapis.com" + task.getResult().getPath();
+                    }
+                });
             }
         });
     }
@@ -195,8 +197,9 @@ public class TargetDetailsActivity extends AppCompatActivity implements adapter2
                 String.valueOf(input_debut_date.getText()),
                 String.valueOf(input_SNS.getText()),
                 String.valueOf(input_pr.getText()),
-                String.valueOf(imagePath)
+                String.valueOf(uri_string)
         );
+        Log.d(TAG, "updateTargetInfo: target is created");
 
         for (Subject subject : selectSubject) {
             subject.sCategory = String.valueOf(input_sosock.getText());
@@ -211,38 +214,39 @@ public class TargetDetailsActivity extends AppCompatActivity implements adapter2
             databaseReference.child("photoURL").setValue("null");
         }
         else {
-            databaseReference.child("photoURL").setValue(imagePath);
-            upload(imagePath);
+            databaseReference.child("photoURL").setValue(uri_string);
         }
         Toast.makeText(TargetDetailsActivity.this, "후원대상 상세정보 입력이 완료 되었습니다.\n로그인을 진행 해 주세요.", Toast.LENGTH_LONG).show();
+        setResult(200);
+        finish();
     }
 
-    private void change(String uid) {
-        Log.d(TAG, "change: imagePath = " + imagePath);
-        if (imagePath == null) {
-            return;
-        }
-        Log.d(TAG, "change: start");
-        File file = new File(imagePath);
-        String strFileName = file.getName();
-        FirebaseStorage storage = FirebaseStorage.getInstance("gs://supportapp-f34a1.appspot.com");
-        StorageReference storageReference = storage.getReference();
-        storageReference.child("images/" + strFileName).getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
-            @Override
-            public void onComplete(@NonNull Task<Uri> task) {
-                uri_string = task.getResult().toString();
-                Log.d(TAG, "uri : " + uri_string);
-                database = FirebaseDatabase.getInstance();
-                databaseReference = database.getReference().child("target").child(uid).child("icon");
-                databaseReference.setValue(uri_string);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull @NotNull Exception e) {
-                Log.d(TAG, "uri downloadUrl Fail");
-            }
-        });
-    }
+//    private void change(String uid) {
+//        Log.d(TAG, "change: imagePath = " + imagePath);
+//        if (imagePath == null) {
+//            return;
+//        }
+//        Log.d(TAG, "change: start");
+//        File file = new File(imagePath);
+//        String strFileName = file.getName();
+//        FirebaseStorage storage = FirebaseStorage.getInstance("gs://supportapp-f34a1.appspot.com");
+//        StorageReference storageReference = storage.getReference();
+//        storageReference.child("images/" + strFileName).getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+//            @Override
+//            public void onComplete(@NonNull Task<Uri> task) {
+//                uri_string = task.getResult().toString();
+//                Log.d(TAG, "uri : " + uri_string);
+//                database = FirebaseDatabase.getInstance();
+//                databaseReference = database.getReference().child("target").child(uid).child("icon");
+//                databaseReference.setValue(uri_string);
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull @NotNull Exception e) {
+//                Log.d(TAG, "uri downloadUrl Fail");
+//            }
+//        });
+//    }
 
     private void init() {
         storage = FirebaseStorage.getInstance();
