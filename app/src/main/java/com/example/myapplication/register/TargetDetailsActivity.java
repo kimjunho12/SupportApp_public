@@ -125,7 +125,7 @@ public class TargetDetailsActivity extends AppCompatActivity implements adapter2
         btn_input_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updateTargetInfo();
+                upload(imagePath);
 //                change(mAuth.getUid());
             }
         });
@@ -138,7 +138,6 @@ public class TargetDetailsActivity extends AppCompatActivity implements adapter2
             imagePath = getPath(data.getData());
             File file = new File(imagePath);
             img_profile.setImageURI(Uri.fromFile(file));
-            upload(imagePath);
         }
     }
 
@@ -156,6 +155,11 @@ public class TargetDetailsActivity extends AppCompatActivity implements adapter2
 
     private void upload(String uri) {
         if (uri == null) {
+            Toast.makeText(TargetDetailsActivity.this, "프로필 사진을 업로드 해 주세요.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (selectSubject.size() <= 0) {
+            Toast.makeText(TargetDetailsActivity.this, "분야를 선택 해 주세요.", Toast.LENGTH_SHORT).show();
             return;
         }
         StorageReference storageRef = storage.getReferenceFromUrl("gs://supportapp-f34a1.appspot.com");
@@ -178,6 +182,7 @@ public class TargetDetailsActivity extends AppCompatActivity implements adapter2
                     public void onComplete(@NonNull Task<Uri> task) {
                         Log.d(TAG, "uri String : " + task.getResult().getPath());
                         uri_string = "https://firebasestorage.googleapis.com" + task.getResult().getPath();
+                        updateTargetInfo();
                     }
                 });
             }
@@ -185,10 +190,6 @@ public class TargetDetailsActivity extends AppCompatActivity implements adapter2
     }
 
     private void updateTargetInfo() {
-        if (selectSubject.size() <= 0) {
-            Toast.makeText(TargetDetailsActivity.this, "분야를 선택 해 주세요.", Toast.LENGTH_SHORT).show();
-            return;
-        }
         Target target = new Target(
                 String.valueOf(input_name.getText()),
                 String.valueOf(input_phone_no.getText()),
