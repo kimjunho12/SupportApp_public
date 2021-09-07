@@ -3,7 +3,7 @@
     <dimen name="pageMargin">0dp</dimen>
     <dimen name="offset">0dp</dimen>
     <dimen name="pageMarginAndOffset">0dp</dimen>
-    <dimen name="frameSize">248dp</dimen>
+    <dimen name="frameSize">200dp</dimen>
 
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>

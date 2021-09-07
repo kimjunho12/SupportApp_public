@@ -21,21 +21,22 @@ public class bottom_home_viewpager_adapter extends FragmentStateAdapter {
     public void addItem(Fragment item) {
         items.add(item);
     }
+
     @NonNull
-    @Override
     public Fragment createFragment(int position) {
         int index = getRealPosition(position);
 
-        if(index==0) return new viewpager_FirstFragment();
-        else if(index==1) return new viewpager_SecondFragment();
+        if (index == 0) return new viewpager_FirstFragment();
+        else if (index == 1) return new viewpager_SecondFragment();
         else return new viewpager_ThirdFragment();
     }
 
     public int getItemCount() {
         return 2000;
     }
-        public int getRealPosition (int position){
-            return position % mCount;
-        }
 
+    public int getRealPosition(int position) {
+        return position % mCount;
+    }
 }
+
