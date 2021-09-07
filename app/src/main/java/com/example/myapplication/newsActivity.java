@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.example.myapplication.models.Subject;
 import com.example.myapplication.models.Target;
 import com.example.myapplication.models.bottom_home_data;
+import com.example.myapplication.searching.TargetSearch;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -41,6 +42,7 @@ public class newsActivity extends AppCompatActivity implements NavigationView.On
     private MainAdapter MainAdapter;
     private DrawerLayout drawerLayout;
     private View drawer;
+    private View searchDrawer;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +80,16 @@ public class newsActivity extends AppCompatActivity implements NavigationView.On
                 drawerLayout.openDrawer(drawer);
             }
         });
+        // 검색
+        searchDrawer = new TargetSearch(this).searchDrawer;
+        ImageButton searchButton = findViewById(R.id.top_search_click);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                searchView.setText(null);
+                drawerLayout.openDrawer(searchDrawer);
+            }
+        }); // 검색 끝
 
         //카테고리 recycler
         recyclerview = findViewById(R.id.top_category_view_news);

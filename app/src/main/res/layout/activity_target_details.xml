@@ -49,7 +49,7 @@
             app:layout_constraintBottom_toTopOf="@+id/divider"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="?attr/actionModeCloseDrawable" />
+            android:src="@drawable/top_back"/>
 
 
         <ImageView
@@ -67,12 +67,12 @@
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:background="@drawable/button_design"
             android:clickable="true"
             android:text="프로필 사진 바꾸기"
-            android:background="@drawable/button_design"
-            android:textStyle="bold"
             android:textColor="#ffffff"
             android:textSize="12sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/img_profile"
             app:layout_constraintStart_toStartOf="@+id/img_profile"
             app:layout_constraintTop_toBottomOf="@+id/img_profile" />
@@ -150,7 +150,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/searched_target_list" />
 
 
-
             </LinearLayout>
 
             <LinearLayout
@@ -206,7 +205,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="데뷔일을 입력하세요."
-                    android:inputType="date" />
+                    android:inputType="date"
+                    android:maxLength="8" />
 
             </LinearLayout>
 
@@ -254,16 +254,17 @@
             android:id="@+id/btn_details_save"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="15dp"
             android:layout_marginBottom="32dp"
+            android:background="@drawable/button_design"
             android:text="저장하기"
+            android:textColor="#ffffff"
+            android:textSize="30sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/linearLayout"
             app:layout_constraintStart_toStartOf="@+id/linearLayout"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-            android:background="@drawable/button_design"
-            android:textStyle="bold"
-            android:textColor="#ffffff"/>
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

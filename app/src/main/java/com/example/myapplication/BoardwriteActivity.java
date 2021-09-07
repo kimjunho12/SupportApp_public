@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.DiscretePathEffect;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -15,7 +14,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ScrollView;
@@ -31,7 +29,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -44,7 +41,6 @@ import java.util.Date;
 public class BoardwriteActivity extends AppCompatActivity {
 
     private ImageView imageView;
-    private static final String TAG = "Board_write_Activity";
     private static final int GET_GALLARY = 100;
     private TextView et_board_write_title;
     private TextView et_board_write_contents;
@@ -56,8 +52,9 @@ public class BoardwriteActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseStorage storage;
     private FirebaseDatabase database;
-    private DatabaseReference databaseReference;
     private String imagePath;
+    private ScrollView scroll;
+    private BitmapDrawable bitmap;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,12 +67,6 @@ public class BoardwriteActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         target = intent.getStringExtra("DB");
-        TextView textView = findViewById(R.id.profile_top_name);
-        textView.setText(target + " 게시판");
-
-        database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference("Users").child(mAuth.getUid()).child("name");
-        String name = databaseReference.toString();
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
 
@@ -100,25 +91,6 @@ public class BoardwriteActivity extends AppCompatActivity {
             }
 
         });
-
-        //
-
-            sw_board_type.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        if (isChecked) {
-                            if (name != target) {
-                                sw_board_type.setChecked(false);
-                                Log.d(TAG, "name, target = " + name + " , " + target);
-                            }
-                        }
-                }
-
-                });
-
-
-
-        //새글쓰기
         btn_create_post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

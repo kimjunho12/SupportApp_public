@@ -15,7 +15,6 @@ import androidx.core.view.ViewCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -84,10 +83,12 @@ public class bottom_home_fragment extends Fragment {
         boolean includeEdge = true;
         recyclerView.addItemDecoration(new ItemDecoration(spanCount, spacing, includeEdge));
         //layoutManager = new LinearLayoutManager(getContext());
+
         arrayList = new ArrayList<>();
+
         //viewpager
         viewPager = view.findViewById(R.id.viewpager);
-        bottom_home_viewpager_adapter adapter = new bottom_home_viewpager_adapter(this,num_page);
+        bottom_home_viewpager_adapter adapter = new bottom_home_viewpager_adapter(this, num_page);
         fragment1 = new viewpager_FirstFragment();
         adapter.addItem(fragment1);
         fragment2 = new viewpager_SecondFragment();
@@ -95,14 +96,13 @@ public class bottom_home_fragment extends Fragment {
         fragment3 = new viewpager_ThirdFragment();
         adapter.addItem(fragment3);
         viewPager.setAdapter(adapter);
-        viewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
-        viewPager.setCurrentItem(0);
-        viewPager.setOffscreenPageLimit(2);
-        viewPager.setSaveEnabled(false);
         //indicator
         mIndicator = view.findViewById(R.id.indicator);
         mIndicator.setViewPager(viewPager);
         mIndicator.createIndicators(num_page,0);
+        viewPager.setSaveEnabled(false);
+        viewPager.setCurrentItem(0);
+        viewPager.setOffscreenPageLimit(2);
 
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
@@ -119,7 +119,6 @@ public class bottom_home_fragment extends Fragment {
             }
 
         });
-
 
         ImageButton imageButton = (ImageButton) view.findViewById(R.id.top_category_click_main);
         imageButton.setOnClickListener(new View.OnClickListener() {
