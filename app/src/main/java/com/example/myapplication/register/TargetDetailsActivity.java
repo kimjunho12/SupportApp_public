@@ -1,8 +1,10 @@
 package com.example.myapplication.register;
 
+import android.Manifest;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -24,6 +26,10 @@ import com.example.myapplication.R;
 import com.example.myapplication.adapter2activity;
 import com.example.myapplication.models.Subject;
 import com.example.myapplication.models.Target;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -41,7 +47,7 @@ import java.util.ArrayList;
 
 public class TargetDetailsActivity extends AppCompatActivity implements adapter2activity {
 
-    private static final String TAG = "TargetDetailsActivity";
+    private static final String TAG = "TargetDetailsPage";
     private Button btn_input_save;
     private EditText input_name;
     private EditText input_phone_no;
@@ -57,8 +63,11 @@ public class TargetDetailsActivity extends AppCompatActivity implements adapter2
     private TextView btn_change_profile;
     private FirebaseStorage storage;
     private String imagePath;
-    private static final int OK = 200;
+    private static final int GET_GALLARY = 100;
     private FirebaseAuth mAuth;
+    private FirebaseDatabase database;
+    private DatabaseReference databaseReference;
+    private String uri_string;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,10 +75,13 @@ public class TargetDetailsActivity extends AppCompatActivity implements adapter2
         setContentView(R.layout.activity_target_details);
 
         mAuth = FirebaseAuth.getInstance();
-
         btn_input_save = findViewById(R.id.btn_details_save);
 
         init();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
+        }
 
         recyclerview = findViewById(R.id.re_survey_subject);
         recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -102,9 +114,10 @@ public class TargetDetailsActivity extends AppCompatActivity implements adapter2
         btn_change_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d(TAG, "onClick: before load image mAuth.Uid = " + mAuth.getUid());
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-                startActivityForResult(intent, OK);
+                startActivityForResult(intent, GET_GALLARY);
             }
 
         });
@@ -113,15 +126,21 @@ public class TargetDetailsActivity extends AppCompatActivity implements adapter2
             @Override
             public void onClick(View view) {
                 updateTargetInfo();
+                change(mAuth.getUid());
+                database = FirebaseDatabase.getInstance();
+                databaseReference = database.getReference().child("target").child(mAuth.getUid()).child("icon");
+                databaseReference.setValue(uri_string);
+                Log.d(TAG, "uri String : " + uri_string);
+                setResult(200);
+                finish();
             }
         });
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         super.onActivityResult(requestCode, resultCode, data);
-        if (OK == requestCode && data != null) {
+        if (GET_GALLARY == requestCode && data != null) {
             imagePath = getPath(data.getData());
             File file = new File(imagePath);
             img_profile.setImageURI(Uri.fromFile(file));
@@ -140,7 +159,34 @@ public class TargetDetailsActivity extends AppCompatActivity implements adapter2
         return cursor.getString(index);
     }
 
+    private void upload(String uri) {
+        if (uri == null) {
+            return;
+        }
+        StorageReference storageRef = storage.getReferenceFromUrl("gs://supportapp-f34a1.appspot.com");
+        Uri file = Uri.fromFile(new File(uri));
+        StorageReference riversRef = storageRef.child("images/" + file.getLastPathSegment());
+        UploadTask uploadTask = riversRef.putFile(file);
+
+// Register observers to listen for when the download is done or if it fails
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle unsuccessful uploads
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Task<Uri> downloadUrl = taskSnapshot.getStorage().getDownloadUrl();
+            }
+        });
+    }
+
     private void updateTargetInfo() {
+        if (selectSubject.size() <= 0) {
+            Toast.makeText(TargetDetailsActivity.this, "분야를 선택 해 주세요.", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Target target = new Target(
                 String.valueOf(input_name.getText()),
                 String.valueOf(input_phone_no.getText()),
@@ -160,22 +206,47 @@ public class TargetDetailsActivity extends AppCompatActivity implements adapter2
         mDBRefer.setValue(target);
         mDBRefer.child("subject").setValue(selectSubject.size() > 0 ? selectSubject.get(0) : null);
 
-        Intent intent = getIntent();
-        String Uid = intent.getStringExtra("Uid");
-        Log.d(TAG, "Uid : " + Uid);
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(Uid);
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(mAuth.getUid());
         if(imagePath == null) {
             databaseReference.child("photoURL").setValue("null");
         }
         else {
             databaseReference.child("photoURL").setValue(imagePath);
+            upload(imagePath);
         }
-        setResult(OK);
         Toast.makeText(TargetDetailsActivity.this, "후원대상 상세정보 입력이 완료 되었습니다.\n로그인을 진행 해 주세요.", Toast.LENGTH_LONG).show();
-        finish();
+    }
+
+    private void change(String uid) {
+        Log.d(TAG, "change: imagePath = " + imagePath);
+        if (imagePath == null) {
+            return;
+        }
+        Log.d(TAG, "change: start");
+        File file = new File(imagePath);
+        String strFileName = file.getName();
+        FirebaseStorage storage = FirebaseStorage.getInstance("gs://supportapp-f34a1.appspot.com");
+        StorageReference storageReference = storage.getReference();
+        storageReference.child("images/" + strFileName).getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                uri_string = task.getResult().toString();
+                Log.d(TAG, "uri : " + uri_string);
+                database = FirebaseDatabase.getInstance();
+                databaseReference = database.getReference().child("target").child(uid).child("icon");
+                databaseReference.setValue(uri_string);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull @NotNull Exception e) {
+                Log.d(TAG, "uri downloadUrl Fail");
+            }
+        });
     }
 
     private void init() {
+        storage = FirebaseStorage.getInstance();
+
         input_name = findViewById(R.id.input_name);
         input_phone_no = findViewById(R.id.input_phone_no);
         input_birth_date = findViewById(R.id.input_birth_date);
@@ -193,6 +264,7 @@ public class TargetDetailsActivity extends AppCompatActivity implements adapter2
             input_phone_no.setText(intent.getStringExtra("phone"));
             input_birth_date.setText(intent.getStringExtra("birth"));
         }
+        Log.d(TAG, "init: mAuth = " + mAuth);
     }
     private ArrayList<Subject> selectSubject = new ArrayList<>();
 
