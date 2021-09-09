@@ -38,6 +38,7 @@ import java.util.ArrayList;
 
 import me.relex.circleindicator.CircleIndicator3;
 
+
 public class bottom_home_fragment extends Fragment {
     private static final String TAG = "HomeNews";
     private View view;
