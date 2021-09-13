@@ -417,8 +417,8 @@ public class RegisterActivity extends AppCompatActivity {
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
                 setContentView(R.layout.activity_login);
+                finish();
             }
         });
         cb_target = findViewById(R.id.cb_target_check);
