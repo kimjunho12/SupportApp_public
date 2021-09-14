@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -55,7 +57,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         boardholder.username.setText(arrayList.get(position).getUsername());
         boardholder.date.setText(arrayList.get(position).getDate());
         boardholder.cnt.setText(String.valueOf(arrayList.get(position).getView_cnt()));
-        
+
         boardholder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

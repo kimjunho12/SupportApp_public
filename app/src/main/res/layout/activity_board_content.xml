@@ -170,6 +170,20 @@
             android:textStyle="bold"
             android:textColor="#ffffff"/>
 
+        <Button
+            android:id="@+id/btn_delete"
+            android:layout_width="68dp"
+            android:layout_height="36dp"
+            android:background="@drawable/button_design"
+            android:text="삭제"
+            android:textColor="#ffffff"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_board_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_board_title"
+            app:layout_constraintTop_toTopOf="@+id/tv_board_title"
+            android:visibility="invisible"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
     <com.google.android.material.navigation.NavigationView

@@ -61,6 +61,7 @@ public class BoardcontentActivity extends AppCompatActivity implements Navigatio
     private DrawerLayout drawerLayout;
     private View drawer;
     private View searchDrawer;
+    private String target_name;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -188,7 +189,6 @@ public class BoardcontentActivity extends AppCompatActivity implements Navigatio
         boardcontent_adapter = new Boardcontent_adapter(arrayList);
         recyclerView.setAdapter(boardcontent_adapter);
 
-
         Button btn_board = findViewById(R.id.btn_board);
         btn_board.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -198,6 +198,36 @@ public class BoardcontentActivity extends AppCompatActivity implements Navigatio
                 reply.setText(null);
             }
         });
+
+        //삭제버튼
+        database = FirebaseDatabase.getInstance();
+        databaseReference = database.getReference().child("Users").child(mAuth.getUid()).child("name");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                target_name = snapshot.getValue().toString();
+                if(target_name.equals(name)) {
+                    Button btn_delete = findViewById(R.id.btn_delete);
+                    btn_delete.setVisibility(View.VISIBLE);
+                    btn_delete.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            database = FirebaseDatabase.getInstance();
+                            databaseReference = database.getReference().child("target").child(name).child("post").child(key);
+                            databaseReference.removeValue();
+                            finish();
+                        }
+                    });
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+
+
+
+
     }
 
     @Override
