@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -58,6 +59,7 @@ public class accountActivity extends Activity {
     private Button account_details_save;
     private String uri_imagepath;
     private int is_target;
+    private ImageButton btn_back;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -150,6 +152,15 @@ public class accountActivity extends Activity {
 
         Uid = mAuth.getUid();
         Log.d(TAG, "Uid : " + Uid);
+
+        btn_back = findViewById(R.id.btn_back);
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                setContentView(R.layout.bottom_setting_fragment);
+            }
+        });
     }
 
     private void loadInfo() {

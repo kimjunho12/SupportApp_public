@@ -1,5 +1,6 @@
 package com.example.myapplication.register;
 
+import android.app.assist.AssistContent;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Build;
@@ -52,7 +53,7 @@ public class RegisterActivity extends AppCompatActivity {
     private ImageButton btn_back;
     private Button btn_register_save;
     private CheckBox cb_target;
-
+    private Intent intent;
     private EditText et_register_id, et_register_pw, et_register_pw_check, et_register_name, et_register_phone, et_register_birth, et_register_no_check;
     private Button btn_check_id, btn_check_phone, btn_check_submit;
 
@@ -72,6 +73,7 @@ public class RegisterActivity extends AppCompatActivity {
     boolean is_id_checked = false;
     boolean is_phone_checked = false;
     private User user;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -410,10 +412,12 @@ public class RegisterActivity extends AppCompatActivity {
         Locale.setDefault(Locale.KOREAN);
         mAuth = FirebaseAuth.getInstance();
 
+
         btn_back = findViewById(R.id.btn_back);
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setContentView(R.layout.activity_login);
                 finish();
             }
         });
@@ -437,4 +441,5 @@ public class RegisterActivity extends AppCompatActivity {
     private void reload() {
         mAuth.signOut();
     }
+
 }
