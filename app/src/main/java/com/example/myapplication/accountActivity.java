@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.loader.content.CursorLoader;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -60,6 +61,7 @@ public class accountActivity extends Activity {
     private String uri_imagepath;
     private int is_target;
     private ImageButton btn_back;
+    private String new_uri_imagepath;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,7 +86,7 @@ public class accountActivity extends Activity {
         account_details_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateInfo();
+                upload(imagePath);
             }
         });
     }
@@ -130,6 +132,14 @@ public class accountActivity extends Activity {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 Task<Uri> downloadUrl = taskSnapshot.getStorage().getDownloadUrl();
+                downloadUrl.addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        Log.d(TAG, "uri String : " + task.getResult().getPath());
+                        new_uri_imagepath = "https://firebasestorage.googleapis.com" + task.getResult().getPath();
+                        updateInfo();
+                    }
+                });
             }
         });
     }
@@ -173,7 +183,7 @@ public class accountActivity extends Activity {
                 String phone_no = snapshot.child("phone").getValue().toString();
                 String birth_date = snapshot.child("birth").getValue().toString();
                 //이미지 받아오기
-                String icon = snapshot.child("photoURL").getValue().toString();
+                String icon = snapshot.child("photoURL").getValue() == null ? "null" : snapshot.child("photoURL").getValue().toString();
                 is_target = snapshot.child("is_target").getValue(Integer.class);
                 // 후원대상일 경우 추가 정보 받아오기
                 if (is_target == 1) {
@@ -245,7 +255,6 @@ public class accountActivity extends Activity {
         String name = input_name.getText().toString();
         String phone = input_phone_no.getText().toString();
         String birth = input_birth_date.getText().toString();
-        upload(imagePath);
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference("Users");
         databaseReference.child(Uid).child("name").setValue(name);
@@ -254,7 +263,7 @@ public class accountActivity extends Activity {
         if (imagePath == null) {
             databaseReference.child(Uid).child("photoURL").setValue(uri_imagepath);
         } else
-            databaseReference.child(Uid).child("photoURL").setValue(imagePath);
+            databaseReference.child(Uid).child("photoURL").setValue(new_uri_imagepath);
 
         if (is_target == 1) {
             updateTargetInfo();
@@ -286,7 +295,7 @@ public class accountActivity extends Activity {
         if (imagePath == null) {
             targetDB.child(Uid).child("icon").setValue(uri_imagepath);
         } else
-            targetDB.child(Uid).child("icon").setValue(imagePath);
+            targetDB.child(Uid).child("icon").setValue(new_uri_imagepath);
 
         Log.d(TAG, "updateTargetInfo: is finished");
     }
