@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -60,6 +61,7 @@ public class LoginActivity extends AppCompatActivity {
     private CallbackManager mCallbackManager;
 
     private EditText et_email, et_pw;
+    private TextView btn_find_id_pw;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +78,14 @@ public class LoginActivity extends AppCompatActivity {
 
         et_email = findViewById(R.id.et_email);
         et_pw = findViewById(R.id.et_pw);
+        btn_find_id_pw = findViewById(R.id.btn_find_id_pw);
+
+        btn_find_id_pw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetPassword();
+            }
+        });
 
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -270,6 +280,11 @@ public class LoginActivity extends AppCompatActivity {
         }
         startActivity(intent);
         finish();
+    }
+
+    private void resetPassword() {
+        Intent intent = new Intent(LoginActivity.this, ResetPasswordActivity.class);
+        startActivity(intent);
     }
 
     // 마지막으로 뒤로 가기 버튼을 눌렀던 시간 저장
