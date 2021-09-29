@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">SupportApp</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -105,5 +105,6 @@
 
     <!-- Legal digits for channel names -->
     <string name="legal_channel_name_characters" translatable="false">&#xA0;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%&amp;()+,-:;&lt;=.>?@[]^_`{|}~</string>
-
+    <!--agree-->
+    <string name="underlined_text"><u>보기</u></string>
 </resources>
