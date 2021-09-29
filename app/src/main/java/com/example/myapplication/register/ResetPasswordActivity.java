@@ -34,6 +34,9 @@ public class ResetPasswordActivity extends AppCompatActivity {
         et_reset_pw = findViewById(R.id.et_reset_pw);
         et_reset_pw_check = findViewById(R.id.et_reset_pw_check);
 
+        et_reset_pw.setEnabled(false);
+        et_reset_pw_check.setEnabled(false);
+
         btn_send_reset_mail = findViewById(R.id.btn_send_reset_mail);
         btn_reset_save = findViewById(R.id.btn_reset_save);
 
@@ -53,6 +56,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
                         Toast.makeText(ResetPasswordActivity.this, "해당 메일로 비밀번호 초기화 메일이 전송 되었습니다.", Toast.LENGTH_LONG).show();
+                        et_reset_id.setEnabled(false);
                         btn_send_reset_mail.setEnabled(false);
                     } else {
                         Toast.makeText(ResetPasswordActivity.this, "가입하신 이메일을 입력 해 주세요.", Toast.LENGTH_SHORT).show();
@@ -60,7 +64,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
                 }
             });
         } else {
-            Toast.makeText(ResetPasswordActivity.this, "이메일 주소를 확인 해 주세요.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ResetPasswordActivity.this, "이메일 주소 양식에 맞게 입력 해 주세요.", Toast.LENGTH_SHORT).show();
         }
     }
 
