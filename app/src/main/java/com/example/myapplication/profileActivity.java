@@ -18,6 +18,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.myapplication.Live.activities.LiveActivity;
+import com.example.myapplication.Live.activities.LiveBroadCastActivity;
 import com.example.myapplication.models.Subject;
 import com.example.myapplication.models.Target;
 import com.example.myapplication.models.bottom_home_data;
@@ -222,16 +224,40 @@ public class profileActivity extends AppCompatActivity implements NavigationView
         profile_adapter = new bottom_home_adapter(arrayList2, this);
         recyclerView.setAdapter(profile_adapter);
 
-
-        Button btn2 = findViewById(R.id.btn_profile_dona);
-        btn2.setOnClickListener(new View.OnClickListener() {
+        Button btn_dona = findViewById(R.id.btn_profile_dona);
+        database = FirebaseDatabase.getInstance();
+        databaseReference = database.getReference().child("Users").child(mAuth.getUid()).child("name");
+        databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(profileActivity.this, support_popupActivity.class);
-                intent.putExtra("name1", name);
-                startActivity(intent);
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String target_name = snapshot.getValue().toString();
+                if(target_name.equals(name)) {
+                    btn_dona.setText("라이브방송");
+                    btn_dona.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(profileActivity.this, LiveBroadCastActivity.class);
+                            intent.putExtra("name1", name);
+                            startActivity(intent);
+                        }
+                    });
+                }
+                else {
+                    btn_dona.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(profileActivity.this, support_popupActivity.class);
+                            intent.putExtra("name1", name);
+                            startActivity(intent);
+                        }
+                    });
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
             }
         });
+
     }
 
     public void onLikeClicked(String uid, String target, boolean is_liked) {

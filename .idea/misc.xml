@@ -9,6 +9,8 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/drawable/bottom_event.xml" value="0.22291666666666668" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/drawable/bottom_favorite.xml" value="0.13092105263157894" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/drawable/ic_baseline_arrow_forward_24.xml" value="0.13026315789473683" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/drawable/live_name_board_bg.xml" value="0.2276872964169381" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/drawable/live_name_board_fav_bg.xml" value="0.2276872964169381" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/drawable/setting_switch.xml" value="0.13092105263157894" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/drawable/top_category.xml" value="0.13092105263157894" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/drawable/top_search.xml" value="0.13092105263157894" />
@@ -18,7 +20,8 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/layout/activity_board_list.xml" value="0.25" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/layout/activity_board_write.xml" value="0.18" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/layout/activity_category.xml" value="0.22861842105263158" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/layout/activity_live_room.xml" value="0.1" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/layout/activity_choose_role.xml" value="0.25" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/layout/activity_live_room.xml" value="0.18" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/layout/activity_login.xml" value="0.22090729783037474" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/layout/activity_news.xml" value="0.15" />
@@ -41,6 +44,7 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/layout/category_drawer.xml" value="0.18" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/layout/category_fragment.xml" value="0.1" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/layout/expandable_list_header.xml" value="0.22861842105263158" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/layout/live_activity_main.xml" value="0.21" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/layout/target_list_item.xml" value="0.12006578947368421" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/layout/target_list_item2.xml" value="0.22861842105263158" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MyApplication/app/src/main/res/layout/target_list_item3.xml" value="0.22" />
