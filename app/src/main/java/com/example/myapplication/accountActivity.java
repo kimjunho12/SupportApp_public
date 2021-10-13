@@ -121,7 +121,6 @@ public class accountActivity extends Activity {
         Uri file = Uri.fromFile(new File(uri));
         StorageReference riversRef = storageRef.child("images/" + file.getLastPathSegment());
         UploadTask uploadTask = riversRef.putFile(file);
-
 // Register observers to listen for when the download is done or if it fails
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
@@ -135,8 +134,9 @@ public class accountActivity extends Activity {
                 downloadUrl.addOnCompleteListener(new OnCompleteListener<Uri>() {
                     @Override
                     public void onComplete(@NonNull Task<Uri> task) {
-                        Log.d(TAG, "uri String : " + task.getResult().getPath());
-                        new_uri_imagepath = "https://firebasestorage.googleapis.com" + task.getResult().getPath();
+                        Uri imageUrl= downloadUrl.getResult();
+                        Log.d(TAG, "uri String : " + String.valueOf(imageUrl));
+                        new_uri_imagepath = String.valueOf(imageUrl);
                         updateInfo();
                     }
                 });

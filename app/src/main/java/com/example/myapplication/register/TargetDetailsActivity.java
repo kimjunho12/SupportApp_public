@@ -180,8 +180,9 @@ public class TargetDetailsActivity extends AppCompatActivity implements adapter2
                 downloadUrl.addOnCompleteListener(new OnCompleteListener<Uri>() {
                     @Override
                     public void onComplete(@NonNull Task<Uri> task) {
-                        Log.d(TAG, "uri String : " + task.getResult().getPath());
-                        uri_string = "https://firebasestorage.googleapis.com" + task.getResult().getPath();
+                        Uri imageUrl= downloadUrl.getResult();
+                        Log.d(TAG, "uri String : " + String.valueOf(imageUrl));
+                        uri_string = String.valueOf(imageUrl);
                         updateTargetInfo();
                     }
                 });
