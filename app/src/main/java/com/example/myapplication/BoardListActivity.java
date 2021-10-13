@@ -143,6 +143,7 @@ public class BoardListActivity extends AppCompatActivity implements NavigationVi
                             Post.key = snapshot.getKey();
                             Post.target = name;
                             Post.type = snapshot.child("type").getValue().toString();
+                            Post.t_uid = target_uid;
                             //Log.d("값 : ", Post.key + " / " + Post.type + " / " + name);
                             if (Post.type.equals("일반")) {
                                 arrayList.add(0, Post);
@@ -165,6 +166,7 @@ public class BoardListActivity extends AppCompatActivity implements NavigationVi
                             Post.key = snapshot.getKey();
                             Post.target = name;
                             Post.type = snapshot.child("type").getValue().toString();
+                            Post.t_uid = target_uid;
                             //Log.d("값 : ", Post.key + " / " + Post.type + " / " + name);
                             if (Post.type.equals("공지")) {
                                 arrayList.add(0, Post);

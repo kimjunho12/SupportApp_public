@@ -56,6 +56,7 @@ public class Post {
     public String img;
     public String key;
     public String target;
+    public String t_uid;
 
 
     public String getContents() {
