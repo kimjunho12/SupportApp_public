@@ -12,7 +12,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -71,9 +70,11 @@ public class BoardcontentActivity extends AppCompatActivity implements Navigatio
         String name = intent.getStringExtra("target");
         String key = intent.getStringExtra("key");
         String img = intent.getStringExtra("img");
+        String target_uid = intent.getStringExtra("uid");
         File file = new File(img);
         String strFileName = file.getName();
         Log.d("TEST", strFileName);
+        Log.d(TAG, "onCreate: intent uid" + target_uid);
 
         drawerLayout = (DrawerLayout) findViewById(R.id.top_category_layout_board_content);
         drawer = (View) findViewById(R.id.category_drawer_board_content);
@@ -116,19 +117,6 @@ public class BoardcontentActivity extends AppCompatActivity implements Navigatio
                     public void onCancelled(@NonNull @NotNull DatabaseError error) {
                     }
                 });
-        // DB에서 후원대상 불러오기
-        FirebaseDatabase.getInstance().getReference("target").orderByChild("name")  // 나중에는 orderbychild 붙여서
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            targetList.add(new Target(dataSnapshot.child("name").getValue().toString()));
-                        }
-                    }
-                    @Override
-                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
-                    }
-                });
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -137,7 +125,7 @@ public class BoardcontentActivity extends AppCompatActivity implements Navigatio
 
         arrayList = new ArrayList<>();
         database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference().child("target").child(name).child("post").child(key).child("reply");
+        databaseReference = database.getReference().child("target").child(target_uid).child("post").child(key).child("reply");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -194,7 +182,7 @@ public class BoardcontentActivity extends AppCompatActivity implements Navigatio
             @Override
             public void onClick(View view) {
                 Boardcontent_data boardcontent_data = new Boardcontent_data(mAuth.getCurrentUser().getEmail(), String.valueOf(reply.getText()));
-                databaseReference.push().setValue(boardcontent_data);
+                FirebaseDatabase.getInstance().getReference().child("target").child(target_uid).child("post").child(key).child("reply").push().setValue(boardcontent_data);
                 reply.setText(null);
             }
         });
@@ -213,7 +201,7 @@ public class BoardcontentActivity extends AppCompatActivity implements Navigatio
                         @Override
                         public void onClick(View v) {
                             database = FirebaseDatabase.getInstance();
-                            databaseReference = database.getReference().child("target").child(name).child("post").child(key);
+                            databaseReference = database.getReference().child("target").child(mAuth.getUid()).child("post").child(key);
                             databaseReference.removeValue();
                             finish();
                         }

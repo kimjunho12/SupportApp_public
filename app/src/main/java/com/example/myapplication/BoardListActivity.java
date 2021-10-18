@@ -26,7 +26,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
@@ -51,6 +50,8 @@ public class BoardListActivity extends AppCompatActivity implements NavigationVi
     private DrawerLayout drawerLayout;
     private View drawer;
     private View searchDrawer;
+    private String target_uid = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +68,7 @@ public class BoardListActivity extends AppCompatActivity implements NavigationVi
 
         drawerLayout = (DrawerLayout) findViewById(R.id.top_category_layout_board_list);
         drawer = (View) findViewById(R.id.category_drawer_board_list);
-        ImageButton imageButton = (ImageButton)findViewById(R.id.top_category_click_board_list);
+        ImageButton imageButton = (ImageButton) findViewById(R.id.top_category_click_board_list);
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,70 +100,91 @@ public class BoardListActivity extends AppCompatActivity implements NavigationVi
                                 subjectList.add(new Subject(Subject.CHILD, childSubject.getValue().toString()));
                             }
                         }
-                        MainAdapter = new MainAdapter(subjectList,BoardListActivity.this);
+                        MainAdapter = new MainAdapter(subjectList, BoardListActivity.this);
                         recyclerview.setAdapter(MainAdapter);
                     }
+
                     @Override
                     public void onCancelled(@NonNull @NotNull DatabaseError error) {
                     }
                 });
-        // DB에서 후원대상 불러오기
-        FirebaseDatabase.getInstance().getReference("target").orderByChild("name")  // 나중에는 orderbychild 붙여서
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            targetList.add(new Target(dataSnapshot.child("name").getValue().toString()));
-                        }
-                    }
-                    @Override
-                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
-                    }
-                });
+//        // DB에서 후원대상 불러오기
+//        FirebaseDatabase.getInstance().getReference("target").orderByChild("name")  // 나중에는 orderbychild 붙여서
+//                .addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+//                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+//                            targetList.add(new Target(dataSnapshot.child("name").getValue().toString()));
+//                        }
+//                    }
+//                    @Override
+//                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
+//                    }
+//                });
+
 
         arrayList = new ArrayList<>();
         database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference().child("target").child(name).child("post");
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                arrayList.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Post Post = snapshot.getValue(Post.class);
-                    Post.key = snapshot.getKey();
-                    Post.target = name;
-                    Post.type = snapshot.child("type").getValue().toString();
-                    //Log.d("값 : ", Post.key + " / " + Post.type + " / " + name);
-                    if (Post.type.equals("일반")) {
-                        arrayList.add(0, Post);
-                    }
-                }
-                boardListAdapter.notifyDataSetChanged();
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("Fraglike", String.valueOf(error.toException())); //에러 시 출력
-            }
-        });
 
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference("target").orderByChild("name")
+                .equalTo(name).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Post Post = snapshot.getValue(Post.class);
-                    Post.key = snapshot.getKey();
-                    Post.target = name;
-                    Post.type = snapshot.child("type").getValue().toString();
-                    //Log.d("값 : ", Post.key + " / " + Post.type + " / " + name);
-                    if (Post.type.equals("공지")) {
-                        arrayList.add(0, Post);
-                    }
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot data : snapshot.getChildren()) {
+                    target_uid = data.getKey();
                 }
-                boardListAdapter.notifyDataSetChanged();
+                databaseReference = database.getReference().child("target").child(target_uid).child("post");
+                databaseReference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        arrayList.clear();
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            Post Post = snapshot.getValue(Post.class);
+                            Post.key = snapshot.getKey();
+                            Post.target = name;
+                            Post.type = snapshot.child("type").getValue().toString();
+                            Post.t_uid = target_uid;
+                            //Log.d("값 : ", Post.key + " / " + Post.type + " / " + name);
+                            if (Post.type.equals("일반")) {
+                                arrayList.add(0, Post);
+                            }
+                        }
+                        boardListAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Log.e("Fraglike", String.valueOf(error.toException())); //에러 시 출력
+                    }
+                });
+
+                databaseReference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            Post Post = snapshot.getValue(Post.class);
+                            Post.key = snapshot.getKey();
+                            Post.target = name;
+                            Post.type = snapshot.child("type").getValue().toString();
+                            Post.t_uid = target_uid;
+                            //Log.d("값 : ", Post.key + " / " + Post.type + " / " + name);
+                            if (Post.type.equals("공지")) {
+                                arrayList.add(0, Post);
+                            }
+                        }
+                        boardListAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Log.e("Fraglike", String.valueOf(error.toException())); //에러 시 출력
+                    }
+                });
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("Fraglike", String.valueOf(error.toException())); //에러 시 출력
+
             }
         });
 
@@ -175,7 +197,7 @@ public class BoardListActivity extends AppCompatActivity implements NavigationVi
             public void onClick(View view) {
                 // 새글쓰기로 이동
                 Intent intent = new Intent(BoardListActivity.this, BoardwriteActivity.class);
-                intent.putExtra("DB", name);
+                intent.putExtra("DB", target_uid);
                 startActivity(intent);
             }
         });

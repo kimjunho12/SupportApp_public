@@ -2,15 +2,12 @@ package com.example.myapplication;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -40,6 +37,7 @@ import java.util.Date;
 
 public class BoardwriteActivity extends AppCompatActivity {
 
+    private static final String TAG = "BoardwritePage";
     private ImageView imageView;
     private static final int GET_GALLARY = 100;
     private TextView et_board_write_title;
@@ -51,7 +49,6 @@ public class BoardwriteActivity extends AppCompatActivity {
     private String target;
     private FirebaseAuth mAuth;
     private FirebaseStorage storage;
-    private FirebaseDatabase database;
     private String imagePath;
     private ScrollView scroll;
     private BitmapDrawable bitmap;
@@ -62,7 +59,6 @@ public class BoardwriteActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         storage = FirebaseStorage.getInstance();
-        database = FirebaseDatabase.getInstance();
 
 
         Intent intent = getIntent();
@@ -100,10 +96,9 @@ public class BoardwriteActivity extends AppCompatActivity {
                 } else {
                     post.type = "일반";
                 }
-                if(imagePath == null) {
+                if (imagePath == null) {
                     post.img = "null";
-                }
-                else {
+                } else {
                     upload(imagePath);
                     post.img = imagePath;
                 }
@@ -125,18 +120,20 @@ public class BoardwriteActivity extends AppCompatActivity {
             }
         });
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (GET_GALLARY == requestCode && data != null) {
             imagePath = getPath(data.getData());
-            File file =new File(imagePath);
+            File file = new File(imagePath);
             imageView.setImageURI(Uri.fromFile(file));
         }
     }
-    public String getPath(Uri uri){
-        String [] proj = {MediaStore.Images.Media.DATA};
-        CursorLoader cursorLoader = new CursorLoader(this, uri,proj, null,null,null);
+
+    public String getPath(Uri uri) {
+        String[] proj = {MediaStore.Images.Media.DATA};
+        CursorLoader cursorLoader = new CursorLoader(this, uri, proj, null, null, null);
 
         Cursor cursor = cursorLoader.loadInBackground();
         int index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
@@ -145,7 +142,8 @@ public class BoardwriteActivity extends AppCompatActivity {
 
         return cursor.getString(index);
     }
-    private void upload(String uri){
+
+    private void upload(String uri) {
         StorageReference storageRef = storage.getReferenceFromUrl("gs://supportapp-f34a1.appspot.com");
         Uri file = Uri.fromFile(new File(uri));
         StorageReference riversRef = storageRef.child("images/" + file.getLastPathSegment());
