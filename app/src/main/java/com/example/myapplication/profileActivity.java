@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.myapplication.Live.activities.LiveActivity;
 import com.example.myapplication.Live.activities.LiveBroadCastActivity;
 import com.example.myapplication.models.Subject;
 import com.example.myapplication.models.Target;
@@ -230,7 +229,7 @@ public class profileActivity extends AppCompatActivity implements NavigationView
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String target_name = snapshot.getValue().toString();
+                String target_name = String.valueOf(snapshot.getValue());
                 if(target_name.equals(name)) {
                     btn_dona.setText("라이브방송");
                     btn_dona.setOnClickListener(new View.OnClickListener() {

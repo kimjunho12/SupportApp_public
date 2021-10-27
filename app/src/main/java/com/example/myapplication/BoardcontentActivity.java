@@ -193,7 +193,7 @@ public class BoardcontentActivity extends AppCompatActivity implements Navigatio
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                target_name = snapshot.getValue().toString();
+                target_name = String.valueOf(snapshot.getValue());
                 if(target_name.equals(name)) {
                     Button btn_delete = findViewById(R.id.btn_delete);
                     btn_delete.setVisibility(View.VISIBLE);
