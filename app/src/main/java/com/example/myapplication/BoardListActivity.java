@@ -197,7 +197,7 @@ public class BoardListActivity extends AppCompatActivity implements NavigationVi
             public void onClick(View view) {
                 // 새글쓰기로 이동
                 Intent intent = new Intent(BoardListActivity.this, BoardwriteActivity.class);
-                intent.putExtra("DB", target_uid);
+                intent.putExtra("DB", name);
                 startActivity(intent);
             }
         });
