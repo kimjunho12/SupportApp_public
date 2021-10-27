@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -26,7 +27,11 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -52,6 +57,9 @@ public class BoardwriteActivity extends AppCompatActivity {
     private String imagePath;
     private ScrollView scroll;
     private BitmapDrawable bitmap;
+    private FirebaseDatabase database;
+    private DatabaseReference databaseReference;
+    private String name;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +71,29 @@ public class BoardwriteActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         target = intent.getStringExtra("DB");
+        TextView textView = findViewById(R.id.profile_top_name);
+        textView.setText(target + " 게시판");
+
+        database = FirebaseDatabase.getInstance();
+        databaseReference = database.getReference().child("Users").child(mAuth.getUid()).child("name");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                name = String.valueOf(snapshot.getValue());
+                if(!name.equals(target)) {
+                    sw_board_type.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Log.d(TAG, "name, target = " + name + " , " + target);
+                            sw_board_type.setChecked(false);
+                        }
+                    });
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
 
@@ -85,8 +116,8 @@ public class BoardwriteActivity extends AppCompatActivity {
                 intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
                 startActivityForResult(intent, GET_GALLARY);
             }
-
         });
+
         btn_create_post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

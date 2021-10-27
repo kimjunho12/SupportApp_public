@@ -62,6 +62,7 @@ public class accountActivity extends Activity {
     private int is_target;
     private ImageButton btn_back;
     private String new_uri_imagepath;
+    private String user_uri_string;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,6 +137,7 @@ public class accountActivity extends Activity {
                     public void onComplete(@NonNull Task<Uri> task) {
                         Uri imageUrl= downloadUrl.getResult();
                         Log.d(TAG, "uri String : " + String.valueOf(imageUrl));
+                        user_uri_string = "https://firebasestorage.googleapis.com" + task.getResult().getPath();
                         new_uri_imagepath = String.valueOf(imageUrl);
                         updateInfo();
                     }
@@ -263,7 +265,7 @@ public class accountActivity extends Activity {
         if (imagePath == null) {
             databaseReference.child(Uid).child("photoURL").setValue(uri_imagepath);
         } else
-            databaseReference.child(Uid).child("photoURL").setValue(new_uri_imagepath);
+            databaseReference.child(Uid).child("photoURL").setValue(user_uri_string);
 
         if (is_target == 1) {
             updateTargetInfo();

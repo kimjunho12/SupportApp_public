@@ -68,6 +68,7 @@ public class TargetDetailsActivity extends AppCompatActivity implements adapter2
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
     private String uri_string = "null";
+    private String user_uri_string = "null";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -182,6 +183,7 @@ public class TargetDetailsActivity extends AppCompatActivity implements adapter2
                     public void onComplete(@NonNull Task<Uri> task) {
                         Uri imageUrl= downloadUrl.getResult();
                         Log.d(TAG, "uri String : " + String.valueOf(imageUrl));
+                        user_uri_string = "https://firebasestorage.googleapis.com" + task.getResult().getPath();
                         uri_string = String.valueOf(imageUrl);
                         updateTargetInfo();
                     }
@@ -216,7 +218,7 @@ public class TargetDetailsActivity extends AppCompatActivity implements adapter2
             databaseReference.child("photoURL").setValue("null");
         }
         else {
-            databaseReference.child("photoURL").setValue(uri_string);
+            databaseReference.child("photoURL").setValue(user_uri_string);
         }
         Toast.makeText(TargetDetailsActivity.this, "후원대상 상세정보 입력이 완료 되었습니다.\n로그인을 진행 해 주세요.", Toast.LENGTH_LONG).show();
         setResult(200);
