@@ -1,15 +1,20 @@
 package com.example.myapplication.register;
 
 import android.content.Intent;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.MainActivity;
@@ -62,7 +67,9 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText et_email, et_pw;
     private TextView btn_find_id_pw;
+    private ImageView logo;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +82,9 @@ public class LoginActivity extends AppCompatActivity {
         btn_fb = findViewById(R.id.btn_facebook);
         btn_login = findViewById(R.id.btn_login);
 
+        logo = findViewById(R.id.img_logo);
+        logo.setBackground(new ShapeDrawable(new OvalShape()));
+        logo.setClipToOutline(true);
 
         et_email = findViewById(R.id.et_email);
         et_pw = findViewById(R.id.et_pw);
